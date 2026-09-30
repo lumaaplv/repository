@@ -22,6 +22,10 @@
 
     <section>
         <h2>Scientific Articles</h2>
+        <input 
+            type= "text"
+            id= "searchInput"
+            placeholder= "Search articles..."> 
 
 
         <div class="article">
@@ -770,6 +774,24 @@
     <footer>
         <p>APLV Research Repository © 2026</p>
     </footer>
+
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const articles = document.querySelectorAll(".article");
+
+        searchInput.AddEventListener("input", function () {
+            const search = searchInput.value.toLowerCase ();
+            articles.forEach(function (article) {
+                const text = article.textContent.toLowerCase();
+
+                if (text.includes(search)) {
+                    article.style.display ="";
+                } else {
+                    article.style.display="none";
+                }
+            });
+        });
+    </script>
 
 </body>
 </html>
