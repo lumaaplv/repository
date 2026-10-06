@@ -779,7 +779,7 @@
         const searchInput = document.getElementById("searchInput");
         const articles = document.querySelectorAll(".article");
 
-        searchInput.AddEventListener("input", function () {
+        searchInput.addEventListener("input", function () {
             const search = searchInput.value.toLowerCase ();
             articles.forEach(function (article) {
                 const text = article.textContent.toLowerCase();
