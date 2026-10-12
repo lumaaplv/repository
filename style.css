@@ -1,55 +1,380 @@
+
+
+:root {
+    --azul: #80c9ed;
+    --azul-escuro: #287da8;
+    --azul-claro: #eaf7ff;
+    --amarelo: #fff1b8;
+    --amarelo-claro: #fffaf0;
+    --fundo: #f8fbfe;
+    --branco: #ffffff;
+    --texto: #263746;
+    --texto-suave: #687b89;
+    --borda: #e4edf3;
+    --sombra: 0 12px 35px rgba(54, 112, 145, 0.08);
+}
+
+/* CONFIGURAÇÕES GERAIS */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f9fc;
-    color: #1f2933;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--fundo);
+    color: var(--texto);
     margin: 0;
-}
-
-header {
-    background-color: #dff3ff;
-    padding: 50px 20px;
-    text-align: center;
-}
-
-header h1 {
-    margin-bottom: 10px;
-}
-
-header p {
-    max-width: 700px;
-    margin: auto;
     line-height: 1.6;
 }
 
-main {
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+p {
+    color: var(--texto-suave);
+}
+
+/* CABEÇALHO */
+
+.cabecalho {
+    background: rgba(255, 255, 255, 0.94);
+    padding: 18px 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    border-bottom: 1px solid var(--borda);
+    position: relative;
+    z-index: 2;
+}
+
+.logo {
+    color: var(--azul-escuro);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.logo span {
+    color: #f0c94f;
+}
+
+.cabecalho nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    flex-wrap: wrap;
+}
+
+.cabecalho nav a {
+    color: #526675;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.cabecalho nav a:hover {
+    color: var(--azul-escuro);
+}
+
+.cabecalho nav .botao-login {
+    background: var(--azul-claro);
+    color: var(--azul-escuro);
+    padding: 11px 22px;
+    border-radius: 25px;
+}
+
+/* APRESENTAÇÃO PRINCIPAL */
+
+.hero {
+    max-width: 1250px;
+    margin: 35px auto 0;
+    padding: 75px 7%;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: center;
+    gap: 55px;
+    background: linear-gradient(
+        120deg,
+        #eaf7ff 0%,
+        #f4faff 65%,
+        #fff8df 100%
+    );
+    border-radius: 28px;
+    overflow: hidden;
+}
+
+.hero-conteudo {
+    max-width: 650px;
+}
+
+.etiqueta {
+    display: inline-block;
+    background: #ffffff;
+    color: var(--azul-escuro);
+    padding: 9px 15px;
+    border-radius: 25px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(36px, 4.5vw, 58px);
+    line-height: 1.12;
+    letter-spacing: -2px;
+    margin: 0 0 22px;
+    color: #24475c;
+}
+
+.hero-conteudo > p {
+    font-size: 17px;
+    line-height: 1.8;
+    max-width: 540px;
+    margin-bottom: 30px;
+}
+
+.hero-botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px;
+}
+
+.botao-principal,
+.botao-secundario {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.botao-principal {
+    background: var(--azul-escuro);
+    color: white;
+    box-shadow: 0 7px 18px rgba(40, 125, 168, 0.18);
+}
+
+.botao-secundario {
+    background: white;
+    color: #42677c;
+    border: 1px solid #dceaf2;
+}
+
+.botao-principal:hover,
+.botao-secundario:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sombra);
+}
+
+/* ILUSTRAÇÃO DECORATIVA */
+
+.hero-visual {
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: rgba(255, 255, 255, 0.52);
+    border-radius: 30px;
+    padding: 30px;
+}
+
+.circulo {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #c9edff, #fff0b8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 50px rgba(85, 160, 195, 0.12);
+}
+
+.circulo span {
+    font-size: 100px;
+    color: #ffffff;
+    text-shadow: 0 5px 20px rgba(40, 125, 168, 0.12);
+}
+
+.hero-visual > p {
+    margin: 20px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: #54778a;
+}
+
+/* SEÇÃO DE RECURSOS */
+
+.recursos {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 95px 7%;
+}
+
+.secao-titulo {
+    max-width: 680px;
+    margin-bottom: 38px;
+}
+
+.secao-titulo > span,
+.sobre > span {
+    color: var(--azul-escuro);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.secao-titulo h2,
+.sobre h2 {
+    font-size: clamp(27px, 3vw, 38px);
+    line-height: 1.25;
+    letter-spacing: -1px;
+    color: #29495d;
+    margin: 12px 0;
+}
+
+.secao-titulo > p,
+.sobre p {
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+.cartoes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.cartao {
+    background: var(--branco);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    padding: 30px 25px;
+    box-shadow: 0 5px 22px rgba(54, 112, 145, 0.035);
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+}
+
+.cartao:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--sombra);
+}
+
+.icone {
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--azul-claro);
+    color: var(--azul-escuro);
+    font-size: 29px;
+    margin-bottom: 22px;
+}
+
+.cartao:nth-child(2) .icone {
+    background: var(--amarelo);
+    color: #8c7020;
+}
+
+.cartao:nth-child(3) .icone {
+    background: #e9f5e8;
+    color: #51845c;
+}
+
+.cartao h3 {
+    color: #2b485b;
+    font-size: 20px;
+    margin: 0 0 12px;
+}
+
+.cartao p {
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 22px;
+}
+
+.cartao a {
+    display: inline-block;
+    color: var(--azul-escuro);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.cartao a:hover {
+    text-decoration: underline;
+}
+
+/* SOBRE A LUMA */
+
+.sobre {
+    max-width: 1050px;
+    margin: 0 auto 85px;
+    padding: 55px 8%;
+    text-align: center;
+    background: linear-gradient(120deg, #eaf7ff, #fff9e7);
+    border-radius: 25px;
+}
+
+.sobre h2 {
+    max-width: 650px;
+    margin: 15px auto;
+}
+
+.sobre p {
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+/* REPOSITÓRIO CIENTÍFICO */
+
+main:not(:has(.hero)) {
     max-width: 900px;
     margin: 40px auto;
     padding: 0 20px;
-}
-
-h2 {
-    margin-bottom: 25px;
 }
 
 .article {
     background-color: white;
     padding: 25px;
     margin-bottom: 20px;
-    border-radius: 10px;
-    border: 1px solid #e1e8ed;
+    border-radius: 14px;
+    border: 1px solid var(--borda);
+    box-shadow: 0 4px 15px rgba(54, 112, 145, 0.035);
 }
 
 .article h3 {
     margin-top: 0;
+    color: #29495d;
 }
 
 .article p {
-    line-height: 1.6;
+    line-height: 1.7;
 }
 
 .article a {
-    color: #1976a8;
-    text-decoration: none;
+    color: var(--azul-escuro);
     font-weight: bold;
 }
 
@@ -57,24 +382,168 @@ h2 {
     text-decoration: underline;
 }
 
-footer {
-    text-align: center;
-    padding: 30px;
-    color: #667781;
-}
+/* BARRA DE PESQUISA */
 
 #searchInput {
     width: 100%;
     max-width: 600px;
-    padding: 12px 18px; 
+    padding: 14px 20px;
     margin: 20px auto;
     display: block;
-    border: 1px solid #ccc;
+    background: white;
+    border: 1px solid #d8e5ed;
     border-radius: 25px;
     font-size: 16px;
-    border-sizing: border-box;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
 }
+
 #searchInput:focus {
-    outline:none;
-    border-color: #6c8ebf;
+    outline: none;
+    border-color: var(--azul);
+    box-shadow: 0 0 0 4px rgba(128, 201, 237, 0.18);
 }
+
+/* RODAPÉ */
+
+footer {
+    background: white;
+    border-top: 1px solid var(--borda);
+    text-align: center;
+    padding: 35px 20px;
+    color: var(--texto-suave);
+}
+
+footer .logo {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+footer p {
+    font-size: 13px;
+    margin: 5px 0;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 900px) {
+    .cabecalho {
+        padding: 18px 5%;
+    }
+
+    .cabecalho nav {
+        gap: 16px;
+    }
+
+    .hero {
+        margin: 20px 15px 0;
+        padding: 55px 6%;
+        gap: 30px;
+    }
+
+    .hero-visual {
+        min-height: 260px;
+    }
+
+    .circulo {
+        width: 175px;
+        height: 175px;
+    }
+
+    .circulo span {
+        font-size: 80px;
+    }
+
+    .recursos {
+        padding: 70px 5%;
+    }
+
+    .cartoes {
+        grid-template-columns: 1fr;
+    }
+
+    .cartao {
+        padding: 26px;
+    }
+
+    .sobre {
+        margin: 0 15px 60px;
+    }
+}
+
+@media (max-width: 650px) {
+    .cabecalho {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .cabecalho nav {
+        gap: 12px 18px;
+    }
+
+    .cabecalho nav a {
+        font-size: 13px;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 42px 25px;
+        border-radius: 22px;
+    }
+
+    .hero h1 {
+        font-size: 38px;
+        letter-spacing: -1.2px;
+    }
+
+    .hero-conteudo > p {
+        font-size: 15px;
+    }
+
+    .hero-botoes {
+        flex-direction: column;
+    }
+
+    .botao-principal,
+    .botao-secundario {
+        width: 100%;
+        text-align: center;
+    }
+
+    .hero-visual {
+        min-height: 240px;
+    }
+
+    .circulo {
+        width: 155px;
+        height: 155px;
+    }
+
+    .circulo span {
+        font-size: 70px;
+    }
+
+    .recursos {
+        padding: 60px 22px;
+    }
+
+    .secao-titulo h2,
+    .sobre h2 {
+        font-size: 29px;
+    }
+
+    .sobre {
+        padding: 40px 25px;
+    }
+
+    main:not(:has(.hero)) {
+        margin: 25px auto;
+        padding: 0 15px;
+    }
+
+    .article {
+        padding: 20px;
+    }
+}
+```
