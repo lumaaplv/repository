@@ -546,4 +546,20 @@ footer p {
         padding: 20px;
     }
 }
-```
+.logo {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    display: block;
+    width: 68px;
+    height: 68px;
+    object-fit: contain;
+}
+
+footer .logo img {
+    width: 58px;
+    height: 58px;
+}
