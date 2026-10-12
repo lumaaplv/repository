@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luma | Ciência, informação e acolhimento</title>
+    <meta http-equiv="refresh" content="0; url=inicio.html">
+</head>
+<body>
+    <p>Bem-vindo à Luma! <a href="inicio.html">Clique aqui para entrar.</a></p>
+</body>
+</html>
