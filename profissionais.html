@@ -1,1 +1,416 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Encontre profissionais de saúde com atuação em APLV no Brasil.">
+  <title>Profissionais | Luma</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .professionals-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 36px 20px 60px;
+      color: #263746;
+    }
+
+    .professionals-hero {
+      background: #e8f5fc;
+      border-radius: 20px;
+      padding: 34px 26px;
+      margin-bottom: 28px;
+    }
+
+    .professionals-hero h1 {
+      margin-top: 0;
+      color: #285e7d;
+    }
+
+    .professionals-hero p {
+      line-height: 1.7;
+    }
+
+    .professionals-search {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      box-sizing: border-box;
+      padding: 14px 16px;
+      border: 1px solid #c8dce7;
+      border-radius: 12px;
+      background: white;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    .region-section {
+      margin: 32px 0;
+    }
+
+    .region-section > h2 {
+      color: #285e7d;
+      border-bottom: 2px solid #e6f0f5;
+      padding-bottom: 10px;
+    }
+
+    .state-card {
+      border: 1px solid #dce8ee;
+      border-radius: 14px;
+      margin: 14px 0;
+      overflow: hidden;
+      background: white;
+    }
+
+    .state-card summary {
+      padding: 17px 20px;
+      background: #f4faff;
+      cursor: pointer;
+      font-weight: 700;
+      color: #285e7d;
+    }
+
+    .state-content {
+      padding: 18px;
+    }
+
+    .professional-card {
+      padding: 16px;
+      border: 1px solid #e4ebef;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    .professional-card h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+
+    .professional-card p {
+      margin: 7px 0;
+      line-height: 1.6;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-link {
+      color: #246a91;
+      font-weight: 600;
+    }
+
+    .empty-state {
+      color: #657783;
+      padding: 8px 0;
+      line-height: 1.6;
+    }
+
+    .directory-note {
+      margin-top: 30px;
+      padding: 18px;
+      border-radius: 12px;
+      background: #fff8df;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    @media (max-width: 600px) {
+      .professionals-page {
+        padding: 22px 14px 40px;
+      }
+
+      .professionals-hero {
+        padding: 25px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="professionals-page">
+    <section class="professionals-hero">
+      <h1>Profissionais de APLV no Brasil</h1>
+      <p>
+        Encontre informações de contato de profissionais e serviços
+        de saúde com atuação em alergia à proteína do leite de vaca (APLV).
+      </p>
+      <p>
+        Selecione seu estado ou pesquise por nome, cidade ou especialidade.
+      </p>
+
+      <input
+        id="professional-search"
+        class="professionals-search"
+        type="search"
+        placeholder="Buscar nome, estado, cidade ou especialidade..."
+        aria-label="Buscar profissionais"
+      >
+    </section>
+
+    <div id="professionals-directory"></div>
+
+    <p id="no-results" class="empty-state" hidden>
+      Nenhum profissional encontrado para essa pesquisa.
+    </p>
+
+    <aside class="directory-note">
+      <strong>Importante:</strong> este diretório tem finalidade informativa.
+      A inclusão de um profissional não constitui recomendação ou garantia
+      de resultados. Confirme os dados de contato, a formação e o registro
+      profissional antes de agendar uma consulta.
+    </aside>
+  </main>
+
+  <script>
+    /*
+      COMO ATUALIZAR:
+      Adicione os profissionais na lista abaixo.
+      Copie um dos exemplos e substitua os campos pelos dados confirmados.
+      Não publique dados pessoais sem autorização ou base legítima.
+    */
+
+    const profissionais = [
+     
+{
+  nome: "Dr. Marcos Reis Gonçalves",
+  cidade: "Maceió",
+  estado: "AL",
+  endereco: "Av. Dr. Júlio Marques Luz, 529, Jatiúca, Maceió - AL",
+  contato: "+55 (82) 9348-8989"
+},
+ {
+  nome: "Dra. Rosa Cristina Oliveira Gaia Duarte",
+  cidade: "Maceió",
+  estado: "AL",
+  endereco: "Ed. The Square Park Office, Av. Dr. Antônio Gomes de Barros, nº 625, sala 304, 3º andar, Jatiúca (antiga Av. Amélia Rosa)",
+  contato: "+55 82 8231-0345"
+},
+ {
+  nome: "Dra. Fernanda Oliveira Gaia Duarte",
+  cidade: "Maceió",
+  estado: "AL",
+  endereco: "Ed. The Square Park Office, Av. Dr. Antônio Gomes de Barros, nº 625, sala 304, 3º andar, Jatiúca (antiga Av. Amélia Rosa)",
+  contato: "+55 82 8231-0345"
+},
+{
+  nome: "Dra. Nathalia Maria da Mota Souza",
+  cidade: "Maceió",
+  estado: "AL",
+  endereco: "Ed. The Square Park Office, Av. Dr. Antônio Gomes de Barros, nº 625, sala 304, 3º andar, Jatiúca (antiga Av. Amélia Rosa)",
+  contato: "+55 82 8231-0345"
+},
+{
+  nome: "Dra. Ariádna Andrade Saldanha da Silva",
+  cidade: "Maceió",
+  estado: "AL",
+  endereco: "Ed. The Square Park Office, Av. Dr. Antônio Gomes de Barros, nº 625, sala 304, 3º andar, Jatiúca (antiga Av. Amélia Rosa)",
+  contato: "+55 82 8231-0345"
+},
+{
+  nome: "Dra. Nádia de Melo Betti",
+  cidade: "Manaus",
+  estado: "AM",
+  endereco: " Edifício Atlantic Tower, 1º andar, sala 106 da torre médica; Ponto de referência: entre o Shopping Millennium e a Escola IDAAM",
+  contato: "+55 92 9360-7813"
+},
+{
+  nome: "Dr. Rodrigo Mendes dos Santos",
+  cidade: "Manaus",
+  estado: "AM",
+  endereco: "Av. Cel Teixeira, 6225 - Britannia Park Offices - Torre Stamford - sala 203",
+  contato: "+55 92 98608-1496"
+},
+{
+  nome: "Dra. Laima Baima Frota",
+  cidade: "Manaus",
+  estado: "AM",
+  endereco: "Avenida Mário Ypiranga N°315 Adrianópolis, dentro do Edifício The Office no 13° andar - Sala 1308.",
+  contato: "+55 92 98452-7773"
+},
+
+
+
+    ];
+
+    const regioes = {
+      "Norte": [
+        ["Acre", "AC"],
+        ["Amapá", "AP"],
+        ["Amazonas", "AM"],
+        ["Pará", "PA"],
+        ["Rondônia", "RO"],
+        ["Roraima", "RR"],
+        ["Tocantins", "TO"]
+      ],
+      "Nordeste": [
+        ["Alagoas", "AL"],
+        ["Bahia", "BA"],
+        ["Ceará", "CE"],
+        ["Maranhão", "MA"],
+        ["Paraíba", "PB"],
+        ["Pernambuco", "PE"],
+        ["Piauí", "PI"],
+        ["Rio Grande do Norte", "RN"],
+        ["Sergipe", "SE"]
+      ],
+      "Centro-Oeste": [
+        ["Distrito Federal", "DF"],
+        ["Goiás", "GO"],
+        ["Mato Grosso", "MT"],
+        ["Mato Grosso do Sul", "MS"]
+      ],
+      "Sudeste": [
+        ["Espírito Santo", "ES"],
+        ["Minas Gerais", "MG"],
+        ["Rio de Janeiro", "RJ"],
+        ["São Paulo", "SP"]
+      ],
+      "Sul": [
+        ["Paraná", "PR"],
+        ["Rio Grande do Sul", "RS"],
+        ["Santa Catarina", "SC"]
+      ]
+    };
+
+    const directory = document.getElementById("professionals-directory");
+    const searchInput = document.getElementById("professional-search");
+    const noResults = document.getElementById("no-results");
+
+    function normalize(value) {
+      return String(value || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim();
+    }
+
+    function createProfessionalCard(profissional) {
+      const card = document.createElement("article");
+      card.className = "professional-card";
+
+      const name = document.createElement("h3");
+      name.textContent = profissional.nome;
+      card.appendChild(name);
+
+      const details = [
+        ["Área de atuação", profissional.especialidade],
+        ["Cidade", profissional.cidade],
+        ["Endereço", profissional.endereco]
+      ];
+
+      details.forEach(([label, value]) => {
+        if (!value) return;
+        const p = document.createElement("p");
+        const strong = document.createElement("strong");
+        strong.textContent = label + ": ";
+        p.append(strong, document.createTextNode(value));
+        card.appendChild(p);
+      });
+
+      if (profissional.contato) {
+        const p = document.createElement("p");
+        const strong = document.createElement("strong");
+        strong.textContent = "Contato: ";
+        p.appendChild(strong);
+
+        const digits = profissional.contato.replace(/\D/g, "");
+        const link = document.createElement("a");
+        link.className = "contact-link";
+        link.textContent = profissional.contato;
+
+        if (digits.length >= 10 && digits.length <= 13) {
+          link.href = "https://wa.me/55" + digits.replace(/^55/, "");
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.setAttribute("aria-label", "Entrar em contato pelo WhatsApp");
+        } else {
+          link.removeAttribute("href");
+        }
+
+        p.appendChild(link);
+        card.appendChild(p);
+      }
+
+      return card;
+    }
+
+    function renderDirectory() {
+      const query = normalize(searchInput.value);
+      directory.replaceChildren();
+      let totalVisible = 0;
+
+      Object.entries(regioes).forEach(([regiao, estados]) => {
+        const section = document.createElement("section");
+        section.className = "region-section";
+
+        const heading = document.createElement("h2");
+        heading.textContent = regiao;
+        section.appendChild(heading);
+
+        let visibleInRegion = 0;
+
+        estados.forEach(([nomeEstado, sigla]) => {
+          const stateProfessionals = profissionais.filter(p =>
+            normalize(p.estado) === normalize(sigla)
+          );
+
+          const matching = stateProfessionals.filter(p => {
+            const text = [
+              p.nome, p.especialidade, p.cidade,
+              p.estado, p.endereco, p.contato, nomeEstado
+            ].map(normalize).join(" ");
+            return !query || text.includes(query);
+          });
+
+          const state = document.createElement("details");
+          state.className = "state-card";
+
+          if (query && matching.length) state.open = true;
+
+          const summary = document.createElement("summary");
+          summary.textContent = nomeEstado + " (" + sigla + ") — " +
+            (query ? matching.length + " resultado(s)" :
+              stateProfessionals.length + " profissional(is)");
+
+          state.appendChild(summary);
+
+          const content = document.createElement("div");
+          content.className = "state-content";
+
+          if (matching.length) {
+            matching.forEach(p => content.appendChild(createProfessionalCard(p)));
+          } else {
+            const message = document.createElement("p");
+            message.className = "empty-state";
+            message.textContent = query
+              ? "Nenhum resultado neste estado."
+              : "Estamos ampliando esta lista. Consulte novamente em breve.";
+            content.appendChild(message);
+          }
+
+          state.appendChild(content);
+          section.appendChild(state);
+
+          if (!query || matching.length) {
+            visibleInRegion++;
+            totalVisible += matching.length;
+            if (!query) totalVisible += 0;
+          } else {
+            state.hidden = true;
+          }
+        });
+
+        if (visibleInRegion > 0) directory.appendChild(section);
+      });
+
+      noResults.hidden = !(query && totalVisible === 0);
+    }
+
+    searchInput.addEventListener("input", renderDirectory);
+    renderDirectory();
+  </script>
+</body>
+</html>
+
