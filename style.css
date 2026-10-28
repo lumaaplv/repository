@@ -1542,3 +1542,445 @@ footer .logo img {
     }
 
 }
+/* =========================================================
+   MANIFESTAÇÕES DA APLV — SEÇÃO ESCURA
+========================================================= */
+
+.sintomas-aplv {
+    background:
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(128, 201, 237, 0.14),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(255, 241, 184, 0.08),
+            transparent 28%
+        ),
+        linear-gradient(
+            145deg,
+            #173746 0%,
+            #1d4659 55%,
+            #214f63 100%
+        );
+
+    padding: 105px 7%;
+
+    color: #ffffff;
+}
+
+.sintomas-container {
+    max-width: 1180px;
+
+    margin: 0 auto;
+}
+
+
+/* TÍTULO */
+
+.sintomas-titulo {
+    max-width: 730px;
+
+    margin-bottom: 35px;
+}
+
+.sintomas-titulo > span {
+    display: inline-block;
+
+    color: #9edcff;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+
+    margin-bottom: 13px;
+}
+
+.sintomas-titulo h2 {
+    color: #ffffff;
+
+    font-size: clamp(34px, 4vw, 50px);
+    line-height: 1.12;
+
+    letter-spacing: -1.6px;
+
+    margin: 0 0 20px;
+}
+
+.sintomas-titulo p {
+    color: #d4e5ed;
+
+    font-size: 16px;
+    line-height: 1.85;
+
+    margin: 0;
+}
+
+
+/* AVISO */
+
+.aviso-sintomas {
+    max-width: 900px;
+
+    margin-bottom: 80px;
+
+    padding: 18px 22px;
+
+    background: rgba(255, 255, 255, 0.07);
+
+    border: 1px solid rgba(185, 231, 255, 0.16);
+    border-left: 4px solid #80c9ed;
+
+    border-radius: 14px;
+
+    color: #d7e8ef;
+
+    font-size: 13px;
+    line-height: 1.7;
+
+    backdrop-filter: blur(8px);
+}
+
+.aviso-sintomas strong {
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   SINTOMAS COM IMAGEM
+========================================================= */
+
+.sintoma-item {
+    display: grid;
+
+    grid-template-columns: 0.9fr 1.1fr;
+
+    align-items: center;
+
+    gap: 70px;
+
+    margin-bottom: 100px;
+}
+
+.sintoma-item.invertido .sintoma-imagem {
+    order: 2;
+}
+
+.sintoma-item.invertido .sintoma-texto {
+    order: 1;
+}
+
+
+/* FOTO / PLACEHOLDER */
+
+.sintoma-imagem {
+    margin: 0;
+}
+
+.foto-placeholder {
+    width: 100%;
+    height: 340px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(128, 201, 237, 0.16),
+            rgba(255, 255, 255, 0.06)
+        );
+
+    border: 1px dashed rgba(185, 231, 255, 0.35);
+
+    border-radius: 22px;
+
+    color: #b9d8e5;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.14);
+}
+
+
+/* QUANDO COLOCARMOS AS FOTOS */
+
+.sintoma-imagem img {
+    display: block;
+
+    width: 100%;
+    height: 340px;
+
+    object-fit: cover;
+
+    border-radius: 22px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.22);
+}
+
+.sintoma-imagem figcaption {
+    margin-top: 10px;
+
+    color: #9fbac6;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.sintoma-imagem figcaption a {
+    color: #b9e7ff;
+
+    font-weight: 700;
+}
+
+
+/* TEXTO */
+
+.sintoma-numero {
+    color: #80c9ed;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+.sintoma-texto h3 {
+    color: #ffffff;
+
+    font-size: clamp(29px, 3vw, 40px);
+
+    letter-spacing: -1px;
+
+    margin: 8px 0 18px;
+}
+
+.sintoma-texto p {
+    color: #d4e3ea;
+
+    font-size: 15px;
+    line-height: 1.85;
+
+    margin: 0 0 14px;
+}
+
+.sintoma-texto::after {
+    content: "";
+
+    display: block;
+
+    width: 43px;
+    height: 4px;
+
+    margin-top: 27px;
+
+    background: #fff1b8;
+
+    border-radius: 20px;
+}
+
+
+/* =========================================================
+   OUTRAS MANIFESTAÇÕES
+========================================================= */
+
+.outros-sintomas {
+    margin-top: 125px;
+
+    padding-top: 80px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.outros-sintomas-titulo {
+    max-width: 700px;
+
+    margin-bottom: 45px;
+}
+
+.outros-sintomas-titulo > span {
+    color: #80c9ed;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+.outros-sintomas-titulo h3 {
+    max-width: 650px;
+
+    color: #ffffff;
+
+    font-size: clamp(28px, 3vw, 39px);
+    line-height: 1.2;
+
+    letter-spacing: -1px;
+
+    margin: 10px 0 17px;
+}
+
+.outros-sintomas-titulo p {
+    color: #c7dbe4;
+
+    line-height: 1.8;
+}
+
+
+/* CARDS */
+
+.outros-sintomas-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.outro-sintoma-card {
+    padding: 30px;
+
+    background: rgba(255, 255, 255, 0.065);
+
+    border: 1px solid rgba(255, 255, 255, 0.11);
+
+    border-radius: 20px;
+}
+
+.outro-sintoma-icone {
+    width: 48px;
+    height: 48px;
+
+    margin-bottom: 25px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(128, 201, 237, 0.14);
+
+    border: 1px solid rgba(128, 201, 237, 0.18);
+
+    border-radius: 14px;
+
+    color: #b9e7ff;
+
+    font-size: 23px;
+}
+
+.outro-sintoma-card > span {
+    color: #80c9ed;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1.4px;
+}
+
+.outro-sintoma-card h4 {
+    color: #ffffff;
+
+    font-size: 20px;
+    line-height: 1.3;
+
+    margin: 9px 0 15px;
+}
+
+.outro-sintoma-card p {
+    color: #d2e1e7;
+
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+.outro-sintoma-card small {
+    display: block;
+
+    color: #9fb6c0;
+
+    font-size: 11px;
+    line-height: 1.65;
+
+    margin-top: 20px;
+}
+
+
+/* ANAFILAXIA */
+
+.outro-sintoma-card.destaque {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 241, 184, 0.11),
+            rgba(255, 255, 255, 0.055)
+        );
+
+    border-color: rgba(255, 241, 184, 0.18);
+}
+
+.outro-sintoma-card.destaque .outro-sintoma-icone {
+    background: rgba(255, 241, 184, 0.12);
+
+    border-color: rgba(255, 241, 184, 0.2);
+
+    color: #fff1b8;
+}
+
+.outro-sintoma-card.destaque > span {
+    color: #fff1b8;
+}
+
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .sintoma-item,
+    .sintoma-item.invertido {
+        grid-template-columns: 1fr;
+
+        gap: 30px;
+
+        margin-bottom: 75px;
+    }
+
+    .sintoma-item.invertido .sintoma-imagem,
+    .sintoma-item.invertido .sintoma-texto {
+        order: initial;
+    }
+
+    .outros-sintomas-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .sintomas-aplv {
+        padding: 75px 22px;
+    }
+
+    .sintoma-imagem img,
+    .foto-placeholder {
+        height: 270px;
+    }
+
+    .outros-sintomas {
+        margin-top: 85px;
+
+        padding-top: 60px;
+    }
+
+}
