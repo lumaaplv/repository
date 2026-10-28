@@ -1047,3 +1047,498 @@ footer .logo img {
         flex-direction: column;
     }
 }
+/* =========================================================
+   PÁGINA — ENTENDA A APLV
+========================================================= */
+
+.pagina-aplv {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.aplv-hero {
+    max-width: 1250px;
+    margin: 35px auto 0;
+    padding: 90px 8%;
+
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(255, 241, 184, 0.65),
+            transparent 25%
+        ),
+        linear-gradient(
+            120deg,
+            #eaf7ff 0%,
+            #f4faff 62%,
+            #fff9e5 100%
+        );
+
+    border-radius: 28px;
+    position: relative;
+    overflow: hidden;
+}
+
+.aplv-hero::after {
+    content: "";
+    position: absolute;
+
+    width: 300px;
+    height: 300px;
+
+    border-radius: 50%;
+
+    background: rgba(128, 201, 237, 0.12);
+
+    right: -80px;
+    bottom: -150px;
+}
+
+.aplv-hero-conteudo {
+    max-width: 760px;
+    position: relative;
+    z-index: 1;
+}
+
+.aplv-hero h1 {
+    color: #24475c;
+
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1.08;
+
+    letter-spacing: -2.2px;
+
+    margin: 0 0 24px;
+}
+
+.aplv-hero p {
+    max-width: 650px;
+
+    color: #617987;
+
+    font-size: 17px;
+    line-height: 1.85;
+
+    margin: 0;
+}
+
+
+/* =========================================================
+   AVISO EDUCATIVO
+========================================================= */
+
+.aviso-medico {
+    max-width: 1050px;
+
+    margin: 35px auto 0;
+
+    padding: 22px 28px;
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+
+    align-items: center;
+    gap: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #dceaf2;
+    border-left: 4px solid var(--azul);
+
+    border-radius: 15px;
+
+    box-shadow: 0 8px 25px rgba(54, 112, 145, 0.04);
+}
+
+.aviso-medico strong {
+    color: var(--azul-escuro);
+
+    font-size: 13px;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    white-space: nowrap;
+}
+
+.aviso-medico p {
+    margin: 0;
+
+    color: #6b7f8c;
+
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+========================================================= */
+
+.conteudo-aplv {
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    padding: 105px 30px 85px;
+}
+
+.titulo-pequeno {
+    display: inline-block;
+
+    color: var(--azul-escuro);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 1.7px;
+
+    margin-bottom: 13px;
+}
+
+.conteudo-aplv h2,
+.secao-titulo-aplv h2 {
+    color: #29495d;
+
+    font-size: clamp(30px, 4vw, 43px);
+    line-height: 1.2;
+
+    letter-spacing: -1.3px;
+
+    margin: 0 0 25px;
+}
+
+.conteudo-aplv p {
+    color: #667c89;
+
+    font-size: 16px;
+    line-height: 1.9;
+
+    margin: 0 0 18px;
+}
+
+.conteudo-aplv strong {
+    color: #3e6175;
+}
+
+
+/* =========================================================
+   COMO A APLV ACONTECE
+========================================================= */
+
+.mecanismos-aplv {
+    background: #ffffff;
+
+    padding: 90px 7%;
+}
+
+.secao-titulo-aplv {
+    max-width: 720px;
+
+    margin: 0 auto 48px;
+
+    text-align: center;
+}
+
+.secao-titulo-aplv p {
+    color: #6c808d;
+
+    font-size: 16px;
+    line-height: 1.8;
+
+    margin: 0;
+}
+
+.mecanismos-grid {
+    max-width: 1150px;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 22px;
+}
+
+.mecanismo-card {
+    position: relative;
+
+    padding: 34px 30px;
+
+    background: #f9fcfe;
+
+    border: 1px solid #e2edf3;
+    border-radius: 20px;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.mecanismo-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #cce7f5;
+
+    box-shadow: 0 18px 40px rgba(54, 112, 145, 0.08);
+}
+
+.mecanismo-card > span {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    margin-bottom: 25px;
+
+    background: var(--azul-claro);
+
+    border-radius: 50%;
+
+    color: var(--azul-escuro);
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.mecanismo-card:nth-child(2) > span {
+    background: var(--amarelo);
+
+    color: #856c23;
+}
+
+.mecanismo-card:nth-child(3) > span {
+    background: #e9f5e8;
+
+    color: #51845c;
+}
+
+.mecanismo-card h3 {
+    color: #2b4c60;
+
+    font-size: 20px;
+
+    margin: 0 0 13px;
+}
+
+.mecanismo-card p {
+    color: #70828d;
+
+    font-size: 14px;
+    line-height: 1.8;
+
+    margin: 0;
+}
+
+
+/* =========================================================
+   APLV X INTOLERÂNCIA À LACTOSE
+========================================================= */
+
+.comparacao-aplv {
+    padding: 100px 7% 115px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f8fbfe 0%,
+            #eef8fd 100%
+        );
+}
+
+.comparacao-grid {
+    max-width: 1000px;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 25px;
+}
+
+.comparacao-card {
+    min-height: 260px;
+
+    padding: 38px 35px;
+
+    border-radius: 22px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.comparacao-card > span {
+    display: inline-block;
+
+    width: fit-content;
+
+    margin-bottom: 20px;
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.2px;
+}
+
+.comparacao-card h3 {
+    font-size: 26px;
+
+    letter-spacing: -0.6px;
+
+    margin: 0 0 13px;
+}
+
+.comparacao-card p {
+    font-size: 15px;
+    line-height: 1.8;
+
+    margin: 0;
+}
+
+
+/* APLV */
+
+.aplv-card {
+    background:
+        linear-gradient(
+            145deg,
+            #dff4ff,
+            #edf9ff
+        );
+
+    border: 1px solid #cce9f7;
+}
+
+.aplv-card > span {
+    background: #ffffff;
+
+    color: var(--azul-escuro);
+}
+
+.aplv-card h3 {
+    color: #27546c;
+}
+
+.aplv-card p {
+    color: #5c7787;
+}
+
+
+/* LACTOSE */
+
+.lactose-card {
+    background:
+        linear-gradient(
+            145deg,
+            #fff7d9,
+            #fffbed
+        );
+
+    border: 1px solid #f1e5ae;
+}
+
+.lactose-card > span {
+    background: #ffffff;
+
+    color: #8a7025;
+}
+
+.lactose-card h3 {
+    color: #66572d;
+}
+
+.lactose-card p {
+    color: #7c7358;
+}
+
+
+/* =========================================================
+   RESPONSIVIDADE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .aplv-hero {
+        margin: 20px 15px 0;
+
+        padding: 70px 7%;
+    }
+
+    .mecanismos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mecanismo-card {
+        padding: 30px;
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .aplv-hero {
+        padding: 55px 27px;
+
+        border-radius: 22px;
+    }
+
+    .aplv-hero h1 {
+        font-size: 39px;
+
+        letter-spacing: -1.4px;
+    }
+
+    .aplv-hero p {
+        font-size: 15px;
+    }
+
+    .aviso-medico {
+        margin: 25px 18px 0;
+
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+
+        padding: 20px;
+    }
+
+    .conteudo-aplv {
+        padding: 75px 23px 65px;
+    }
+
+    .mecanismos-aplv {
+        padding: 70px 22px;
+    }
+
+    .comparacao-aplv {
+        padding: 75px 22px 85px;
+    }
+
+    .comparacao-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .comparacao-card {
+        min-height: auto;
+
+        padding: 32px 27px;
+    }
+
+}
