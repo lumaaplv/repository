@@ -426,7 +426,7 @@ const supabaseClient = supabase.createClient(
             .getElementById("form-cadastro")
             .addEventListener(
                 "submit",
-                function (event) {
+                async function (event) {
 
                     event.preventDefault();
 
@@ -445,11 +445,62 @@ const supabaseClient = supabase.createClient(
                     }
 
 
-                    /*
-                        Depois conectaremos este formulário
-                        ao sistema real de autenticação.
-                    */
+                   const nome =
+    document.getElementById("nome").value.trim();
 
+const usuario =
+    document.getElementById("usuario").value.trim();
+
+const email =
+    document.getElementById("email-cadastro").value.trim();
+
+const relacaoAplv =
+    document.getElementById("relacao-aplv").value;
+
+
+const { data, error } =
+    await supabaseClient.auth.signUp({
+
+        email: email,
+
+        password: senhaCadastro.value,
+
+        options: {
+
+            emailRedirectTo:
+                "https://lumaaplv.github.io/repository/login.html",
+
+            data: {
+                nome: nome,
+                usuario: usuario,
+                relacao_aplv: relacaoAplv
+            }
+
+        }
+
+    });
+
+
+if (error) {
+
+    console.error(error);
+
+    alert(
+        "Não foi possível criar sua conta: " +
+        error.message
+    );
+
+    return;
+}
+
+
+alert(
+    "Conta criada! Enviamos um e-mail de confirmação para você. Confirme seu e-mail antes de entrar."
+);
+
+document
+    .getElementById("form-cadastro")
+    .reset();
                 }
             );
 
