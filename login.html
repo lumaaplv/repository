@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Entrar | Comunidade LUMA</title>
+
+    <meta
+        name="description"
+        content="Entre na Comunidade LUMA e conecte-se com pessoas que compartilham experiências relacionadas à APLV."
+    >
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="pagina-login-body">
+
+    <!-- CABEÇALHO -->
+
+    <header class="cabecalho">
+
+        <a href="inicio.html" class="logo">
+            <img
+                src="logocomfundoluma-removebg-preview.png"
+                alt="Logo do LUMA"
+            >
+        </a>
+
+        <nav>
+            <a href="inicio.html">Início</a>
+            <a href="sobre.html">Sobre o LUMA</a>
+            <a href="aplv.html">Entenda a APLV</a>
+            <a href="repositorio.html">Repositório científico</a>
+            <a href="profissionais.html">Profissionais</a>
+            <a href="comunidade.html">Comunidade</a>
+        </nav>
+
+    </header>
+
+
+    <!-- LOGIN -->
+
+    <main class="login-luma">
+
+        <section class="login-card">
+
+            <!-- LADO DO FORMULÁRIO -->
+
+            <div class="login-formulario">
+
+                <span class="login-etiqueta">
+                    COMUNIDADE LUMA
+                </span>
+
+                <h1>Bem-vindo de volta!</h1>
+
+                <p class="login-introducao">
+                    Entre na sua conta para continuar compartilhando,
+                    aprendendo e se conectando com a comunidade.
+                </p>
+
+
+                <form id="form-login">
+
+                    <div class="campo-login">
+
+                        <label for="email">
+                            E-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="seu@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo-login">
+
+                        <div class="senha-label">
+
+                            <label for="senha">
+                                Senha
+                            </label>
+
+                            <a href="#">
+                                Esqueceu sua senha?
+                            </a>
+
+                        </div>
+
+                        <div class="senha-container">
+
+                            <input
+                                type="password"
+                                id="senha"
+                                name="senha"
+                                placeholder="Sua senha"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="mostrar-senha"
+                                id="mostrar-senha"
+                                aria-label="Mostrar senha"
+                            >
+                                ◉
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="botao-entrar-luma"
+                    >
+                        Entrar
+                    </button>
+
+                </form>
+
+
+                <div class="divisor-login">
+
+                    <span></span>
+
+                    <p>ou</p>
+
+                    <span></span>
+
+                </div>
+
+
+                <p class="criar-conta-login">
+
+                    Ainda não faz parte da comunidade?
+
+                    <a href="cadastro.html">
+                        Criar uma conta
+                    </a>
+
+                </p>
+
+            </div>
+
+
+            <!-- LADO VISUAL -->
+
+            <div class="login-visual">
+
+                <div class="login-forma login-forma-azul"></div>
+
+                <div class="login-forma login-forma-amarela"></div>
+
+                <div class="login-forma login-forma-azul-claro"></div>
+
+
+                <div class="login-mensagem">
+
+                    <div class="login-coracao">
+                        ♡
+                    </div>
+
+                    <h2>
+                        Uma comunidade para caminhar juntos.
+                    </h2>
+
+                    <p>
+                        Compartilhe experiências, encontre informação
+                        e conecte-se com pessoas que entendem.
+                    </p>
+
+                </div>
+
+
+                <div class="login-assinatura">
+                    ciência, informação
+                    <br>
+                    <strong>e acolhimento.</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        const botaoMostrarSenha =
+            document.getElementById("mostrar-senha");
+
+        const campoSenha =
+            document.getElementById("senha");
+
+
+        botaoMostrarSenha.addEventListener(
+            "click",
+            function () {
+
+                if (campoSenha.type === "password") {
+
+                    campoSenha.type = "text";
+
+                    botaoMostrarSenha.textContent = "○";
+
+                    botaoMostrarSenha.setAttribute(
+                        "aria-label",
+                        "Ocultar senha"
+                    );
+
+                } else {
+
+                    campoSenha.type = "password";
+
+                    botaoMostrarSenha.textContent = "◉";
+
+                    botaoMostrarSenha.setAttribute(
+                        "aria-label",
+                        "Mostrar senha"
+                    );
+
+                }
+
+            }
+        );
+
+
+        document
+            .getElementById("form-login")
+            .addEventListener(
+                "submit",
+                function (event) {
+
+                    event.preventDefault();
+
+                    /*
+                        A autenticação será conectada
+                        ao sistema de contas posteriormente.
+                    */
+
+                }
+            );
+
+    </script>
+
+
+</body>
+
+</html>
