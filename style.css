@@ -2872,3 +2872,549 @@ footer .logo img {
     }
 
 }
+/* =========================================================
+   LOGIN — COMUNIDADE LUMA
+========================================================= */
+
+.pagina-login-body {
+    min-height: 100vh;
+    background:
+        linear-gradient(
+            135deg,
+            #f8fcff 0%,
+            #eef9ff 55%,
+            #fffaf0 100%
+        );
+}
+
+
+/* ÁREA PRINCIPAL */
+
+.login-luma {
+    max-width: 1180px !important;
+
+    margin: 0 auto !important;
+
+    padding: 70px 25px 110px !important;
+}
+
+
+/* CARD */
+
+.login-card {
+    min-height: 610px;
+
+    display: grid;
+    grid-template-columns: 1fr 0.85fr;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #deedf4;
+    border-radius: 30px;
+
+    box-shadow:
+        0 25px 70px rgba(48, 103, 133, 0.10);
+}
+
+
+/* =========================================================
+   FORMULÁRIO
+========================================================= */
+
+.login-formulario {
+    padding: 75px 75px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.login-etiqueta {
+    display: inline-block;
+
+    width: fit-content;
+
+    margin-bottom: 16px;
+
+    padding: 7px 12px;
+
+    background: #fff4c9;
+
+    border-radius: 30px;
+
+    color: #806c2c;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1.5px;
+}
+
+
+.login-formulario h1 {
+    margin: 0 0 13px;
+
+    color: #214c64;
+
+    font-size: clamp(36px, 4vw, 49px);
+
+    line-height: 1.1;
+
+    letter-spacing: -1.7px;
+}
+
+
+.login-introducao {
+    max-width: 480px;
+
+    margin: 0 0 36px;
+
+    color: #718590;
+
+    font-size: 14px;
+    line-height: 1.75;
+}
+
+
+/* CAMPOS */
+
+.campo-login {
+    margin-bottom: 22px;
+}
+
+
+.campo-login label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #355d73;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.campo-login input {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 15px 17px;
+
+    background: #fbfdfe;
+
+    border: 1px solid #d7e5ec;
+    border-radius: 11px;
+
+    outline: none;
+
+    color: #31566a;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.campo-login input::placeholder {
+    color: #a2b2ba;
+}
+
+
+.campo-login input:focus {
+    background: #ffffff;
+
+    border-color: #80c9ed;
+
+    box-shadow:
+        0 0 0 4px rgba(128, 201, 237, 0.12);
+}
+
+
+/* SENHA */
+
+.senha-label {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 20px;
+}
+
+
+.senha-label a {
+    margin-bottom: 8px;
+
+    color: #4187aa;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+.senha-container {
+    position: relative;
+}
+
+
+.senha-container input {
+    padding-right: 50px;
+}
+
+
+.mostrar-senha {
+    position: absolute;
+
+    top: 50%;
+    right: 15px;
+
+    transform: translateY(-50%);
+
+    padding: 4px;
+
+    background: transparent;
+
+    border: none;
+
+    color: #7193a5;
+
+    font-size: 17px;
+
+    cursor: pointer;
+}
+
+
+/* BOTÃO */
+
+.botao-entrar-luma {
+    width: 100%;
+
+    margin-top: 7px;
+
+    padding: 15px 20px;
+
+    background:
+        linear-gradient(
+            110deg,
+            #176b98,
+            #277fa9
+        );
+
+    border: none;
+    border-radius: 12px;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 10px 25px rgba(23, 107, 152, 0.17);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.botao-entrar-luma:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 30px rgba(23, 107, 152, 0.24);
+}
+
+
+/* DIVISOR */
+
+.divisor-login {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin: 27px 0 20px;
+}
+
+
+.divisor-login span {
+    flex: 1;
+
+    height: 1px;
+
+    background: #e2ebf0;
+}
+
+
+.divisor-login p {
+    margin: 0;
+
+    color: #a1afb6;
+
+    font-size: 10px;
+}
+
+
+/* CRIAR CONTA */
+
+.criar-conta-login {
+    margin: 0;
+
+    text-align: center;
+
+    color: #7b8d96;
+
+    font-size: 11px;
+}
+
+
+.criar-conta-login a {
+    color: #267ba5;
+
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+
+/* =========================================================
+   LADO VISUAL
+========================================================= */
+
+.login-visual {
+    position: relative;
+
+    overflow: hidden;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 60px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #edf9ff 0%,
+            #f7fcff 48%,
+            #fff7da 100%
+        );
+}
+
+
+/* FORMAS */
+
+.login-forma {
+    position: absolute;
+
+    border-radius:
+        48% 52% 64% 36% /
+        40% 60% 40% 60%;
+}
+
+
+.login-forma-azul {
+    width: 330px;
+    height: 310px;
+
+    right: -80px;
+    top: -70px;
+
+    background: #9ed9f6;
+
+    transform: rotate(15deg);
+}
+
+
+.login-forma-amarela {
+    width: 250px;
+    height: 230px;
+
+    left: -90px;
+    bottom: -50px;
+
+    background: #ffe7a0;
+
+    transform: rotate(-18deg);
+}
+
+
+.login-forma-azul-claro {
+    width: 160px;
+    height: 150px;
+
+    left: 60px;
+    top: 40px;
+
+    background: rgba(190, 231, 250, 0.55);
+
+    transform: rotate(30deg);
+}
+
+
+/* MENSAGEM */
+
+.login-mensagem {
+    position: relative;
+
+    z-index: 4;
+
+    max-width: 310px;
+
+    padding: 34px;
+
+    background:
+        rgba(255, 255, 255, 0.88);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.9);
+
+    border-radius: 25px;
+
+    box-shadow:
+        0 20px 55px rgba(47, 105, 136, 0.12);
+
+    backdrop-filter: blur(10px);
+}
+
+
+.login-coracao {
+    width: 47px;
+    height: 47px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 23px;
+
+    background: #fff0b8;
+
+    border-radius: 15px;
+
+    color: #d8a631;
+
+    font-size: 25px;
+}
+
+
+.login-mensagem h2 {
+    margin: 0 0 14px;
+
+    color: #24536c;
+
+    font-size: 25px;
+    line-height: 1.2;
+
+    letter-spacing: -0.7px;
+}
+
+
+.login-mensagem p {
+    margin: 0;
+
+    color: #6c818c;
+
+    font-size: 13px;
+    line-height: 1.75;
+}
+
+
+/* ASSINATURA */
+
+.login-assinatura {
+    position: absolute;
+
+    right: 35px;
+    bottom: 30px;
+
+    z-index: 4;
+
+    color: #5794b3;
+
+    font-size: 12px;
+    line-height: 1.45;
+
+    transform: rotate(-4deg);
+}
+
+
+.login-assinatura strong {
+    color: #d7a631;
+}
+
+
+/* =========================================================
+   RESPONSIVO
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .login-card {
+        grid-template-columns: 1fr;
+    }
+
+    .login-formulario {
+        padding: 60px 45px;
+    }
+
+    .login-visual {
+        min-height: 390px;
+    }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .login-luma {
+        padding:
+            35px 17px
+            75px !important;
+    }
+
+    .login-card {
+        border-radius: 23px;
+    }
+
+    .login-formulario {
+        padding: 45px 25px;
+    }
+
+    .login-formulario h1 {
+        font-size: 37px;
+    }
+
+    .senha-label {
+        align-items: flex-start;
+    }
+
+    .login-visual {
+        min-height: 340px;
+
+        padding: 30px;
+    }
+
+    .login-mensagem {
+        padding: 27px;
+    }
+
+}
