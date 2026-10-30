@@ -4962,3 +4962,348 @@ footer .logo img {
     width: 15px;
     height: 15px;
 }
+/* =====================================================
+   MODAL — CRIAR PUBLICAÇÃO
+   ===================================================== */
+
+.post-modal-overlay {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+
+    background-color:
+        rgba(2, 14, 20, 0.78);
+
+    backdrop-filter: blur(6px);
+
+    z-index: 1000;
+}
+
+
+.post-modal-overlay.active {
+    display: flex;
+}
+
+
+.post-modal {
+    width: min(100%, 620px);
+
+    padding: 26px;
+
+    border:
+        1px solid var(--community-border);
+
+    border-radius: 24px;
+
+    background-color:
+        var(--community-surface);
+
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+
+/* HEADER */
+
+.post-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+
+.post-modal-label {
+    margin: 0 0 5px;
+
+    color: var(--luma-blue);
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.14em;
+}
+
+
+.post-modal-header h2 {
+    margin: 0;
+
+    color: var(--community-text);
+
+    font-size: 22px;
+    font-weight: 600;
+}
+
+
+.post-modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 50%;
+
+    background-color:
+        var(--community-surface-light);
+
+    color:
+        var(--community-muted);
+
+    cursor: pointer;
+}
+
+
+.post-modal-close:hover {
+    color:
+        var(--community-text);
+}
+
+
+.post-modal-close svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+/* USUÁRIO */
+
+.post-modal-user {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 24px;
+}
+
+
+.post-modal-user > div:last-child {
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+}
+
+
+.post-modal-user strong {
+    color:
+        var(--community-text);
+
+    font-size: 13px;
+}
+
+
+.post-modal-user span {
+    color:
+        var(--community-muted);
+
+    font-size: 11px;
+}
+
+
+/* TEXTO */
+
+.post-modal-textarea {
+    width: 100%;
+
+    min-height: 150px;
+
+    margin-top: 20px;
+
+    padding: 18px;
+
+    box-sizing: border-box;
+
+    resize: vertical;
+
+    border:
+        1px solid var(--community-border);
+
+    border-radius: 16px;
+
+    outline: none;
+
+    background-color:
+        var(--community-bg);
+
+    color:
+        var(--community-text);
+
+    font: inherit;
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.post-modal-textarea::placeholder {
+    color:
+        var(--community-muted);
+}
+
+
+.post-modal-textarea:focus {
+    border-color:
+        rgba(142, 216, 248, 0.55);
+}
+
+
+/* CATEGORIAS */
+
+.post-modal-category {
+    margin-top: 22px;
+}
+
+
+.post-modal-category > p {
+    margin: 0 0 12px;
+
+    color:
+        var(--community-muted);
+
+    font-size: 11px;
+    font-weight: 600;
+
+    letter-spacing: 0.05em;
+}
+
+
+.modal-category-options {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+
+.modal-category {
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 9px 13px;
+
+    border:
+        2px solid transparent;
+
+    border-radius: 999px;
+
+    color: #071c26;
+
+    font: inherit;
+    font-size: 11px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    opacity: 0.65;
+
+    transition:
+        opacity 0.15s ease,
+        transform 0.15s ease,
+        border-color 0.15s ease;
+}
+
+
+.modal-category:hover {
+    opacity: 1;
+}
+
+
+.modal-category.selected {
+    opacity: 1;
+
+    transform:
+        translateY(-1px);
+
+    border-color:
+        var(--community-text);
+}
+
+
+.modal-category svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+.modal-category.food {
+    background-color:
+        var(--food-color);
+}
+
+
+.modal-category.families {
+    background-color:
+        var(--families-color);
+}
+
+
+.modal-category.science {
+    background-color:
+        var(--science-color);
+}
+
+
+.modal-category.stories {
+    background-color:
+        var(--stories-color);
+}
+
+
+/* FOOTER */
+
+.post-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-top: 24px;
+}
+
+
+#contador-publicacao {
+    color:
+        var(--community-muted);
+
+    font-size: 11px;
+}
+
+
+.publish-button {
+    padding: 11px 24px;
+
+    border: none;
+    border-radius: 999px;
+
+    background-color:
+        var(--luma-blue);
+
+    color: #071c26;
+
+    font: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+
+.publish-button:disabled {
+    opacity: 0.35;
+
+    cursor: not-allowed;
+}
