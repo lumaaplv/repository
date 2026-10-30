@@ -355,11 +355,70 @@
     </div>
 
 
-    <script>
+   <script>
+    const SUPABASE_URL = "https://hyavqrkzcgubtbvkqiev.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1";
 
-        lucide.createIcons();
+    const supabaseClient = supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
-    </script>
+
+    async function carregarUsuario() {
+
+        const {
+            data: { session },
+            error
+        } = await supabaseClient.auth.getSession();
+
+
+        if (error) {
+            console.error(
+                "Erro ao verificar sessão:",
+                error
+            );
+
+            return;
+        }
+
+
+        /* Se não houver usuário logado,
+           volta para a página de login */
+
+        if (!session) {
+            window.location.href = "login.html";
+            return;
+        }
+
+
+        const usuario = session.user;
+
+
+        /* Recupera o nome salvo no cadastro */
+
+        const nome =
+            usuario.user_metadata?.nome || "usuário";
+
+
+        /* Coloca o nome no feed */
+
+        document
+            .getElementById("nome-usuario")
+            .textContent = nome;
+
+
+        console.log(
+            "Usuário conectado:",
+            usuario
+        );
+    }
+
+
+    carregarUsuario();
+
+    lucide.createIcons();
+</script>
 
 </body>
 
