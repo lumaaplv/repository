@@ -353,7 +353,131 @@
         </aside>
 
     </div>
+<!-- MODAL: NOVA PUBLICAÇÃO -->
 
+<div class="post-modal-overlay" id="post-modal">
+
+    <div class="post-modal">
+
+        <div class="post-modal-header">
+
+            <div>
+                <p class="post-modal-label">
+                    COMUNIDADE LUMA
+                </p>
+
+                <h2>
+                    Criar publicação
+                </h2>
+            </div>
+
+            <button
+                class="post-modal-close"
+                id="fechar-publicacao"
+                aria-label="Fechar"
+            >
+                <i data-lucide="x"></i>
+            </button>
+
+        </div>
+
+
+        <div class="post-modal-user">
+
+            <div class="profile-placeholder">
+                M
+            </div>
+
+            <div>
+                <strong id="nome-publicacao">
+                    Usuário
+                </strong>
+
+                <span>
+                    Compartilhando com a comunidade
+                </span>
+            </div>
+
+        </div>
+
+
+        <textarea
+            id="conteudo-publicacao"
+            class="post-modal-textarea"
+            placeholder="O que você gostaria de compartilhar?"
+            maxlength="1500"
+        ></textarea>
+
+
+        <div class="post-modal-category">
+
+            <p>
+                Escolha um espaço
+            </p>
+
+            <div class="modal-category-options">
+
+                <button
+                    type="button"
+                    class="modal-category food"
+                    data-categoria="alimentacao"
+                >
+                    <i data-lucide="utensils"></i>
+                    Alimentação
+                </button>
+
+                <button
+                    type="button"
+                    class="modal-category families"
+                    data-categoria="familias"
+                >
+                    <i data-lucide="users"></i>
+                    Famílias
+                </button>
+
+                <button
+                    type="button"
+                    class="modal-category science"
+                    data-categoria="ciencia"
+                >
+                    <i data-lucide="flask-conical"></i>
+                    Ciência
+                </button>
+
+                <button
+                    type="button"
+                    class="modal-category stories"
+                    data-categoria="historias"
+                >
+                    <i data-lucide="book-open"></i>
+                    Histórias
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="post-modal-footer">
+
+            <span id="contador-publicacao">
+                0 / 1500
+            </span>
+
+            <button
+                type="button"
+                class="publish-button"
+                id="publicar-post"
+                disabled
+            >
+                Publicar
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 
    <script>
     const SUPABASE_URL = "https://hyavqrkzcgubtbvkqiev.supabase.co";
