@@ -517,6 +517,7 @@
 
 
         const usuario = session.user;
+        usuarioAtual = usuario;
 
 
         /* Recupera o nome salvo no cadastro */
@@ -567,7 +568,7 @@ const categoriasPublicacao =
 
 
 let categoriaSelecionada = null;
-
+let usuarioAtual = null;
 
 /* ABRIR MODAL */
 
@@ -909,6 +910,20 @@ async function carregarPosts() {
                     <span class="post-category-tag ${post.categoria}">
                         ${nomeCategoria}
                     </span>
+                    ${
+    usuarioAtual &&
+    post.user_id === usuarioAtual.id
+        ? `
+            <button
+                type="button"
+                class="post-menu-button"
+                aria-label="Opções da publicação"
+            >
+                <i data-lucide="ellipsis"></i>
+            </button>
+        `
+        : ""
+}
 
                 </div>
 
@@ -933,7 +948,53 @@ async function carregarPosts() {
             card
                 .querySelector(".community-post-text")
                 .textContent = post.conteudo;
+const botaoMenu =
+    card.querySelector(".post-menu-button");
 
+
+if (botaoMenu) {
+
+    botaoMenu.addEventListener(
+        "click",
+        async function () {
+
+            const confirmar =
+                confirm(
+                    "Deseja excluir esta publicação?"
+                );
+
+
+            if (!confirmar) {
+                return;
+            }
+
+
+            const { error } =
+                await supabaseClient
+                    .from("posts")
+                    .delete()
+                    .eq("id", post.id);
+
+
+            if (error) {
+
+                console.error(
+                    "Erro ao excluir publicação:",
+                    error
+                );
+
+                alert(
+                    "Não foi possível excluir a publicação."
+                );
+
+                return;
+            }
+
+
+            await carregarPosts();
+        }
+    );
+}
 
             feedPosts.appendChild(card);
 
