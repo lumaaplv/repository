@@ -540,7 +540,142 @@
 
 
     carregarUsuario();
+/* =====================================================
+   MODAL DE PUBLICAÇÃO
+   ===================================================== */
 
+const modalPublicacao =
+    document.getElementById("post-modal");
+
+const abrirPublicacao =
+    document.getElementById("abrir-publicacao");
+
+const fecharPublicacao =
+    document.getElementById("fechar-publicacao");
+
+const campoPublicacao =
+    document.getElementById("conteudo-publicacao");
+
+const contadorPublicacao =
+    document.getElementById("contador-publicacao");
+
+const botaoPublicar =
+    document.getElementById("publicar-post");
+
+const categoriasPublicacao =
+    document.querySelectorAll(".modal-category");
+
+
+let categoriaSelecionada = null;
+
+
+/* ABRIR MODAL */
+
+abrirPublicacao.addEventListener(
+    "click",
+    function () {
+
+        modalPublicacao.classList.add("active");
+
+        campoPublicacao.focus();
+    }
+);
+
+
+/* FECHAR MODAL */
+
+fecharPublicacao.addEventListener(
+    "click",
+    function () {
+
+        modalPublicacao.classList.remove("active");
+    }
+);
+
+
+/* FECHAR CLICANDO FORA */
+
+modalPublicacao.addEventListener(
+    "click",
+    function (event) {
+
+        if (event.target === modalPublicacao) {
+
+            modalPublicacao.classList.remove("active");
+
+        }
+    }
+);
+
+
+/* CONTADOR DE CARACTERES */
+
+campoPublicacao.addEventListener(
+    "input",
+    function () {
+
+        const quantidade =
+            campoPublicacao.value.length;
+
+        contadorPublicacao.textContent =
+            `${quantidade} / 1500`;
+
+        verificarPublicacao();
+    }
+);
+
+
+/* ESCOLHER CATEGORIA */
+
+categoriasPublicacao.forEach(
+    function (botao) {
+
+        botao.addEventListener(
+            "click",
+            function () {
+
+                categoriasPublicacao.forEach(
+                    function (categoria) {
+
+                        categoria.classList.remove(
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+                botao.classList.add(
+                    "selected"
+                );
+
+
+                categoriaSelecionada =
+                    botao.dataset.categoria;
+
+
+                verificarPublicacao();
+            }
+        );
+
+    }
+);
+
+
+/* HABILITAR PUBLICAR */
+
+function verificarPublicacao() {
+
+    const temTexto =
+        campoPublicacao.value.trim().length > 0;
+
+    const temCategoria =
+        categoriaSelecionada !== null;
+
+
+    botaoPublicar.disabled =
+        !(temTexto && temCategoria);
+}
     lucide.createIcons();
 </script>
 
