@@ -783,12 +783,171 @@ botaoPublicar.addEventListener(
         botaoPublicar.disabled =
             true;
 
-
+await carregarPosts();
         alert(
             "Publicação criada com sucesso!"
         );
     }
 );
+       /* =====================================================
+   CARREGAR POSTS DO SUPABASE
+   ===================================================== */
+
+async function carregarPosts() {
+
+    const feedPosts =
+        document.getElementById("feed-posts");
+
+
+    const { data: posts, error } =
+        await supabaseClient
+            .from("posts")
+            .select("*")
+            .order("created_at", {
+                ascending: false
+            });
+
+
+    if (error) {
+
+        console.error(
+            "Erro ao carregar posts:",
+            error
+        );
+
+        return;
+    }
+
+
+    /* SE NÃO EXISTIREM POSTS */
+
+    if (!posts || posts.length === 0) {
+
+        feedPosts.innerHTML = `
+            <div class="feed-empty">
+
+                <i data-lucide="message-circle"></i>
+
+                <h2>
+                    A comunidade está começando.
+                </h2>
+
+                <p>
+                    As publicações aparecerão aqui.
+                </p>
+
+            </div>
+        `;
+
+        lucide.createIcons();
+
+        return;
+    }
+
+
+    /* LIMPA O ESTADO VAZIO */
+
+    feedPosts.innerHTML = "";
+
+
+    /* CRIA UM CARD PARA CADA POST */
+
+    posts.forEach(
+        function (post) {
+
+            const card =
+                document.createElement("article");
+
+            card.className = "community-post";
+
+
+            const nomesCategorias = {
+                alimentacao: "Alimentação",
+                familias: "Famílias",
+                ciencia: "Ciência",
+                historias: "Histórias"
+            };
+
+
+            const nomeCategoria =
+                nomesCategorias[post.categoria]
+                || post.categoria;
+
+
+            const dataPost =
+                new Date(
+                    post.created_at
+                ).toLocaleDateString(
+                    "pt-BR",
+                    {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric"
+                    }
+                );
+
+
+            card.innerHTML = `
+                <div class="community-post-header">
+
+                    <div class="profile-placeholder">
+                        M
+                    </div>
+
+                    <div class="community-post-author">
+
+                        <strong>
+                            Comunidade LUMA
+                        </strong>
+
+                        <span>
+                            ${dataPost}
+                        </span>
+
+                    </div>
+
+                    <span class="post-category-tag ${post.categoria}">
+                        ${nomeCategoria}
+                    </span>
+
+                </div>
+
+                <p class="community-post-text"></p>
+
+                <div class="community-post-actions">
+
+                    <button type="button">
+                        <i data-lucide="heart"></i>
+                        Curtir
+                    </button>
+
+                    <button type="button">
+                        <i data-lucide="message-circle"></i>
+                        Comentar
+                    </button>
+
+                </div>
+            `;
+
+
+            card
+                .querySelector(".community-post-text")
+                .textContent = post.conteudo;
+
+
+            feedPosts.appendChild(card);
+
+        }
+    );
+
+
+    lucide.createIcons();
+}
+
+
+/* CARREGA OS POSTS QUANDO A PÁGINA ABRE */
+
+carregarPosts();
     lucide.createIcons();
 </script>
 
