@@ -4150,3 +4150,218 @@ footer .logo img {
     }
 
 }
+/* =====================================================
+   COMUNIDADE LUMA
+   ===================================================== */
+
+.feed-page {
+    --community-bg: #071c26;
+    --community-surface: #0d2834;
+    --community-surface-light: #123441;
+
+    --community-text: #f7f2e8;
+    --community-muted: #9eb0b7;
+
+    --community-border: rgba(247, 242, 232, 0.10);
+
+    --luma-blue: #8ed8f8;
+
+    --food-color: #ffe7a3;
+    --families-color: #f7dde2;
+    --science-color: #c9ebf8;
+    --stories-color: #dceedc;
+
+    margin: 0;
+
+    background-color: var(--community-bg);
+    color: var(--community-text);
+
+    min-height: 100vh;
+}
+.community-layout {
+    display: grid;
+
+    grid-template-columns:
+        230px
+        minmax(0, 1fr)
+        280px;
+
+    min-height: 100vh;
+}
+.community-sidebar {
+    padding: 32px 22px;
+
+    border-right:
+        1px solid var(--community-border);
+
+    background-color:
+        var(--community-bg);
+}
+
+
+.community-logo {
+    display: inline-block;
+
+    margin-bottom: 42px;
+
+    color: var(--community-text);
+
+    font-size: 28px;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-decoration: none;
+}
+
+
+.community-menu {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.community-menu-item {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    width: 100%;
+
+    padding: 12px 14px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: transparent;
+
+    color: var(--community-muted);
+
+    font: inherit;
+    font-size: 14px;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+
+.community-menu-item svg {
+    width: 19px;
+    height: 19px;
+}
+
+
+.community-menu-item:hover {
+    background-color:
+        var(--community-surface);
+
+    color:
+        var(--community-text);
+}
+
+
+.community-menu-item.active {
+    background-color:
+        var(--community-surface-light);
+
+    color:
+        var(--community-text);
+}
+.community-spaces {
+    margin-top: 42px;
+}
+
+
+.sidebar-title {
+    margin-bottom: 14px;
+
+    color: var(--community-muted);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+}
+
+
+.space-link {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    padding: 8px 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--community-text);
+
+    font: inherit;
+    font-size: 13px;
+
+    cursor: pointer;
+}
+
+
+.space-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 30px;
+    height: 30px;
+
+    border-radius: 9px;
+
+    color: #071c26;
+}
+
+
+.space-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+.space-icon.food {
+    background-color: var(--food-color);
+}
+
+
+.space-icon.families {
+    background-color: var(--families-color);
+}
+
+
+.space-icon.science {
+    background-color: var(--science-color);
+}
+
+
+.space-icon.stories {
+    background-color: var(--stories-color);
+}
+.community-slogan {
+    margin-top: 60px;
+
+    color: rgba(247, 242, 232, 0.28);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    line-height: 1.7;
+
+    letter-spacing: 0.14em;
+}
