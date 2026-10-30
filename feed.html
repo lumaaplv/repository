@@ -676,6 +676,119 @@ function verificarPublicacao() {
     botaoPublicar.disabled =
         !(temTexto && temCategoria);
 }
+       /* =====================================================
+   PUBLICAR POST NO SUPABASE
+   ===================================================== */
+
+botaoPublicar.addEventListener(
+    "click",
+    async function () {
+
+        const conteudo =
+            campoPublicacao.value.trim();
+
+        if (!conteudo || !categoriaSelecionada) {
+            return;
+        }
+
+
+        /* DESABILITA O BOTÃO ENQUANTO PUBLICA */
+
+        botaoPublicar.disabled = true;
+        botaoPublicar.textContent = "Publicando...";
+
+
+        /* DESCOBRE QUEM ESTÁ LOGADO */
+
+        const {
+            data: { user },
+            error: userError
+        } = await supabaseClient.auth.getUser();
+
+
+        if (userError || !user) {
+
+            alert(
+                "Não foi possível identificar sua conta. Entre novamente."
+            );
+
+            botaoPublicar.textContent = "Publicar";
+
+            verificarPublicacao();
+
+            return;
+        }
+
+
+        /* SALVA O POST */
+
+        const { error } = await supabaseClient
+            .from("posts")
+            .insert({
+                user_id: user.id,
+                conteudo: conteudo,
+                categoria: categoriaSelecionada
+            });
+
+
+        if (error) {
+
+            console.error(
+                "Erro ao publicar:",
+                error
+            );
+
+            alert(
+                "Não foi possível publicar. Tente novamente."
+            );
+
+            botaoPublicar.textContent = "Publicar";
+
+            verificarPublicacao();
+
+            return;
+        }
+
+
+        /* PUBLICAÇÃO CONCLUÍDA */
+
+        campoPublicacao.value = "";
+
+        contadorPublicacao.textContent =
+            "0 / 1500";
+
+
+        categoriasPublicacao.forEach(
+            function (categoria) {
+
+                categoria.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+        categoriaSelecionada = null;
+
+
+        modalPublicacao.classList.remove(
+            "active"
+        );
+
+
+        botaoPublicar.textContent =
+            "Publicar";
+
+        botaoPublicar.disabled =
+            true;
+
+
+        alert(
+            "Publicação criada com sucesso!"
+        );
+    }
+);
     lucide.createIcons();
 </script>
 
