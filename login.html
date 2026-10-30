@@ -197,9 +197,15 @@
 
     </main>
 
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+const SUPABASE_URL = "https://hyavqrkzcgubtbvkqiev.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1";
 
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
         const botaoMostrarSenha =
             document.getElementById("mostrar-senha");
 
@@ -243,14 +249,33 @@
             .getElementById("form-login")
             .addEventListener(
                 "submit",
-                function (event) {
+                async function (event) {
 
                     event.preventDefault();
 
-                    /*
-                        A autenticação será conectada
-                        ao sistema de contas posteriormente.
-                    */
+                  const email =
+    document.getElementById("email").value.trim();
+
+const senha =
+    document.getElementById("senha").value;
+
+const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: senha
+    });
+
+if (error) {
+    console.error(error);
+
+    alert(
+        "Não foi possível entrar. Verifique seu e-mail e sua senha."
+    );
+
+    return;
+}
+
+window.location.href = "feed.html";
 
                 }
             );
