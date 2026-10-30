@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Comunidade | LUMA</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Ícones minimalistas -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="feed-page">
+
+    <div class="community-layout">
+
+        <!-- SIDEBAR -->
+        <aside class="community-sidebar">
+
+            <a href="inicio.html" class="community-logo">
+                LUMA
+            </a>
+
+            <nav class="community-menu">
+
+                <a href="feed.html" class="community-menu-item active">
+                    <i data-lucide="home"></i>
+                    <span>Feed</span>
+                </a>
+
+                <button class="community-menu-item">
+                    <i data-lucide="search"></i>
+                    <span>Explorar</span>
+                </button>
+
+                <button class="community-menu-item">
+                    <i data-lucide="bookmark"></i>
+                    <span>Salvos</span>
+                </button>
+
+                <button class="community-menu-item">
+                    <i data-lucide="bell"></i>
+                    <span>Notificações</span>
+                </button>
+
+                <button class="community-menu-item">
+                    <i data-lucide="user"></i>
+                    <span>Perfil</span>
+                </button>
+
+            </nav>
+
+
+            <!-- ESPAÇOS -->
+
+            <div class="community-spaces">
+
+                <p class="sidebar-title">
+                    ESPAÇOS
+                </p>
+
+                <button class="space-link">
+                    <span class="space-icon food">
+                        <i data-lucide="utensils"></i>
+                    </span>
+
+                    Alimentação
+                </button>
+
+                <button class="space-link">
+                    <span class="space-icon families">
+                        <i data-lucide="users"></i>
+                    </span>
+
+                    Famílias
+                </button>
+
+                <button class="space-link">
+                    <span class="space-icon science">
+                        <i data-lucide="flask-conical"></i>
+                    </span>
+
+                    Ciência
+                </button>
+
+                <button class="space-link">
+                    <span class="space-icon stories">
+                        <i data-lucide="book-open"></i>
+                    </span>
+
+                    Histórias
+                </button>
+
+            </div>
+
+
+            <div class="community-slogan">
+                CIÊNCIA,<br>
+                INFORMAÇÃO<br>
+                E ACOLHIMENTO.
+            </div>
+
+        </aside>
+
+
+        <!-- CONTEÚDO PRINCIPAL -->
+
+        <main class="community-main">
+
+            <!-- TOPO -->
+
+            <header class="community-header">
+
+                <div class="community-search">
+
+                    <i data-lucide="search"></i>
+
+                    <input
+                        type="search"
+                        placeholder="Buscar na comunidade..."
+                    >
+
+                </div>
+
+
+                <div class="community-header-actions">
+
+                    <button
+                        class="header-icon-button"
+                        aria-label="Notificações"
+                    >
+                        <i data-lucide="bell"></i>
+                    </button>
+
+                    <button
+                        class="header-profile"
+                        aria-label="Abrir perfil"
+                    >
+                        <div class="profile-placeholder">
+                            M
+                        </div>
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- FEED -->
+
+            <section class="feed-content">
+
+                <div class="feed-welcome">
+
+                    <h1>
+                        Olá,
+                        <span id="nome-usuario">usuário</span>
+                    </h1>
+
+                    <p>
+                        Que bom ter você na Comunidade LUMA.
+                    </p>
+
+                </div>
+
+
+                <!-- CRIAR PUBLICAÇÃO -->
+
+                <div class="create-post-card">
+
+                    <div class="create-post-top">
+
+                        <div class="profile-placeholder">
+                            M
+                        </div>
+
+                        <button
+                            class="create-post-input"
+                            id="abrir-publicacao"
+                        >
+                            Compartilhe algo com a comunidade...
+                        </button>
+
+                    </div>
+
+
+                    <div class="post-categories">
+
+                        <button class="category-button food">
+                            <i data-lucide="utensils"></i>
+                            Alimentação
+                        </button>
+
+                        <button class="category-button families">
+                            <i data-lucide="users"></i>
+                            Famílias
+                        </button>
+
+                        <button class="category-button science">
+                            <i data-lucide="flask-conical"></i>
+                            Ciência
+                        </button>
+
+                        <button class="category-button stories">
+                            <i data-lucide="book-open"></i>
+                            Histórias
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILTROS -->
+
+                <div class="feed-filters">
+
+                    <button class="feed-filter active">
+                        Todos os posts
+                    </button>
+
+                    <button class="feed-filter">
+                        Alimentação
+                    </button>
+
+                    <button class="feed-filter">
+                        Famílias
+                    </button>
+
+                    <button class="feed-filter">
+                        Ciência
+                    </button>
+
+                    <button class="feed-filter">
+                        Histórias
+                    </button>
+
+                </div>
+
+
+                <!-- POSTS SERÃO CARREGADOS AQUI -->
+
+                <div id="feed-posts">
+
+                    <div class="feed-empty">
+
+                        <i data-lucide="message-circle"></i>
+
+                        <h2>
+                            A comunidade está começando.
+                        </h2>
+
+                        <p>
+                            As publicações aparecerão aqui.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- COLUNA DIREITA -->
+
+        <aside class="community-right">
+
+            <p class="sidebar-title">
+                ESPAÇOS DA COMUNIDADE
+            </p>
+
+
+            <button class="community-space-card food">
+
+                <i data-lucide="utensils"></i>
+
+                <span>
+                    <strong>Alimentação</strong>
+                    <small>Dicas, receitas e experiências</small>
+                </span>
+
+            </button>
+
+
+            <button class="community-space-card families">
+
+                <i data-lucide="users"></i>
+
+                <span>
+                    <strong>Famílias</strong>
+                    <small>Trocas e apoio entre famílias</small>
+                </span>
+
+            </button>
+
+
+            <button class="community-space-card science">
+
+                <i data-lucide="flask-conical"></i>
+
+                <span>
+                    <strong>Ciência</strong>
+                    <small>Artigos, estudos e informações</small>
+                </span>
+
+            </button>
+
+
+            <button class="community-space-card stories">
+
+                <i data-lucide="book-open"></i>
+
+                <span>
+                    <strong>Histórias</strong>
+                    <small>Relatos e experiências pessoais</small>
+                </span>
+
+            </button>
+
+
+            <div class="community-guidelines">
+
+                <p class="sidebar-title">
+                    COMUNIDADE RESPONSÁVEL
+                </p>
+
+                <p>
+                    Um espaço seguro, respeitoso e acolhedor
+                    para troca de informações e experiências
+                    sobre APLV.
+                </p>
+
+                <button>
+                    Diretrizes da comunidade
+
+                    <i data-lucide="arrow-right"></i>
+                </button>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+
+    <script>
+
+        lucide.createIcons();
+
+    </script>
+
+</body>
+
+</html>
