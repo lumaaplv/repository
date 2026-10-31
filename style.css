@@ -6522,3 +6522,37 @@ footer .logo img {
         animation: none;
     }
 }
+/* =========================================
+   POLIMENTO VISUAL DO PROFILE
+   ========================================= */
+
+.profile-page,
+.profile-page button,
+.profile-page a,
+.profile-page input,
+.profile-page textarea {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.profile-main-info h1 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+}
+
+.profile-username {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.profile-section-title h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.profile-section-label {
+    font-family: Arial, Helvetica, sans-serif;
+}
