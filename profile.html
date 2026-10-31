@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Perfil | Comunidade LUMA</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Ícones -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+
+<body class="profile-page">
+
+    <!-- TOPO -->
+
+    <header class="profile-header">
+
+        <a href="feed.html" class="profile-back">
+            <i data-lucide="arrow-left"></i>
+            <span>Comunidade</span>
+        </a>
+
+        <a href="inicio.html" class="profile-logo">
+            LUMA
+        </a>
+
+        <button
+            type="button"
+            class="profile-header-button"
+            aria-label="Configurações"
+        >
+            <i data-lucide="settings"></i>
+        </button>
+
+    </header>
+
+
+    <!-- CONTEÚDO -->
+
+    <main class="profile-container">
+
+
+        <!-- PERFIL PRINCIPAL -->
+
+        <section class="profile-card">
+
+            <div class="profile-avatar" id="profile-avatar">
+                U
+            </div>
+
+
+            <div class="profile-main-info">
+
+                <h1 id="profile-name">
+                    Carregando...
+                </h1>
+
+                <p
+                    class="profile-username"
+                    id="profile-username"
+                >
+                    @usuario
+                </p>
+
+
+                <p
+                    class="profile-bio"
+                    id="profile-bio"
+                    hidden
+                ></p>
+
+
+                <!-- LINKS -->
+
+                <div
+                    class="profile-links"
+                    id="profile-links"
+                >
+
+                    <a
+                        id="profile-instagram"
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        hidden
+                    >
+                        <i data-lucide="instagram"></i>
+                        Instagram
+                    </a>
+
+
+                    <a
+                        id="profile-linkedin"
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        hidden
+                    >
+                        <i data-lucide="linkedin"></i>
+                        LinkedIn
+                    </a>
+
+
+                    <a
+                        id="profile-site"
+                        href="#"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        hidden
+                    >
+                        <i data-lucide="link"></i>
+                        Site
+                    </a>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="profile-edit-button"
+                    id="edit-profile"
+                    hidden
+                >
+                    <i data-lucide="pencil"></i>
+                    Editar perfil
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- HISTÓRIA COM APLV -->
+
+        <section
+            class="profile-section"
+            id="profile-story-section"
+            hidden
+        >
+
+            <div class="profile-section-title">
+
+                <span class="profile-section-icon story">
+                    <i data-lucide="book-open"></i>
+                </span>
+
+                <div>
+                    <span class="profile-section-label">
+                        SOBRE MIM
+                    </span>
+
+                    <h2>
+                        Minha história com a APLV
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <p
+                class="profile-story"
+                id="profile-story"
+            ></p>
+
+        </section>
+
+
+        <!-- PUBLICAÇÕES -->
+
+        <section class="profile-section profile-posts-section">
+
+            <div class="profile-section-title">
+
+                <span class="profile-section-icon posts">
+                    <i data-lucide="message-circle"></i>
+                </span>
+
+                <div>
+                    <span class="profile-section-label">
+                        COMUNIDADE
+                    </span>
+
+                    <h2>
+                        Publicações
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div id="profile-posts">
+
+                <div class="profile-empty">
+                    Carregando publicações...
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /* =========================================
+           SUPABASE
+           ========================================= */
+
+        const SUPABASE_URL =
+            "https://hyavqrkzcgubtbvkqiev.supabase.co";
+
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1";
+
+
+        const supabaseClient =
+            supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY
+            );
+
+
+        /* =========================================
+           CARREGAR PERFIL
+           ========================================= */
+
+        async function carregarPerfil() {
+
+            /* USUÁRIO LOGADO */
+
+            const {
+                data: { user },
+                error: userError
+            } = await supabaseClient.auth.getUser();
+
+
+            if (userError || !user) {
+
+                window.location.href = "login.html";
+                return;
+
+            }
+
+
+            /*
+               Permite futuramente abrir:
+               perfil.html?id=UUID
+
+               Se não houver ID na URL,
+               abre o próprio perfil.
+            */
+
+            const parametros =
+                new URLSearchParams(
+                    window.location.search
+                );
+
+
+            const profileId =
+                parametros.get("id") || user.id;
+
+
+            /* BUSCA PERFIL */
+
+            const {
+                data: perfil,
+                error: profileError
+            } = await supabaseClient
+                .from("profiles")
+                .select(`
+                    id,
+                    nome,
+                    usuario,
+                    foto_url,
+                    bio,
+                    historia_aplv,
+                    instagram,
+                    linkedin,
+                    site
+                `)
+                .eq("id", profileId)
+                .single();
+
+
+            if (profileError || !perfil) {
+
+                console.error(
+                    "Erro ao carregar perfil:",
+                    profileError
+                );
+
+                document.getElementById(
+                    "profile-name"
+                ).textContent =
+                    "Perfil não encontrado";
+
+                return;
+
+            }
+
+
+            /* NOME */
+
+            const nome =
+                perfil.nome || "Usuário LUMA";
+
+
+            document.getElementById(
+                "profile-name"
+            ).textContent = nome;
+
+
+            /* USERNAME */
+
+            const usernameElement =
+                document.getElementById(
+                    "profile-username"
+                );
+
+
+            if (perfil.usuario) {
+
+                usernameElement.textContent =
+                    `@${perfil.usuario}`;
+
+            } else {
+
+                usernameElement.hidden = true;
+
+            }
+
+
+            /* AVATAR */
+
+            const avatar =
+                document.getElementById(
+                    "profile-avatar"
+                );
+
+
+            if (perfil.foto_url) {
+
+                avatar.textContent = "";
+
+                const imagem =
+                    document.createElement("img");
+
+                imagem.src = perfil.foto_url;
+                imagem.alt = `Foto de perfil de ${nome}`;
+
+                avatar.appendChild(imagem);
+
+            } else {
+
+                avatar.textContent =
+                    nome.charAt(0).toUpperCase();
+
+            }
+
+
+            /* BIO */
+
+            if (perfil.bio) {
+
+                const bio =
+                    document.getElementById(
+                        "profile-bio"
+                    );
+
+                bio.textContent = perfil.bio;
+                bio.hidden = false;
+
+            }
+
+
+            /* HISTÓRIA */
+
+            if (perfil.historia_aplv) {
+
+                document.getElementById(
+                    "profile-story"
+                ).textContent =
+                    perfil.historia_aplv;
+
+
+                document.getElementById(
+                    "profile-story-section"
+                ).hidden = false;
+
+            }
+
+
+            /* LINKS */
+
+            configurarLink(
+                "profile-instagram",
+                perfil.instagram
+            );
+
+            configurarLink(
+                "profile-linkedin",
+                perfil.linkedin
+            );
+
+            configurarLink(
+                "profile-site",
+                perfil.site
+            );
+
+
+            /* EDITAR PERFIL APENAS SE FOR O DONO */
+
+            if (profileId === user.id) {
+
+                document.getElementById(
+                    "edit-profile"
+                ).hidden = false;
+
+            }
+
+
+            await carregarPostsPerfil(
+                profileId,
+                nome
+            );
+
+
+            lucide.createIcons();
+
+        }
+
+
+        /* =========================================
+           CONFIGURAR LINKS
+           ========================================= */
+
+        function configurarLink(
+            elementId,
+            url
+        ) {
+
+            if (!url) {
+                return;
+            }
+
+
+            const link =
+                document.getElementById(
+                    elementId
+                );
+
+
+            /*
+               Se a pessoa digitar apenas
+               instagram.com/usuario,
+               adicionamos https://
+            */
+
+            const urlFinal =
+                /^https?:\/\//i.test(url)
+                    ? url
+                    : `https://${url}`;
+
+
+            link.href = urlFinal;
+            link.hidden = false;
+
+        }
+
+
+        /* =========================================
+           POSTS DO PERFIL
+           ========================================= */
+
+        async function carregarPostsPerfil(
+            profileId,
+            nome
+        ) {
+
+            const container =
+                document.getElementById(
+                    "profile-posts"
+                );
+
+
+            const {
+                data: posts,
+                error
+            } = await supabaseClient
+                .from("posts")
+                .select("*")
+                .eq("user_id", profileId)
+                .order(
+                    "created_at",
+                    { ascending: false }
+                );
+
+
+            if (error) {
+
+                console.error(
+                    "Erro ao carregar publicações:",
+                    error
+                );
+
+                container.textContent =
+                    "Não foi possível carregar as publicações.";
+
+                return;
+
+            }
+
+
+            if (!posts || posts.length === 0) {
+
+                container.innerHTML = `
+                    <div class="profile-empty">
+                        Nenhuma publicação ainda.
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            container.innerHTML = "";
+
+
+            const nomesCategorias = {
+                alimentacao: "Alimentação",
+                familias: "Famílias",
+                ciencia: "Ciência",
+                historias: "Histórias"
+            };
+
+
+            posts.forEach(function (post) {
+
+                const card =
+                    document.createElement(
+                        "article"
+                    );
+
+
+                card.className =
+                    "profile-post-card";
+
+
+                const header =
+                    document.createElement(
+                        "div"
+                    );
+
+                header.className =
+                    "profile-post-header";
+
+
+                const author =
+                    document.createElement(
+                        "strong"
+                    );
+
+                author.textContent = nome;
+
+
+                const categoria =
+                    document.createElement(
+                        "span"
+                    );
+
+                categoria.className =
+                    `profile-post-category ${post.categoria}`;
+
+                categoria.textContent =
+                    nomesCategorias[post.categoria]
+                    || post.categoria;
+
+
+                header.appendChild(author);
+                header.appendChild(categoria);
+
+
+                const texto =
+                    document.createElement("p");
+
+                texto.className =
+                    "profile-post-text";
+
+                texto.textContent =
+                    post.conteudo;
+
+
+                const data =
+                    document.createElement("small");
+
+                data.textContent =
+                    new Date(
+                        post.created_at
+                    ).toLocaleDateString(
+                        "pt-BR"
+                    );
+
+
+                card.appendChild(header);
+                card.appendChild(texto);
+                card.appendChild(data);
+
+
+                container.appendChild(card);
+
+            });
+
+        }
+
+
+        /* =========================================
+           INICIAR
+           ========================================= */
+
+        carregarPerfil();
+
+        lucide.createIcons();
+
+    </script>
+
+</body>
+
+</html>
