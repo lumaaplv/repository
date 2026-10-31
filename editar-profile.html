@@ -509,7 +509,8 @@ let fotoAtualUrl = null;
                     historia_aplv,
                     instagram,
                     linkedin,
-                    site
+                    site,
+                    foto_url
                 `)
                 .eq("id", user.id)
                 .single();
@@ -550,6 +551,26 @@ let fotoAtualUrl = null;
 
             siteInput.value =
                 perfil.site || "";
+            fotoAtualUrl = perfil.foto_url || null;
+
+if (fotoAtualUrl) {
+
+    photoPreviewImage.src = fotoAtualUrl;
+    photoPreviewImage.hidden = false;
+    photoInitial.hidden = true;
+
+} else {
+
+    const inicial =
+        (perfil.nome || "U")
+            .trim()
+            .charAt(0)
+            .toUpperCase();
+
+    photoInitial.textContent = inicial;
+    photoInitial.hidden = false;
+    photoPreviewImage.hidden = true;
+}
 
 
             atualizarContadores();
@@ -648,6 +669,69 @@ let fotoAtualUrl = null;
                     "Salvando...";
 
                 message.textContent = "";
+                /* =========================================
+   UPLOAD DA FOTO
+   ========================================= */
+
+let fotoUrlParaSalvar = fotoAtualUrl;
+
+if (novaFoto) {
+
+    const extensao =
+        novaFoto.name
+            .split(".")
+            .pop()
+            .toLowerCase();
+
+    const caminhoFoto =
+        `${usuarioLogado.id}/avatar.${extensao}`;
+
+
+    const {
+        error: uploadError
+    } = await supabaseClient.storage
+        .from("profile-photos")
+        .upload(
+            caminhoFoto,
+            novaFoto,
+            {
+                upsert: true,
+                contentType: novaFoto.type
+            }
+        );
+
+
+    if (uploadError) {
+
+        console.error(
+            "Erro ao enviar foto:",
+            uploadError
+        );
+
+        message.textContent =
+            "Não foi possível enviar a foto.";
+
+        saveButton.disabled = false;
+
+        saveButton.innerHTML =
+            '<i data-lucide="check"></i> Salvar alterações';
+
+        lucide.createIcons();
+
+        return;
+    }
+
+
+    const {
+        data: publicUrlData
+    } = supabaseClient.storage
+        .from("profile-photos")
+        .getPublicUrl(caminhoFoto);
+
+
+    fotoUrlParaSalvar =
+        publicUrlData.publicUrl;
+}
 
 
                 const {
@@ -684,7 +768,17 @@ let fotoAtualUrl = null;
                         "id",
                         usuarioLogado.id
                     );
+.update({
 
+    nome: nome,
+    usuario: username,
+
+    foto_url:
+        fotoUrlParaSalvar,
+
+    bio:
+        bioInput.value.trim()
+        || null,
 
                 if (error) {
 
