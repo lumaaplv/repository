@@ -361,58 +361,56 @@
     </main>
 
 
-    <script>
+   <script>
 
-        /* =========================================
-           SUPABASE
-           ========================================= */
+const SUPABASE_URL =
+    "https://hyavqrkzcgubtbvkqiev.supabase.co";
 
-        const SUPABASE_URL =
-            "https://hyavqrkzcgubtbvkqiev.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1";
 
-        const SUPABASE_PUBLISHABLE_KEY =
-            "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1";
-
-
-        const supabaseClient =
-            supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_PUBLISHABLE_KEY
-            );
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
 
-        /* ELEMENTOS */
+/* =========================
+   ELEMENTOS
+========================= */
 
-        const form =
-            document.getElementById("profile-form");
+const form =
+    document.getElementById("profile-form");
 
-        const nomeInput =
-            document.getElementById("edit-nome");
+const nomeInput =
+    document.getElementById("edit-nome");
 
-        const usuarioInput =
-            document.getElementById("edit-usuario");
+const usuarioInput =
+    document.getElementById("edit-usuario");
 
-        const bioInput =
-            document.getElementById("edit-bio");
+const bioInput =
+    document.getElementById("edit-bio");
 
-        const historiaInput =
-            document.getElementById("edit-historia");
+const historiaInput =
+    document.getElementById("edit-historia");
 
-        const instagramInput =
-            document.getElementById("edit-instagram");
+const instagramInput =
+    document.getElementById("edit-instagram");
 
-        const linkedinInput =
-            document.getElementById("edit-linkedin");
+const linkedinInput =
+    document.getElementById("edit-linkedin");
 
-        const siteInput =
-            document.getElementById("edit-site");
+const siteInput =
+    document.getElementById("edit-site");
 
-        const saveButton =
-            document.getElementById("save-profile");
+const saveButton =
+    document.getElementById("save-profile");
 
-        const message =
-            document.getElementById("profile-message");
-        const photoInput =
+const message =
+    document.getElementById("profile-message");
+
+const photoInput =
     document.getElementById("profile-photo-input");
 
 const photoPreviewImage =
@@ -421,428 +419,516 @@ const photoPreviewImage =
 const photoInitial =
     document.getElementById("photo-initial");
 
+
+let usuarioLogado = null;
 let novaFoto = null;
 let fotoAtualUrl = null;
-        photoInput.addEventListener("change", function () {
+let previewTemporariaUrl = null;
 
-    const file = photoInput.files[0];
 
-    if (!file) {
+/* =========================
+   PRÉVIA DA FOTO
+========================= */
+
+photoInput.addEventListener(
+    "change",
+    function () {
+
+        const file = photoInput.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        const tiposPermitidos = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+        if (!tiposPermitidos.includes(file.type)) {
+
+            message.textContent =
+                "Escolha uma imagem JPG, PNG ou WebP.";
+
+            photoInput.value = "";
+            novaFoto = null;
+
+            return;
+        }
+
+        const limite = 5 * 1024 * 1024;
+
+        if (file.size > limite) {
+
+            message.textContent =
+                "A foto deve ter no máximo 5 MB.";
+
+            photoInput.value = "";
+            novaFoto = null;
+
+            return;
+        }
+
+        novaFoto = file;
+
+        if (previewTemporariaUrl) {
+            URL.revokeObjectURL(
+                previewTemporariaUrl
+            );
+        }
+
+        previewTemporariaUrl =
+            URL.createObjectURL(file);
+
+        photoPreviewImage.onload =
+            function () {
+
+                photoPreviewImage.hidden = false;
+                photoInitial.hidden = true;
+            };
+
+        photoPreviewImage.onerror = null;
+
+        photoPreviewImage.src =
+            previewTemporariaUrl;
+
+        message.textContent = "";
+    }
+);
+
+
+/* =========================
+   CARREGAR PERFIL
+========================= */
+
+async function carregarDadosPerfil() {
+
+    const {
+        data: { user },
+        error: userError
+    } =
+        await supabaseClient.auth.getUser();
+
+
+    if (userError || !user) {
+
+        window.location.href =
+            "login.html";
+
         return;
     }
 
-    const tiposPermitidos = [
-        "image/jpeg",
-        "image/png",
-        "image/webp"
-    ];
 
-    if (!tiposPermitidos.includes(file.type)) {
+    usuarioLogado = user;
+
+
+    const {
+        data: perfil,
+        error
+    } =
+        await supabaseClient
+            .from("profiles")
+            .select(`
+                nome,
+                usuario,
+                bio,
+                historia_aplv,
+                instagram,
+                linkedin,
+                site,
+                foto_url
+            `)
+            .eq("id", user.id)
+            .single();
+
+
+    if (error || !perfil) {
+
+        console.error(
+            "Erro ao carregar perfil:",
+            error
+        );
 
         message.textContent =
-            "Escolha uma imagem JPG, PNG ou WebP.";
+            "Não foi possível carregar seu perfil.";
 
-        photoInput.value = "";
         return;
     }
 
-    const limite = 5 * 1024 * 1024;
 
-    if (file.size > limite) {
+    /* CAMPOS */
 
-        message.textContent =
-            "A foto deve ter no máximo 5 MB.";
+    nomeInput.value =
+        perfil.nome || "";
 
-        photoInput.value = "";
-        return;
-    }
+    usuarioInput.value =
+        perfil.usuario || "";
 
-    novaFoto = file;
+    bioInput.value =
+        perfil.bio || "";
 
-    const previewUrl =
-        URL.createObjectURL(file);
+    historiaInput.value =
+        perfil.historia_aplv || "";
 
-    photoPreviewImage.src = previewUrl;
-    photoPreviewImage.hidden = false;
-    photoInitial.hidden = true;
+    instagramInput.value =
+        perfil.instagram || "";
 
-    message.textContent = "";
+    linkedinInput.value =
+        perfil.linkedin || "";
 
-});
-
-
-        let usuarioLogado = null;
+    siteInput.value =
+        perfil.site || "";
 
 
-        /* =========================================
-           CARREGAR DADOS
-           ========================================= */
+    /* FOTO */
 
-        async function carregarDadosPerfil() {
+    fotoAtualUrl =
+        perfil.foto_url || null;
 
-           const {
-    error
-} = await supabaseClient
-    .from("profiles")
-    .update({
-
-        nome: nome,
-        usuario: username,
-
-        foto_url:
-            fotoUrlParaSalvar,
-
-        bio:
-            bioInput.value.trim()
-            || null,
-
-        historia_aplv:
-            historiaInput.value.trim()
-            || null,
-
-        instagram:
-            instagramInput.value.trim()
-            || null,
-
-        linkedin:
-            linkedinInput.value.trim()
-            || null,
-
-        site:
-            siteInput.value.trim()
-            || null
-
-    })
-    .eq(
-        "id",
-        usuarioLogado.id
-    );
-
-
-            if (error || !perfil) {
-
-                console.error(
-                    "Erro ao carregar perfil:",
-                    error
-                );
-
-                message.textContent =
-                    "Não foi possível carregar seu perfil.";
-
-                return;
-
-            }
-
-
-            nomeInput.value =
-                perfil.nome || "";
-
-            usuarioInput.value =
-                perfil.usuario || "";
-
-            bioInput.value =
-                perfil.bio || "";
-
-            historiaInput.value =
-                perfil.historia_aplv || "";
-
-            instagramInput.value =
-                perfil.instagram || "";
-
-            linkedinInput.value =
-                perfil.linkedin || "";
-
-            siteInput.value =
-                perfil.site || "";
-            fotoAtualUrl = perfil.foto_url || null;
-
-if (fotoAtualUrl) {
-
-    photoPreviewImage.src = fotoAtualUrl;
-    photoPreviewImage.hidden = false;
-    photoInitial.hidden = true;
-
-} else {
 
     const inicial =
         (perfil.nome || "U")
             .trim()
             .charAt(0)
-            .toUpperCase();
-
-    photoInitial.textContent = inicial;
-    photoInitial.hidden = false;
-    photoPreviewImage.hidden = true;
-}
+            .toUpperCase() || "U";
 
 
-            atualizarContadores();
-
-        }
-
-
-        /* =========================================
-           CONTADORES
-           ========================================= */
-
-        function atualizarContadores() {
-
-            document.getElementById(
-                "bio-counter"
-            ).textContent =
-                bioInput.value.length;
+    photoInitial.textContent =
+        inicial;
 
 
-            document.getElementById(
-                "story-counter"
-            ).textContent =
-                historiaInput.value.length;
+    if (fotoAtualUrl) {
 
-        }
+        photoPreviewImage.onload =
+            function () {
 
+                photoPreviewImage.hidden =
+                    false;
 
-        bioInput.addEventListener(
-            "input",
-            atualizarContadores
-        );
-
-
-        historiaInput.addEventListener(
-            "input",
-            atualizarContadores
-        );
+                photoInitial.hidden =
+                    true;
+            };
 
 
-        /* =========================================
-           SALVAR
-           ========================================= */
+        photoPreviewImage.onerror =
+            function () {
 
-        form.addEventListener(
-            "submit",
-            async function (event) {
+                fotoAtualUrl = null;
 
-                event.preventDefault();
+                photoPreviewImage
+                    .removeAttribute("src");
 
+                photoPreviewImage.hidden =
+                    true;
 
-                if (!usuarioLogado) {
-                    return;
-                }
-
-
-                const nome =
-                    nomeInput.value.trim();
-
-                const username =
-                    usuarioInput.value
-                        .trim()
-                        .toLowerCase();
+                photoInitial.hidden =
+                    false;
+            };
 
 
-                if (!nome || !username) {
+        photoPreviewImage.src =
+            fotoAtualUrl;
 
-                    message.textContent =
-                        "Preencha seu nome e nome de usuário.";
+    } else {
 
-                    return;
+        photoPreviewImage
+            .removeAttribute("src");
 
-                }
+        photoPreviewImage.hidden =
+            true;
 
-
-                /*
-                   Permitimos letras, números,
-                   ponto e underline.
-                */
-
-                const usernameValido =
-                    /^[a-z0-9._]+$/.test(username);
-
-
-                if (!usernameValido) {
-
-                    message.textContent =
-                        "O nome de usuário pode ter apenas letras, números, ponto e underline.";
-
-                    return;
-
-                }
-
-
-                saveButton.disabled = true;
-                saveButton.textContent =
-                    "Salvando...";
-
-                message.textContent = "";
-                /* =========================================
-   UPLOAD DA FOTO
-   ========================================= */
-
-let fotoUrlParaSalvar = fotoAtualUrl;
-
-if (novaFoto) {
-
-    const extensao =
-        novaFoto.name
-            .split(".")
-            .pop()
-            .toLowerCase();
-
-    const caminhoFoto =
-        `${usuarioLogado.id}/avatar.${extensao}`;
-
-
-    const {
-        error: uploadError
-    } = await supabaseClient.storage
-        .from("profile-photos")
-        .upload(
-            caminhoFoto,
-            novaFoto,
-            {
-                upsert: true,
-                contentType: novaFoto.type
-            }
-        );
-
-
-    if (uploadError) {
-
-        console.error(
-            "Erro ao enviar foto:",
-            uploadError
-        );
-
-        message.textContent =
-            "Não foi possível enviar a foto.";
-
-        saveButton.disabled = false;
-
-        saveButton.innerHTML =
-            '<i data-lucide="check"></i> Salvar alterações';
-
-        lucide.createIcons();
-
-        return;
+        photoInitial.hidden =
+            false;
     }
 
 
-    const {
-        data: publicUrlData
-    } = supabaseClient.storage
-        .from("profile-photos")
-        .getPublicUrl(caminhoFoto);
-
-
-    fotoUrlParaSalvar =
-        publicUrlData.publicUrl;
+    atualizarContadores();
 }
 
 
-                const {
-                    error
-                } = await supabaseClient
-                    .from("profiles")
-                    .update({
+/* =========================
+   CONTADORES
+========================= */
 
-                        nome: nome,
-                        usuario: username,
+function atualizarContadores() {
 
-                        bio:
-                            bioInput.value.trim()
-                            || null,
+    document.getElementById(
+        "bio-counter"
+    ).textContent =
+        bioInput.value.length;
 
-                        historia_aplv:
-                            historiaInput.value.trim()
-                            || null,
 
-                        instagram:
-                            instagramInput.value.trim()
-                            || null,
+    document.getElementById(
+        "story-counter"
+    ).textContent =
+        historiaInput.value.length;
+}
 
-                        linkedin:
-                            linkedinInput.value.trim()
-                            || null,
 
-                        site:
-                            siteInput.value.trim()
-                            || null
+bioInput.addEventListener(
+    "input",
+    atualizarContadores
+);
 
-                    })
-                    .eq(
-                        "id",
-                        usuarioLogado.id
+
+historiaInput.addEventListener(
+    "input",
+    atualizarContadores
+);
+
+
+/* =========================
+   SALVAR PERFIL
+========================= */
+
+form.addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+
+        if (!usuarioLogado) {
+            return;
+        }
+
+
+        const nome =
+            nomeInput.value.trim();
+
+
+        const username =
+            usuarioInput.value
+                .trim()
+                .toLowerCase();
+
+
+        if (!nome || !username) {
+
+            message.textContent =
+                "Preencha seu nome e nome de usuário.";
+
+            return;
+        }
+
+
+        const usernameValido =
+            /^[a-z0-9._]+$/.test(
+                username
+            );
+
+
+        if (!usernameValido) {
+
+            message.textContent =
+                "O nome de usuário pode ter apenas letras, números, ponto e underline.";
+
+            return;
+        }
+
+
+        saveButton.disabled = true;
+
+        saveButton.textContent =
+            "Salvando...";
+
+        message.textContent = "";
+
+
+        /* =========================
+           UPLOAD DA FOTO
+        ========================= */
+
+        let fotoUrlParaSalvar =
+            fotoAtualUrl;
+
+
+        if (novaFoto) {
+
+            const caminhoFoto =
+                `${usuarioLogado.id}/avatar`;
+
+
+            const {
+                error: uploadError
+            } =
+                await supabaseClient
+                    .storage
+                    .from(
+                        "profile-photos"
+                    )
+                    .upload(
+                        caminhoFoto,
+                        novaFoto,
+                        {
+                            upsert: true,
+                            contentType:
+                                novaFoto.type,
+                            cacheControl:
+                                "3600"
+                        }
                     );
-.update({
-
-    nome: nome,
-    usuario: username,
-
-    foto_url:
-        fotoUrlParaSalvar,
-
-    bio:
-        bioInput.value.trim()
-        || null,
-
-                if (error) {
-
-                    console.error(
-                        "Erro ao salvar perfil:",
-                        error
-                    );
 
 
-                    /*
-                       Código 23505 normalmente significa
-                       violação de campo UNIQUE.
-                    */
+            if (uploadError) {
 
-                    if (error.code === "23505") {
-
-                        message.textContent =
-                            "Esse nome de usuário já está sendo utilizado.";
-
-                    } else {
-
-                        message.textContent =
-                            "Não foi possível salvar as alterações.";
-
-                    }
-
-
-                    saveButton.disabled = false;
-                    saveButton.innerHTML =
-                        '<i data-lucide="check"></i> Salvar alterações';
-
-                    lucide.createIcons();
-
-                    return;
-
-                }
-
-
-                message.textContent =
-                    "Perfil atualizado com sucesso!";
-
-
-                setTimeout(
-                    function () {
-
-                        window.location.href =
-                            "profile.html";
-
-                    },
-                    700
+                console.error(
+                    "Erro ao enviar foto:",
+                    uploadError
                 );
 
+                message.textContent =
+                    "Não foi possível enviar a foto.";
+
+                saveButton.disabled =
+                    false;
+
+                saveButton.innerHTML =
+                    '<i data-lucide="check"></i> Salvar alterações';
+
+                lucide.createIcons();
+
+                return;
             }
+
+
+            const {
+                data: publicUrlData
+            } =
+                supabaseClient
+                    .storage
+                    .from(
+                        "profile-photos"
+                    )
+                    .getPublicUrl(
+                        caminhoFoto
+                    );
+
+
+            fotoUrlParaSalvar =
+                publicUrlData.publicUrl;
+        }
+
+
+        /* =========================
+           ATUALIZAR BANCO
+        ========================= */
+
+        const {
+            error
+        } =
+            await supabaseClient
+                .from("profiles")
+                .update({
+
+                    nome:
+                        nome,
+
+                    usuario:
+                        username,
+
+                    foto_url:
+                        fotoUrlParaSalvar,
+
+                    bio:
+                        bioInput.value
+                            .trim()
+                        || null,
+
+                    historia_aplv:
+                        historiaInput.value
+                            .trim()
+                        || null,
+
+                    instagram:
+                        instagramInput.value
+                            .trim()
+                        || null,
+
+                    linkedin:
+                        linkedinInput.value
+                            .trim()
+                        || null,
+
+                    site:
+                        siteInput.value
+                            .trim()
+                        || null
+
+                })
+                .eq(
+                    "id",
+                    usuarioLogado.id
+                );
+
+
+        if (error) {
+
+            console.error(
+                "Erro ao salvar perfil:",
+                error
+            );
+
+
+            if (
+                error.code === "23505"
+            ) {
+
+                message.textContent =
+                    "Esse nome de usuário já está sendo utilizado.";
+
+            } else {
+
+                message.textContent =
+                    "Não foi possível salvar as alterações.";
+            }
+
+
+            saveButton.disabled =
+                false;
+
+            saveButton.innerHTML =
+                '<i data-lucide="check"></i> Salvar alterações';
+
+            lucide.createIcons();
+
+            return;
+        }
+
+
+        fotoAtualUrl =
+            fotoUrlParaSalvar;
+
+        novaFoto = null;
+
+
+        message.textContent =
+            "Perfil atualizado com sucesso!";
+
+
+        setTimeout(
+            function () {
+
+                window.location.href =
+                    "profile.html";
+
+            },
+            700
         );
+    }
+);
 
 
-        carregarDadosPerfil();
+/* =========================
+   INICIAR
+========================= */
 
-        lucide.createIcons();
+carregarDadosPerfil();
 
-    </script>
+lucide.createIcons();
+
+</script>
 
 </body>
 
