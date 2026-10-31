@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Editar perfil | LUMA</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+
+<body class="edit-profile-page">
+
+    <!-- BOLAS DO FUNDO -->
+
+    <div class="profile-floating-shapes" aria-hidden="true">
+        <span class="floating-circle circle-1"></span>
+        <span class="floating-circle circle-2"></span>
+        <span class="floating-circle circle-3"></span>
+        <span class="floating-circle circle-4"></span>
+        <span class="floating-circle circle-5"></span>
+        <span class="floating-circle circle-6"></span>
+    </div>
+
+
+    <!-- TOPO -->
+
+    <header class="edit-profile-header">
+
+        <a href="profile.html" class="edit-profile-back">
+            <i data-lucide="arrow-left"></i>
+            <span>Voltar ao perfil</span>
+        </a>
+
+        <a href="inicio.html" class="edit-profile-logo">
+            LUMA
+        </a>
+
+        <div class="edit-profile-header-space"></div>
+
+    </header>
+
+
+    <!-- CONTEÚDO -->
+
+    <main class="edit-profile-container">
+
+        <div class="edit-profile-heading">
+
+            <span>SEU PERFIL</span>
+
+            <h1>Editar perfil</h1>
+
+            <p>
+                Personalize como você aparece na Comunidade LUMA.
+            </p>
+
+        </div>
+
+
+        <form id="profile-form" class="edit-profile-form">
+
+
+            <!-- IDENTIDADE -->
+
+            <section class="edit-profile-card">
+
+                <div class="edit-profile-card-title">
+
+                    <div class="edit-profile-card-icon">
+                        <i data-lucide="user"></i>
+                    </div>
+
+                    <div>
+                        <span>IDENTIDADE</span>
+                        <h2>Informações do perfil</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="edit-profile-fields">
+
+                    <div class="edit-profile-field">
+
+                        <label for="edit-nome">
+                            Nome
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit-nome"
+                            maxlength="80"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="edit-profile-field">
+
+                        <label for="edit-usuario">
+                            Nome de usuário
+                        </label>
+
+                        <div class="username-input">
+
+                            <span>@</span>
+
+                            <input
+                                type="text"
+                                id="edit-usuario"
+                                maxlength="30"
+                                autocomplete="username"
+                                required
+                            >
+
+                        </div>
+
+                        <small>
+                            Use apenas letras, números, ponto e underline.
+                        </small>
+
+                    </div>
+
+
+                    <div class="edit-profile-field">
+
+                        <label for="edit-bio">
+                            Bio
+                            <span>Opcional</span>
+                        </label>
+
+                        <textarea
+                            id="edit-bio"
+                            maxlength="250"
+                            placeholder="Conte um pouco sobre você..."
+                        ></textarea>
+
+                        <div class="edit-profile-counter">
+                            <span id="bio-counter">0</span> / 250
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- HISTÓRIA -->
+
+            <section class="edit-profile-card">
+
+                <div class="edit-profile-card-title">
+
+                    <div class="edit-profile-card-icon story">
+                        <i data-lucide="book-open"></i>
+                    </div>
+
+                    <div>
+                        <span>SUA HISTÓRIA</span>
+                        <h2>Minha história com a APLV</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="edit-profile-field">
+
+                    <label for="edit-historia">
+                        História
+                        <span>Opcional</span>
+                    </label>
+
+                    <textarea
+                        id="edit-historia"
+                        class="story-textarea"
+                        maxlength="1500"
+                        placeholder="Se quiser, compartilhe sua experiência com a APLV..."
+                    ></textarea>
+
+                    <div class="edit-profile-counter">
+                        <span id="story-counter">0</span> / 1500
+                    </div>
+
+                    <small class="edit-profile-privacy">
+                        Você escolhe se deseja compartilhar esta informação.
+                        Não inclua dados pessoais ou médicos que prefira manter privados.
+                    </small>
+
+                </div>
+
+            </section>
+
+
+            <!-- LINKS -->
+
+            <section class="edit-profile-card">
+
+                <div class="edit-profile-card-title">
+
+                    <div class="edit-profile-card-icon links">
+                        <i data-lucide="link"></i>
+                    </div>
+
+                    <div>
+                        <span>LINKS</span>
+                        <h2>Redes e site</h2>
+                    </div>
+
+                </div>
+
+
+                <div class="edit-profile-fields">
+
+                    <div class="edit-profile-field">
+
+                        <label for="edit-instagram">
+                            Instagram
+                            <span>Opcional</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit-instagram"
+                            placeholder="instagram.com/seuusuario"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-profile-field">
+
+                        <label for="edit-linkedin">
+                            LinkedIn
+                            <span>Opcional</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit-linkedin"
+                            placeholder="linkedin.com/in/seuperfil"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-profile-field">
+
+                        <label for="edit-site">
+                            Site ou portfólio
+                            <span>Opcional</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="edit-site"
+                            placeholder="seusite.com"
+                        >
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- AÇÕES -->
+
+            <div class="edit-profile-actions">
+
+                <a href="profile.html" class="edit-profile-cancel">
+                    Cancelar
+                </a>
+
+                <button
+                    type="submit"
+                    class="edit-profile-save"
+                    id="save-profile"
+                >
+                    <i data-lucide="check"></i>
+                    Salvar alterações
+                </button>
+
+            </div>
+
+
+            <p
+                class="edit-profile-message"
+                id="profile-message"
+                aria-live="polite"
+            ></p>
+
+        </form>
+
+    </main>
+
+
+    <script>
+
+        /* =========================================
+           SUPABASE
+           ========================================= */
+
+        const SUPABASE_URL =
+            "https://hyavqrkzcgubtbvkqiev.supabase.co";
+
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1";
+
+
+        const supabaseClient =
+            supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY
+            );
+
+
+        /* ELEMENTOS */
+
+        const form =
+            document.getElementById("profile-form");
+
+        const nomeInput =
+            document.getElementById("edit-nome");
+
+        const usuarioInput =
+            document.getElementById("edit-usuario");
+
+        const bioInput =
+            document.getElementById("edit-bio");
+
+        const historiaInput =
+            document.getElementById("edit-historia");
+
+        const instagramInput =
+            document.getElementById("edit-instagram");
+
+        const linkedinInput =
+            document.getElementById("edit-linkedin");
+
+        const siteInput =
+            document.getElementById("edit-site");
+
+        const saveButton =
+            document.getElementById("save-profile");
+
+        const message =
+            document.getElementById("profile-message");
+
+
+        let usuarioLogado = null;
+
+
+        /* =========================================
+           CARREGAR DADOS
+           ========================================= */
+
+        async function carregarDadosPerfil() {
+
+            const {
+                data: { user },
+                error: userError
+            } = await supabaseClient.auth.getUser();
+
+
+            if (userError || !user) {
+
+                window.location.href = "login.html";
+                return;
+
+            }
+
+
+            usuarioLogado = user;
+
+
+            const {
+                data: perfil,
+                error
+            } = await supabaseClient
+                .from("profiles")
+                .select(`
+                    nome,
+                    usuario,
+                    bio,
+                    historia_aplv,
+                    instagram,
+                    linkedin,
+                    site
+                `)
+                .eq("id", user.id)
+                .single();
+
+
+            if (error || !perfil) {
+
+                console.error(
+                    "Erro ao carregar perfil:",
+                    error
+                );
+
+                message.textContent =
+                    "Não foi possível carregar seu perfil.";
+
+                return;
+
+            }
+
+
+            nomeInput.value =
+                perfil.nome || "";
+
+            usuarioInput.value =
+                perfil.usuario || "";
+
+            bioInput.value =
+                perfil.bio || "";
+
+            historiaInput.value =
+                perfil.historia_aplv || "";
+
+            instagramInput.value =
+                perfil.instagram || "";
+
+            linkedinInput.value =
+                perfil.linkedin || "";
+
+            siteInput.value =
+                perfil.site || "";
+
+
+            atualizarContadores();
+
+        }
+
+
+        /* =========================================
+           CONTADORES
+           ========================================= */
+
+        function atualizarContadores() {
+
+            document.getElementById(
+                "bio-counter"
+            ).textContent =
+                bioInput.value.length;
+
+
+            document.getElementById(
+                "story-counter"
+            ).textContent =
+                historiaInput.value.length;
+
+        }
+
+
+        bioInput.addEventListener(
+            "input",
+            atualizarContadores
+        );
+
+
+        historiaInput.addEventListener(
+            "input",
+            atualizarContadores
+        );
+
+
+        /* =========================================
+           SALVAR
+           ========================================= */
+
+        form.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                if (!usuarioLogado) {
+                    return;
+                }
+
+
+                const nome =
+                    nomeInput.value.trim();
+
+                const username =
+                    usuarioInput.value
+                        .trim()
+                        .toLowerCase();
+
+
+                if (!nome || !username) {
+
+                    message.textContent =
+                        "Preencha seu nome e nome de usuário.";
+
+                    return;
+
+                }
+
+
+                /*
+                   Permitimos letras, números,
+                   ponto e underline.
+                */
+
+                const usernameValido =
+                    /^[a-z0-9._]+$/.test(username);
+
+
+                if (!usernameValido) {
+
+                    message.textContent =
+                        "O nome de usuário pode ter apenas letras, números, ponto e underline.";
+
+                    return;
+
+                }
+
+
+                saveButton.disabled = true;
+                saveButton.textContent =
+                    "Salvando...";
+
+                message.textContent = "";
+
+
+                const {
+                    error
+                } = await supabaseClient
+                    .from("profiles")
+                    .update({
+
+                        nome: nome,
+                        usuario: username,
+
+                        bio:
+                            bioInput.value.trim()
+                            || null,
+
+                        historia_aplv:
+                            historiaInput.value.trim()
+                            || null,
+
+                        instagram:
+                            instagramInput.value.trim()
+                            || null,
+
+                        linkedin:
+                            linkedinInput.value.trim()
+                            || null,
+
+                        site:
+                            siteInput.value.trim()
+                            || null
+
+                    })
+                    .eq(
+                        "id",
+                        usuarioLogado.id
+                    );
+
+
+                if (error) {
+
+                    console.error(
+                        "Erro ao salvar perfil:",
+                        error
+                    );
+
+
+                    /*
+                       Código 23505 normalmente significa
+                       violação de campo UNIQUE.
+                    */
+
+                    if (error.code === "23505") {
+
+                        message.textContent =
+                            "Esse nome de usuário já está sendo utilizado.";
+
+                    } else {
+
+                        message.textContent =
+                            "Não foi possível salvar as alterações.";
+
+                    }
+
+
+                    saveButton.disabled = false;
+                    saveButton.innerHTML =
+                        '<i data-lucide="check"></i> Salvar alterações';
+
+                    lucide.createIcons();
+
+                    return;
+
+                }
+
+
+                message.textContent =
+                    "Perfil atualizado com sucesso!";
+
+
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "profile.html";
+
+                    },
+                    700
+                );
+
+            }
+        );
+
+
+        carregarDadosPerfil();
+
+        lucide.createIcons();
+
+    </script>
+
+</body>
+
+</html>
