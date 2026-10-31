@@ -412,6 +412,63 @@
 
         const message =
             document.getElementById("profile-message");
+        const photoInput =
+    document.getElementById("profile-photo-input");
+
+const photoPreviewImage =
+    document.getElementById("photo-preview-image");
+
+const photoInitial =
+    document.getElementById("photo-initial");
+
+let novaFoto = null;
+let fotoAtualUrl = null;
+        photoInput.addEventListener("change", function () {
+
+    const file = photoInput.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const tiposPermitidos = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    if (!tiposPermitidos.includes(file.type)) {
+
+        message.textContent =
+            "Escolha uma imagem JPG, PNG ou WebP.";
+
+        photoInput.value = "";
+        return;
+    }
+
+    const limite = 5 * 1024 * 1024;
+
+    if (file.size > limite) {
+
+        message.textContent =
+            "A foto deve ter no máximo 5 MB.";
+
+        photoInput.value = "";
+        return;
+    }
+
+    novaFoto = file;
+
+    const previewUrl =
+        URL.createObjectURL(file);
+
+    photoPreviewImage.src = previewUrl;
+    photoPreviewImage.hidden = false;
+    photoInitial.hidden = true;
+
+    message.textContent = "";
+
+});
 
 
         let usuarioLogado = null;
