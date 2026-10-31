@@ -480,40 +480,43 @@ let fotoAtualUrl = null;
 
         async function carregarDadosPerfil() {
 
-            const {
-                data: { user },
-                error: userError
-            } = await supabaseClient.auth.getUser();
+           const {
+    error
+} = await supabaseClient
+    .from("profiles")
+    .update({
 
+        nome: nome,
+        usuario: username,
 
-            if (userError || !user) {
+        foto_url:
+            fotoUrlParaSalvar,
 
-                window.location.href = "login.html";
-                return;
+        bio:
+            bioInput.value.trim()
+            || null,
 
-            }
+        historia_aplv:
+            historiaInput.value.trim()
+            || null,
 
+        instagram:
+            instagramInput.value.trim()
+            || null,
 
-            usuarioLogado = user;
+        linkedin:
+            linkedinInput.value.trim()
+            || null,
 
+        site:
+            siteInput.value.trim()
+            || null
 
-            const {
-                data: perfil,
-                error
-            } = await supabaseClient
-                .from("profiles")
-                .select(`
-                    nome,
-                    usuario,
-                    bio,
-                    historia_aplv,
-                    instagram,
-                    linkedin,
-                    site,
-                    foto_url
-                `)
-                .eq("id", user.id)
-                .single();
+    })
+    .eq(
+        "id",
+        usuarioLogado.id
+    );
 
 
             if (error || !perfil) {
