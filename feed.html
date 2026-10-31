@@ -518,7 +518,46 @@
 
         const usuario = session.user;
         usuarioAtual = usuario;
+/* =====================================================
+   GARANTE QUE O USUÁRIO TENHA UM PERFIL
+   ===================================================== */
 
+const { data: perfilExistente, error: erroPerfil } =
+    await supabaseClient
+        .from("profiles")
+        .select("id")
+        .eq("id", usuario.id)
+        .maybeSingle();
+
+if (erroPerfil) {
+    console.error(
+        "Erro ao verificar perfil:",
+        erroPerfil
+    );
+}
+
+if (!perfilExistente && !erroPerfil) {
+
+    const { error: erroCriacaoPerfil } =
+        await supabaseClient
+            .from("profiles")
+            .insert({
+                id: usuario.id,
+                nome: usuario.user_metadata?.nome || null,
+                usuario: usuario.user_metadata?.usuario || null
+            });
+
+    if (erroCriacaoPerfil) {
+        console.error(
+            "Erro ao criar perfil:",
+            erroCriacaoPerfil
+        );
+    } else {
+        console.log(
+            "Perfil criado com sucesso!"
+        );
+    }
+}
 
         /* Recupera o nome salvo no cadastro */
 
