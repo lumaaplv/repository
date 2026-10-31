@@ -5748,3 +5748,77 @@ footer .logo img {
     }
 
 }
+/* =========================================
+   BOTÕES DO HERO - HOME LUMA
+   ========================================= */
+
+.hero-botoes {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: 12px;
+    margin-top: 28px;
+}
+
+/* ENTENDA A APLV */
+
+.botao-aplv {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 22px;
+    border-radius: 12px;
+
+    background-color: #173f56;
+    color: #ffffff;
+
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.botao-aplv:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(23, 63, 86, 0.18);
+}
+
+/* ENTRE NA COMUNIDADE */
+
+.botao-comunidade {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 14px 22px;
+    border-radius: 12px;
+
+    background-color: #f4dce2;
+    color: #173f56;
+
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.botao-comunidade:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(244, 220, 226, 0.5);
+}
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+    .hero-botoes {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .hero-botoes a {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+        justify-content: center;
+    }
+}
