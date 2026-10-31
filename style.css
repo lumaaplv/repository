@@ -7067,3 +7067,115 @@ footer .logo img {
         text-align: center;
     }
 }
+/* =========================================
+   EDITAR PERFIL — FOTO
+   ========================================= */
+
+.edit-photo-area {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.edit-photo-preview {
+    width: 105px;
+    height: 105px;
+    flex-shrink: 0;
+
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #8ed8f8;
+    color: #071c26;
+
+    font-size: 34px;
+    font-weight: 800;
+
+    border: 3px solid rgba(255, 255, 255, 0.08);
+}
+
+.edit-photo-preview img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: cover;
+}
+
+.edit-photo-options {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+}
+
+.edit-photo-button {
+    min-height: 42px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 0 16px;
+
+    border-radius: 11px;
+
+    background: rgba(142, 216, 248, 0.12);
+    border: 1px solid rgba(142, 216, 248, 0.22);
+
+    color: #8ed8f8;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.edit-photo-button:hover {
+    background: rgba(142, 216, 248, 0.18);
+    transform: translateY(-1px);
+}
+
+.edit-photo-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+.edit-photo-options p {
+    max-width: 400px;
+
+    margin: 0;
+
+    color: #738992;
+
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 650px) {
+
+    .edit-photo-area {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .edit-photo-preview {
+        width: 90px;
+        height: 90px;
+
+        font-size: 30px;
+    }
+}
