@@ -6297,3 +6297,228 @@ footer .logo img {
         flex-shrink: 0;
     }
 }
+/* =========================================
+   BOLAS FLUTUANTES - PROFILE LUMA
+   ========================================= */
+
+.profile-page {
+    position: relative;
+    overflow-x: hidden;
+    background: #071c26;
+}
+
+/* CAMADA DO FUNDO */
+
+.profile-floating-shapes {
+    position: fixed;
+    inset: 0;
+
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* CONFIGURAÇÃO GERAL DAS BOLAS */
+
+.floating-circle {
+    position: absolute;
+    display: block;
+
+    border-radius: 50%;
+
+    /* Foscas: sem brilho */
+    box-shadow: none;
+    filter: none;
+
+    animation: lumaFloat 22s ease-in-out infinite alternate;
+}
+
+
+/* BOLA 1 - AMARELA */
+
+.circle-1 {
+    width: 190px;
+    height: 190px;
+
+    top: -70px;
+    left: -80px;
+
+    background: rgba(255, 231, 163, 0.24);
+
+    animation-duration: 22s;
+}
+
+
+/* BOLA 2 - BRANCA */
+
+.circle-2 {
+    width: 220px;
+    height: 220px;
+
+    top: 8%;
+    right: -110px;
+
+    background: rgba(247, 242, 232, 0.15);
+
+    animation-duration: 27s;
+    animation-delay: -6s;
+}
+
+
+/* BOLA 3 - AMARELA */
+
+.circle-3 {
+    width: 145px;
+    height: 145px;
+
+    top: 35%;
+    right: -65px;
+
+    background: rgba(255, 231, 163, 0.20);
+
+    animation-duration: 24s;
+    animation-delay: -10s;
+}
+
+
+/* BOLA 4 - BRANCA */
+
+.circle-4 {
+    width: 170px;
+    height: 170px;
+
+    top: 52%;
+    left: -85px;
+
+    background: rgba(247, 242, 232, 0.12);
+
+    animation-duration: 29s;
+    animation-delay: -4s;
+}
+
+
+/* BOLA 5 - AMARELA */
+
+.circle-5 {
+    width: 210px;
+    height: 210px;
+
+    bottom: -80px;
+    left: -90px;
+
+    background: rgba(255, 231, 163, 0.18);
+
+    animation-duration: 26s;
+    animation-delay: -13s;
+}
+
+
+/* BOLA 6 - BRANCA */
+
+.circle-6 {
+    width: 180px;
+    height: 180px;
+
+    bottom: 10%;
+    right: -90px;
+
+    background: rgba(247, 242, 232, 0.13);
+
+    animation-duration: 25s;
+    animation-delay: -8s;
+}
+
+
+/* =========================================
+   MOVIMENTO SUAVE
+   ========================================= */
+
+@keyframes lumaFloat {
+
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform: translate3d(22px, -28px, 0);
+    }
+
+    100% {
+        transform: translate3d(-16px, 22px, 0);
+    }
+}
+
+
+/* CONTEÚDO SEMPRE ACIMA DAS BOLAS */
+
+.profile-header,
+.profile-container {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* =========================================
+   CELULAR
+   ========================================= */
+
+@media (max-width: 650px) {
+
+    .circle-1 {
+        width: 125px;
+        height: 125px;
+
+        top: -45px;
+        left: -60px;
+    }
+
+    .circle-2 {
+        width: 145px;
+        height: 145px;
+
+        top: 13%;
+        right: -80px;
+    }
+
+    .circle-3 {
+        width: 105px;
+        height: 105px;
+
+        top: 37%;
+        right: -55px;
+    }
+
+    .circle-4 {
+        width: 120px;
+        height: 120px;
+
+        top: 58%;
+        left: -70px;
+    }
+
+    .circle-5 {
+        width: 140px;
+        height: 140px;
+
+        bottom: 2%;
+        left: -75px;
+    }
+
+    /* Menos elementos na tela pequena */
+
+    .circle-6 {
+        display: none;
+    }
+}
+
+
+/* ACESSIBILIDADE:
+   remove animação se o usuário preferir
+   menos movimento */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .floating-circle {
+        animation: none;
+    }
+}
