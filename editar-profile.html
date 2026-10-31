@@ -68,6 +68,60 @@
 
 
         <form id="profile-form" class="edit-profile-form">
+            <!-- FOTO DE PERFIL -->
+
+<section class="edit-profile-card edit-photo-card">
+
+    <div class="edit-profile-card-title">
+
+        <div class="edit-profile-card-icon">
+            <i data-lucide="camera"></i>
+        </div>
+
+        <div>
+            <span>FOTO</span>
+            <h2>Foto de perfil</h2>
+        </div>
+
+    </div>
+
+    <div class="edit-photo-area">
+
+        <div class="edit-photo-preview" id="photo-preview">
+            <span id="photo-initial">M</span>
+            <img
+                id="photo-preview-image"
+                alt="Prévia da foto de perfil"
+                hidden
+            >
+        </div>
+
+        <div class="edit-photo-options">
+
+            <label
+                for="profile-photo-input"
+                class="edit-photo-button"
+            >
+                <i data-lucide="upload"></i>
+                Escolher foto
+            </label>
+
+            <input
+                type="file"
+                id="profile-photo-input"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+            >
+
+            <p>
+                JPG, PNG ou WebP. Escolha uma imagem que você se sinta confortável em tornar pública.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
 
 
             <!-- IDENTIDADE -->
