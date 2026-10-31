@@ -490,96 +490,223 @@
     );
 
 
-    async function carregarUsuario() {
+   async function carregarUsuario() {
+
+    const {
+        data: { session },
+        error
+    } = await supabaseClient.auth.getSession();
+
+
+    if (error) {
+
+        console.error(
+            "Erro ao verificar sessão:",
+            error
+        );
+
+        return;
+    }
+
+
+    if (!session) {
+
+        window.location.href =
+            "login.html";
+
+        return;
+    }
+
+
+    const usuario = session.user;
+
+    usuarioAtual = usuario;
+
+
+    /* =========================================
+       BUSCAR PERFIL ATUALIZADO
+       ========================================= */
+
+    let {
+        data: perfil,
+        error: erroPerfil
+    } = await supabaseClient
+        .from("profiles")
+        .select(`
+            id,
+            nome,
+            usuario,
+            foto_url
+        `)
+        .eq("id", usuario.id)
+        .maybeSingle();
+
+
+    if (erroPerfil) {
+
+        console.error(
+            "Erro ao carregar perfil:",
+            erroPerfil
+        );
+
+        return;
+    }
+
+
+    /* =========================================
+       CRIAR PERFIL SE AINDA NÃO EXISTIR
+       ========================================= */
+
+    if (!perfil) {
 
         const {
-            data: { session },
-            error
-        } = await supabaseClient.auth.getSession();
+            data: perfilCriado,
+            error: erroCriacao
+        } = await supabaseClient
+            .from("profiles")
+            .insert({
+
+                id: usuario.id,
+
+                nome:
+                    usuario.user_metadata?.nome
+                    || null,
+
+                usuario:
+                    usuario.user_metadata?.usuario
+                    || null
+
+            })
+            .select(`
+                id,
+                nome,
+                usuario,
+                foto_url
+            `)
+            .single();
 
 
-        if (error) {
+        if (erroCriacao) {
+
             console.error(
-                "Erro ao verificar sessão:",
-                error
+                "Erro ao criar perfil:",
+                erroCriacao
             );
 
             return;
         }
 
 
-        /* Se não houver usuário logado,
-           volta para a página de login */
+        perfil = perfilCriado;
+    }
 
-        if (!session) {
-            window.location.href = "login.html";
-            return;
+
+    /* =========================================
+       NOME ATUALIZADO
+       ========================================= */
+
+    const nome =
+        perfil.nome || "usuário";
+
+
+    document
+        .getElementById("nome-usuario")
+        .textContent = nome;
+
+
+    document
+        .getElementById("nome-publicacao")
+        .textContent = nome;
+
+
+    /* =========================================
+       AVATARES
+       ========================================= */
+
+    const inicial =
+        nome
+            .trim()
+            .charAt(0)
+            .toUpperCase()
+        || "U";
+
+
+    const avatares = [
+        document.getElementById(
+            "header-profile-avatar"
+        ),
+
+        document.getElementById(
+            "create-post-avatar"
+        ),
+
+        document.getElementById(
+            "modal-profile-avatar"
+        )
+    ];
+
+
+    avatares.forEach(
+        function (avatar) {
+
+            if (!avatar) {
+                return;
+            }
+
+
+            avatar.innerHTML = "";
+
+
+            if (perfil.foto_url) {
+
+                const imagem =
+                    document.createElement("img");
+
+
+                imagem.src =
+                    perfil.foto_url;
+
+
+                imagem.alt =
+                    `Foto de ${nome}`;
+
+
+                imagem.style.width =
+                    "100%";
+
+                imagem.style.height =
+                    "100%";
+
+                imagem.style.objectFit =
+                    "cover";
+
+                imagem.style.borderRadius =
+                    "50%";
+
+
+                imagem.onerror =
+                    function () {
+
+                        avatar.innerHTML = "";
+
+                        avatar.textContent =
+                            inicial;
+                    };
+
+
+                avatar.appendChild(
+                    imagem
+                );
+
+
+            } else {
+
+                avatar.textContent =
+                    inicial;
+            }
         }
-
-
-        const usuario = session.user;
-        usuarioAtual = usuario;
-/* =====================================================
-   GARANTE QUE O USUÁRIO TENHA UM PERFIL
-   ===================================================== */
-
-const { data: perfilExistente, error: erroPerfil } =
-    await supabaseClient
-        .from("profiles")
-        .select("id")
-        .eq("id", usuario.id)
-        .maybeSingle();
-
-if (erroPerfil) {
-    console.error(
-        "Erro ao verificar perfil:",
-        erroPerfil
     );
 }
-
-if (!perfilExistente && !erroPerfil) {
-
-    const { error: erroCriacaoPerfil } =
-        await supabaseClient
-            .from("profiles")
-            .insert({
-                id: usuario.id,
-                nome: usuario.user_metadata?.nome || null,
-                usuario: usuario.user_metadata?.usuario || null
-            });
-
-    if (erroCriacaoPerfil) {
-        console.error(
-            "Erro ao criar perfil:",
-            erroCriacaoPerfil
-        );
-    } else {
-        console.log(
-            "Perfil criado com sucesso!"
-        );
-    }
-}
-
-        /* Recupera o nome salvo no cadastro */
-
-        const nome =
-            usuario.user_metadata?.nome || "usuário";
-
-
-        /* Coloca o nome no feed */
-
-        document
-            .getElementById("nome-usuario")
-            .textContent = nome;
-
-
-        console.log(
-            "Usuário conectado:",
-            usuario
-        );
-    }
-
-
     carregarUsuario();
 /* =====================================================
    MODAL DE PUBLICAÇÃO
