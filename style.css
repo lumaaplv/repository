@@ -7179,3 +7179,14 @@ footer .logo img {
         font-size: 30px;
     }
 }
+/* Corrige a exibição da foto de perfil */
+#photo-preview-image[hidden] {
+    display: none !important;
+}
+
+#photo-preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
