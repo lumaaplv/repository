@@ -980,7 +980,37 @@ async function carregarPosts() {
             .order("created_at", {
                 ascending: false
             });
+const idsAutores = [
+    ...new Set(
+        (posts || []).map(
+            post => post.user_id
+        )
+    )
+];
 
+
+const { data: perfisAutores, error: erroPerfisAutores } =
+    await supabaseClient
+        .from("profiles")
+        .select("id, nome, usuario, foto_url")
+        .in("id", idsAutores);
+
+
+if (erroPerfisAutores) {
+    console.error(
+        "Erro ao carregar autores dos posts:",
+        erroPerfisAutores
+    );
+}
+
+
+const perfisPorId = {};
+
+(perfisAutores || []).forEach(
+    function (perfil) {
+        perfisPorId[perfil.id] = perfil;
+    }
+);
 
     if (error) {
 
