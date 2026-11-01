@@ -1152,6 +1152,31 @@ async function carregarPosts() {
             card
                 .querySelector(".community-post-text")
                 .textContent = post.conteudo;
+            const botaoComentar =
+    card.querySelector(".post-comment-button");
+
+const areaComentarios =
+    card.querySelector(".post-comments");
+
+const campoComentario =
+    card.querySelector(".comment-input");
+
+
+botaoComentar.addEventListener(
+    "click",
+    function () {
+
+        const estaEscondido =
+            areaComentarios.hidden;
+
+        areaComentarios.hidden =
+            !estaEscondido;
+
+        if (estaEscondido) {
+            campoComentario.focus();
+        }
+    }
+);
 const botaoMenu =
     card.querySelector(".post-menu-button");
 
