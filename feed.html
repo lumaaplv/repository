@@ -1058,7 +1058,21 @@ const perfisPorId = {};
 
     posts.forEach(
         function (post) {
+const autor =
+    perfisPorId[post.user_id];
 
+const nomeAutor =
+    autor?.nome || "Usuário";
+
+const inicialAutor =
+    nomeAutor
+        .trim()
+        .charAt(0)
+        .toUpperCase()
+    || "U";
+
+const fotoAutor =
+    autor?.foto_url || null;
             const card =
                 document.createElement("article");
 
