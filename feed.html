@@ -1108,21 +1108,34 @@ const fotoAutor =
             card.innerHTML = `
                 <div class="community-post-header">
 
-                    <div class="profile-placeholder">
-                        M
-                    </div>
+                    <div class="profile-placeholder post-author-avatar">
+    ${
+        fotoAutor
+            ? `<img
+                src="${fotoAutor}"
+                alt="Foto de ${nomeAutor}"
+                style="
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                "
+            >`
+            : inicialAutor
+    }
+</div>
 
-                    <div class="community-post-author">
+<div class="community-post-author">
 
-                        <strong>
-                            Comunidade LUMA
-                        </strong>
+    <strong>
+        ${nomeAutor}
+    </strong>
 
-                        <span>
-                            ${dataPost}
-                        </span>
+    <span>
+        ${dataPost}
+    </span>
 
-                    </div>
+</div>
 
                     <span class="post-category-tag ${post.categoria}">
                         ${nomeCategoria}
