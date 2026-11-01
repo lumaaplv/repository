@@ -1217,7 +1217,70 @@ const areaComentarios =
 
 const campoComentario =
     card.querySelector(".comment-input");
+const botaoEnviarComentario =
+    card.querySelector(".comment-submit-button");
 
+
+botaoEnviarComentario.addEventListener(
+    "click",
+    async function () {
+
+        const conteudo =
+            campoComentario.value.trim();
+
+        if (!conteudo) {
+            return;
+        }
+
+
+        if (!usuarioAtual) {
+
+            alert(
+                "Não foi possível identificar sua conta."
+            );
+
+            return;
+        }
+
+
+        botaoEnviarComentario.disabled = true;
+
+
+        const { error } =
+            await supabaseClient
+                .from("comments")
+                .insert({
+                    post_id: post.id,
+                    user_id: usuarioAtual.id,
+                    conteudo: conteudo,
+                    parent_id: null
+                });
+
+
+        if (error) {
+
+            console.error(
+                "Erro ao publicar comentário:",
+                error
+            );
+
+            alert(
+                "Não foi possível publicar o comentário."
+            );
+
+            botaoEnviarComentario.disabled = false;
+
+            return;
+        }
+
+
+        campoComentario.value = "";
+
+        botaoEnviarComentario.disabled = false;
+
+        alert("Comentário publicado!");
+    }
+);
 
 botaoComentar.addEventListener(
     "click",
