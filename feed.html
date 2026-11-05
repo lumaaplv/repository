@@ -1,363 +1,417 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Comunidade | LUMA</title>
 
     <link rel="stylesheet" href="style.css">
 
-    <!-- Ícones minimalistas -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        .post-options-menu[hidden],
+        .post-comments[hidden] {
+            display: none !important;
+        }
+
+        .post-options-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 8px;
+            background: #102e3c;
+            border: 1px solid rgba(180,220,235,.2);
+            border-radius: 12px;
+            margin-top: 8px;
+            width: max-content;
+            min-width: 175px;
+        }
+
+        .post-options-menu button {
+            background: transparent;
+            border: none;
+            color: #e8f4f8;
+            text-align: left;
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 13px;
+        }
+
+        .post-options-menu button:hover {
+            background: rgba(180,220,235,.12);
+        }
+
+        .post-options-menu .delete-option {
+            color: #f5a9a9;
+        }
+
+        .post-edit-area {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 14px 0;
+        }
+
+        .post-edit-area textarea {
+            width: 100%;
+            min-height: 100px;
+            box-sizing: border-box;
+            background: #102e3c;
+            border: 1px solid #507b8b;
+            border-radius: 12px;
+            color: #f1f7f9;
+            padding: 12px;
+            font: inherit;
+            resize: vertical;
+        }
+
+        .post-edit-area select {
+            background: #102e3c;
+            border: 1px solid #507b8b;
+            border-radius: 10px;
+            padding: 10px;
+            color: #f1f7f9;
+        }
+
+        .post-edit-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .post-edit-actions button {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .post-edit-save {
+            background: #a1ddf1;
+            color: #092735;
+        }
+
+        .post-edit-cancel {
+            background: #244452;
+            color: white;
+        }
+
+        .post-author-avatar img,
+        .comment-author-avatar img,
+        .comment-current-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 
 <body class="feed-page">
 
-    <div class="community-layout">
+<div class="community-layout">
 
-        <!-- SIDEBAR -->
-        <aside class="community-sidebar">
+    <!-- SIDEBAR -->
 
-            <a href="inicio.html" class="community-logo">
-                LUMA
+    <aside class="community-sidebar">
+
+        <a href="inicio.html" class="community-logo">
+            LUMA
+        </a>
+
+        <nav class="community-menu">
+
+            <a href="feed.html" class="community-menu-item active">
+                <i data-lucide="home"></i>
+                <span>Feed</span>
             </a>
 
-            <nav class="community-menu">
+            <button class="community-menu-item">
+                <i data-lucide="search"></i>
+                <span>Explorar</span>
+            </button>
 
-                <a href="feed.html" class="community-menu-item active">
-                    <i data-lucide="home"></i>
-                    <span>Feed</span>
+            <button class="community-menu-item">
+                <i data-lucide="bookmark"></i>
+                <span>Salvos</span>
+            </button>
+
+            <button class="community-menu-item">
+                <i data-lucide="bell"></i>
+                <span>Notificações</span>
+            </button>
+
+            <a href="profile.html" class="community-menu-item">
+                <i data-lucide="user"></i>
+                <span>Perfil</span>
+            </a>
+
+        </nav>
+
+        <div class="community-spaces">
+
+            <p class="sidebar-title">ESPAÇOS</p>
+
+            <button class="space-link">
+                <span class="space-icon food">
+                    <i data-lucide="utensils"></i>
+                </span>
+                Alimentação
+            </button>
+
+            <button class="space-link">
+                <span class="space-icon families">
+                    <i data-lucide="users"></i>
+                </span>
+                Famílias
+            </button>
+
+            <button class="space-link">
+                <span class="space-icon science">
+                    <i data-lucide="flask-conical"></i>
+                </span>
+                Ciência
+            </button>
+
+            <button class="space-link">
+                <span class="space-icon stories">
+                    <i data-lucide="book-open"></i>
+                </span>
+                Histórias
+            </button>
+
+        </div>
+
+        <div class="community-slogan">
+            CIÊNCIA,<br>
+            INFORMAÇÃO<br>
+            E ACOLHIMENTO.
+        </div>
+
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+
+    <main class="community-main">
+
+        <header class="community-header">
+
+            <div class="community-search">
+                <i data-lucide="search"></i>
+                <input
+                    type="search"
+                    placeholder="Buscar na comunidade..."
+                >
+            </div>
+
+            <div class="community-header-actions">
+
+                <button
+                    class="header-icon-button"
+                    aria-label="Notificações"
+                >
+                    <i data-lucide="bell"></i>
+                </button>
+
+                <a
+                    href="profile.html"
+                    class="header-profile"
+                    aria-label="Abrir meu perfil"
+                >
+                    <div
+                        class="profile-placeholder"
+                        id="header-profile-avatar"
+                    >
+                        <i data-lucide="user"></i>
+                    </div>
                 </a>
 
-                <button class="community-menu-item">
-                    <i data-lucide="search"></i>
-                    <span>Explorar</span>
-                </button>
+            </div>
 
-                <button class="community-menu-item">
-                    <i data-lucide="bookmark"></i>
-                    <span>Salvos</span>
-                </button>
+        </header>
 
-                <button class="community-menu-item">
-                    <i data-lucide="bell"></i>
-                    <span>Notificações</span>
-                </button>
+        <section class="feed-content">
 
-              <a href="profile.html" class="community-menu-item">
-    <i data-lucide="user"></i>
-    <span>Perfil</span>
-</a>
+            <div class="feed-welcome">
 
-            </nav>
+                <h1>
+                    Olá, <span id="nome-usuario">usuário</span>
+                </h1>
 
-
-            <!-- ESPAÇOS -->
-
-            <div class="community-spaces">
-
-                <p class="sidebar-title">
-                    ESPAÇOS
+                <p>
+                    Que bom ter você na Comunidade LUMA.
                 </p>
 
-                <button class="space-link">
-                    <span class="space-icon food">
-                        <i data-lucide="utensils"></i>
-                    </span>
-
-                    Alimentação
-                </button>
-
-                <button class="space-link">
-                    <span class="space-icon families">
-                        <i data-lucide="users"></i>
-                    </span>
-
-                    Famílias
-                </button>
-
-                <button class="space-link">
-                    <span class="space-icon science">
-                        <i data-lucide="flask-conical"></i>
-                    </span>
-
-                    Ciência
-                </button>
-
-                <button class="space-link">
-                    <span class="space-icon stories">
-                        <i data-lucide="book-open"></i>
-                    </span>
-
-                    Histórias
-                </button>
-
             </div>
 
+            <!-- CRIAR PUBLICAÇÃO -->
 
-            <div class="community-slogan">
-                CIÊNCIA,<br>
-                INFORMAÇÃO<br>
-                E ACOLHIMENTO.
-            </div>
+            <div class="create-post-card">
 
-        </aside>
+                <div class="create-post-top">
 
-
-        <!-- CONTEÚDO PRINCIPAL -->
-
-        <main class="community-main">
-
-            <!-- TOPO -->
-
-            <header class="community-header">
-
-                <div class="community-search">
-
-                    <i data-lucide="search"></i>
-
-                    <input
-                        type="search"
-                        placeholder="Buscar na comunidade..."
+                    <div
+                        class="profile-placeholder"
+                        id="create-post-avatar"
                     >
-
-                </div>
-
-
-                <div class="community-header-actions">
+                        U
+                    </div>
 
                     <button
-                        class="header-icon-button"
-                        aria-label="Notificações"
+                        class="create-post-input"
+                        id="abrir-publicacao"
                     >
-                        <i data-lucide="bell"></i>
+                        Compartilhe algo com a comunidade...
                     </button>
 
-                   <a
-    href="profile.html"
-    class="header-profile"
-    aria-label="Abrir meu perfil"
->
-    <div class="profile-placeholder" id="header-profile-avatar">
-        <i data-lucide="user"></i>
-    </div>
-</a>
-
                 </div>
 
-            </header>
+                <div class="post-categories">
 
-
-            <!-- FEED -->
-
-            <section class="feed-content">
-
-                <div class="feed-welcome">
-
-                    <h1>
-                        Olá,
-                        <span id="nome-usuario">usuário</span>
-                    </h1>
-
-                    <p>
-                        Que bom ter você na Comunidade LUMA.
-                    </p>
-
-                </div>
-
-
-                <!-- CRIAR PUBLICAÇÃO -->
-
-                <div class="create-post-card">
-
-                    <div class="create-post-top">
-
-                       <div
-    class="profile-placeholder"
-    id="create-post-avatar"
->
-    M
-</div>
-
-                        <button
-                            class="create-post-input"
-                            id="abrir-publicacao"
-                        >
-                            Compartilhe algo com a comunidade...
-                        </button>
-
-                    </div>
-
-
-                    <div class="post-categories">
-
-                        <button class="category-button food">
-                            <i data-lucide="utensils"></i>
-                            Alimentação
-                        </button>
-
-                        <button class="category-button families">
-                            <i data-lucide="users"></i>
-                            Famílias
-                        </button>
-
-                        <button class="category-button science">
-                            <i data-lucide="flask-conical"></i>
-                            Ciência
-                        </button>
-
-                        <button class="category-button stories">
-                            <i data-lucide="book-open"></i>
-                            Histórias
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-                <!-- FILTROS -->
-
-                <div class="feed-filters">
-
-                    <button class="feed-filter active">
-                        Todos os posts
-                    </button>
-
-                    <button class="feed-filter">
+                    <button class="category-button food">
+                        <i data-lucide="utensils"></i>
                         Alimentação
                     </button>
 
-                    <button class="feed-filter">
+                    <button class="category-button families">
+                        <i data-lucide="users"></i>
                         Famílias
                     </button>
 
-                    <button class="feed-filter">
+                    <button class="category-button science">
+                        <i data-lucide="flask-conical"></i>
                         Ciência
                     </button>
 
-                    <button class="feed-filter">
+                    <button class="category-button stories">
+                        <i data-lucide="book-open"></i>
                         Histórias
                     </button>
 
                 </div>
 
+            </div>
 
-                <!-- POSTS SERÃO CARREGADOS AQUI -->
+            <!-- FILTROS -->
 
-                <div id="feed-posts">
+            <div class="feed-filters">
 
-                    <div class="feed-empty">
+                <button class="feed-filter active">
+                    Todos os posts
+                </button>
 
-                        <i data-lucide="message-circle"></i>
+                <button class="feed-filter">
+                    Alimentação
+                </button>
 
-                        <h2>
-                            A comunidade está começando.
-                        </h2>
+                <button class="feed-filter">
+                    Famílias
+                </button>
 
-                        <p>
-                            As publicações aparecerão aqui.
-                        </p>
+                <button class="feed-filter">
+                    Ciência
+                </button>
 
-                    </div>
-
-                </div>
-
-            </section>
-
-        </main>
-
-
-        <!-- COLUNA DIREITA -->
-
-        <aside class="community-right">
-
-            <p class="sidebar-title">
-                ESPAÇOS DA COMUNIDADE
-            </p>
-
-
-            <button class="community-space-card food">
-
-                <i data-lucide="utensils"></i>
-
-                <span>
-                    <strong>Alimentação</strong>
-                    <small>Dicas, receitas e experiências</small>
-                </span>
-
-            </button>
-
-
-            <button class="community-space-card families">
-
-                <i data-lucide="users"></i>
-
-                <span>
-                    <strong>Famílias</strong>
-                    <small>Trocas e apoio entre famílias</small>
-                </span>
-
-            </button>
-
-
-            <button class="community-space-card science">
-
-                <i data-lucide="flask-conical"></i>
-
-                <span>
-                    <strong>Ciência</strong>
-                    <small>Artigos, estudos e informações</small>
-                </span>
-
-            </button>
-
-
-            <button class="community-space-card stories">
-
-                <i data-lucide="book-open"></i>
-
-                <span>
-                    <strong>Histórias</strong>
-                    <small>Relatos e experiências pessoais</small>
-                </span>
-
-            </button>
-
-
-            <div class="community-guidelines">
-
-                <p class="sidebar-title">
-                    COMUNIDADE RESPONSÁVEL
-                </p>
-
-                <p>
-                    Um espaço seguro, respeitoso e acolhedor
-                    para troca de informações e experiências
-                    sobre APLV.
-                </p>
-
-                <button>
-                    Diretrizes da comunidade
-
-                    <i data-lucide="arrow-right"></i>
+                <button class="feed-filter">
+                    Histórias
                 </button>
 
             </div>
 
-        </aside>
+            <!-- PUBLICAÇÕES -->
 
-    </div>
-<!-- MODAL: NOVA PUBLICAÇÃO -->
+            <div id="feed-posts">
+
+                <div class="feed-empty">
+
+                    <i data-lucide="message-circle"></i>
+
+                    <h2>
+                        A comunidade está começando.
+                    </h2>
+
+                    <p>
+                        As publicações aparecerão aqui.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- COLUNA DIREITA -->
+
+    <aside class="community-right">
+
+        <p class="sidebar-title">
+            ESPAÇOS DA COMUNIDADE
+        </p>
+
+        <button class="community-space-card food">
+            <i data-lucide="utensils"></i>
+            <span>
+                <strong>Alimentação</strong>
+                <small>Dicas, receitas e experiências</small>
+            </span>
+        </button>
+
+        <button class="community-space-card families">
+            <i data-lucide="users"></i>
+            <span>
+                <strong>Famílias</strong>
+                <small>Trocas e apoio entre famílias</small>
+            </span>
+        </button>
+
+        <button class="community-space-card science">
+            <i data-lucide="flask-conical"></i>
+            <span>
+                <strong>Ciência</strong>
+                <small>Artigos, estudos e informações</small>
+            </span>
+        </button>
+
+        <button class="community-space-card stories">
+            <i data-lucide="book-open"></i>
+            <span>
+                <strong>Histórias</strong>
+                <small>Relatos e experiências pessoais</small>
+            </span>
+        </button>
+
+        <div class="community-guidelines">
+
+            <p class="sidebar-title">
+                COMUNIDADE RESPONSÁVEL
+            </p>
+
+            <p>
+                Um espaço seguro, respeitoso e acolhedor
+                para troca de informações e experiências
+                sobre APLV.
+            </p>
+
+            <button>
+                Diretrizes da comunidade
+                <i data-lucide="arrow-right"></i>
+            </button>
+
+        </div>
+
+    </aside>
+
+</div>
+
+<!-- MODAL DE PUBLICAÇÃO -->
 
 <div class="post-modal-overlay" id="post-modal">
 
@@ -369,10 +423,7 @@
                 <p class="post-modal-label">
                     COMUNIDADE LUMA
                 </p>
-
-                <h2>
-                    Criar publicação
-                </h2>
+                <h2>Criar publicação</h2>
             </div>
 
             <button
@@ -385,28 +436,21 @@
 
         </div>
 
-
         <div class="post-modal-user">
 
-           <div
-    class="profile-placeholder"
-    id="modal-profile-avatar"
->
-    M
-</div>
+            <div
+                class="profile-placeholder"
+                id="modal-profile-avatar"
+            >
+                U
+            </div>
 
             <div>
-                <strong id="nome-publicacao">
-                    Usuário
-                </strong>
-
-                <span>
-                    Compartilhando com a comunidade
-                </span>
+                <strong id="nome-publicacao">Usuário</strong>
+                <span>Compartilhando com a comunidade</span>
             </div>
 
         </div>
-
 
         <textarea
             id="conteudo-publicacao"
@@ -415,12 +459,9 @@
             maxlength="1500"
         ></textarea>
 
-
         <div class="post-modal-category">
 
-            <p>
-                Escolha um espaço
-            </p>
+            <p>Escolha um espaço</p>
 
             <div class="modal-category-options">
 
@@ -464,7 +505,6 @@
 
         </div>
 
-
         <div class="post-modal-footer">
 
             <span id="contador-publicacao">
@@ -486,237 +526,30 @@
 
 </div>
 
-   <script>
-    const SUPABASE_URL = "https://hyavqrkzcgubtbvkqiev.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1";
+<script>
 
-    const supabaseClient = supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
+/* =========================================
+   SUPABASE
+   ========================================= */
 
+const SUPABASE_URL =
+    "https://hyavqrkzcgubtbvkqiev.supabase.co";
 
-   async function carregarUsuario() {
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1";
 
-    const {
-        data: { session },
-        error
-    } = await supabaseClient.auth.getSession();
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
 
+let usuarioAtual = null;
+let perfilAtual = null;
+let categoriaSelecionada = null;
 
-    if (error) {
-
-        console.error(
-            "Erro ao verificar sessão:",
-            error
-        );
-
-        return;
-    }
-
-
-    if (!session) {
-
-        window.location.href =
-            "login.html";
-
-        return;
-    }
-
-
-    const usuario = session.user;
-
-    usuarioAtual = usuario;
-
-
-    /* =========================================
-       BUSCAR PERFIL ATUALIZADO
-       ========================================= */
-
-    let {
-        data: perfil,
-        error: erroPerfil
-    } = await supabaseClient
-        .from("profiles")
-        .select(`
-            id,
-            nome,
-            usuario,
-            foto_url
-        `)
-        .eq("id", usuario.id)
-        .maybeSingle();
-
-
-    if (erroPerfil) {
-
-        console.error(
-            "Erro ao carregar perfil:",
-            erroPerfil
-        );
-
-        return;
-    }
-
-
-    /* =========================================
-       CRIAR PERFIL SE AINDA NÃO EXISTIR
-       ========================================= */
-
-    if (!perfil) {
-
-        const {
-            data: perfilCriado,
-            error: erroCriacao
-        } = await supabaseClient
-            .from("profiles")
-            .insert({
-
-                id: usuario.id,
-
-                nome:
-                    usuario.user_metadata?.nome
-                    || null,
-
-                usuario:
-                    usuario.user_metadata?.usuario
-                    || null
-
-            })
-            .select(`
-                id,
-                nome,
-                usuario,
-                foto_url
-            `)
-            .single();
-
-
-        if (erroCriacao) {
-
-            console.error(
-                "Erro ao criar perfil:",
-                erroCriacao
-            );
-
-            return;
-        }
-
-
-        perfil = perfilCriado;
-    }
-
-
-    /* =========================================
-       NOME ATUALIZADO
-       ========================================= */
-
-    const nome =
-        perfil.nome || "usuário";
-
-
-    document
-        .getElementById("nome-usuario")
-        .textContent = nome;
-
-
-    document
-        .getElementById("nome-publicacao")
-        .textContent = nome;
-
-
-    /* =========================================
-       AVATARES
-       ========================================= */
-
-    const inicial =
-        nome
-            .trim()
-            .charAt(0)
-            .toUpperCase()
-        || "U";
-
-
-    const avatares = [
-        document.getElementById(
-            "header-profile-avatar"
-        ),
-
-        document.getElementById(
-            "create-post-avatar"
-        ),
-
-        document.getElementById(
-            "modal-profile-avatar"
-        )
-    ];
-
-
-    avatares.forEach(
-        function (avatar) {
-
-            if (!avatar) {
-                return;
-            }
-
-
-            avatar.innerHTML = "";
-
-
-            if (perfil.foto_url) {
-
-                const imagem =
-                    document.createElement("img");
-
-
-                imagem.src =
-                    perfil.foto_url;
-
-
-                imagem.alt =
-                    `Foto de ${nome}`;
-
-
-                imagem.style.width =
-                    "100%";
-
-                imagem.style.height =
-                    "100%";
-
-                imagem.style.objectFit =
-                    "cover";
-
-                imagem.style.borderRadius =
-                    "50%";
-
-
-                imagem.onerror =
-                    function () {
-
-                        avatar.innerHTML = "";
-
-                        avatar.textContent =
-                            inicial;
-                    };
-
-
-                avatar.appendChild(
-                    imagem
-                );
-
-
-            } else {
-
-                avatar.textContent =
-                    inicial;
-            }
-        }
-    );
-}
-    carregarUsuario();
-/* =====================================================
-   MODAL DE PUBLICAÇÃO
-   ===================================================== */
+/* =========================================
+   ELEMENTOS DA PÁGINA
+   ========================================= */
 
 const modalPublicacao =
     document.getElementById("post-modal");
@@ -739,104 +572,241 @@ const botaoPublicar =
 const categoriasPublicacao =
     document.querySelectorAll(".modal-category");
 
+/* =========================================
+   FUNÇÕES AUXILIARES
+   ========================================= */
 
-let categoriaSelecionada = null;
-let usuarioAtual = null;
+function atualizarIcones() {
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+}
 
-/* ABRIR MODAL */
+function criarAvatar(perfil, classe = "") {
+
+    const avatar = document.createElement("div");
+
+    avatar.className =
+        "profile-placeholder " + classe;
+
+    const nome =
+        perfil?.nome ||
+        perfil?.usuario ||
+        "Usuário";
+
+    const inicial =
+        nome.trim().charAt(0).toUpperCase() || "U";
+
+    if (perfil?.foto_url) {
+
+        const imagem = document.createElement("img");
+
+        imagem.src = perfil.foto_url;
+        imagem.alt = "Foto de " + nome;
+
+        imagem.style.width = "100%";
+        imagem.style.height = "100%";
+        imagem.style.objectFit = "cover";
+        imagem.style.borderRadius = "50%";
+
+        imagem.onerror = function () {
+            avatar.replaceChildren();
+            avatar.textContent = inicial;
+        };
+
+        avatar.appendChild(imagem);
+
+    } else {
+
+        avatar.textContent = inicial;
+    }
+
+    return avatar;
+}
+
+function atualizarAvatarExistente(elemento, perfil) {
+
+    if (!elemento) return;
+
+    const novoAvatar = criarAvatar(perfil);
+
+    elemento.replaceChildren(
+        ...Array.from(novoAvatar.childNodes)
+    );
+}
+
+function formatarData(data) {
+
+    return new Date(data).toLocaleDateString(
+        "pt-BR",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+}
+
+function nomeCategoria(categoria) {
+
+    const nomes = {
+        alimentacao: "Alimentação",
+        familias: "Famílias",
+        ciencia: "Ciência",
+        historias: "Histórias"
+    };
+
+    return nomes[categoria] || categoria || "";
+}
+
+/* =========================================
+   CARREGAR USUÁRIO
+   ========================================= */
+
+async function carregarUsuario() {
+
+    const {
+        data: { session },
+        error
+    } = await supabaseClient.auth.getSession();
+
+    if (error) {
+        console.error("Erro de sessão:", error);
+        return;
+    }
+
+    if (!session) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    usuarioAtual = session.user;
+
+    let {
+        data: perfil,
+        error: erroPerfil
+    } = await supabaseClient
+        .from("profiles")
+        .select("id, nome, usuario, foto_url")
+        .eq("id", usuarioAtual.id)
+        .maybeSingle();
+
+    if (erroPerfil) {
+        console.error("Erro ao carregar perfil:", erroPerfil);
+        return;
+    }
+
+    if (!perfil) {
+
+        const {
+            data: novoPerfil,
+            error: erroCriacao
+        } = await supabaseClient
+            .from("profiles")
+            .insert({
+                id: usuarioAtual.id,
+                nome: usuarioAtual.user_metadata?.nome || null,
+                usuario: usuarioAtual.user_metadata?.usuario || null
+            })
+            .select("id, nome, usuario, foto_url")
+            .single();
+
+        if (erroCriacao) {
+            console.error("Erro ao criar perfil:", erroCriacao);
+            return;
+        }
+
+        perfil = novoPerfil;
+    }
+
+    perfilAtual = perfil;
+
+    const nome =
+        perfil.nome ||
+        perfil.usuario ||
+        "usuário";
+
+    document.getElementById(
+        "nome-usuario"
+    ).textContent = nome;
+
+    document.getElementById(
+        "nome-publicacao"
+    ).textContent = nome;
+
+    atualizarAvatarExistente(
+        document.getElementById("header-profile-avatar"),
+        perfil
+    );
+
+    atualizarAvatarExistente(
+        document.getElementById("create-post-avatar"),
+        perfil
+    );
+
+    atualizarAvatarExistente(
+        document.getElementById("modal-profile-avatar"),
+        perfil
+    );
+}
+
+/* =========================================
+   MODAL DE PUBLICAÇÃO
+   ========================================= */
 
 abrirPublicacao.addEventListener(
     "click",
     function () {
 
         modalPublicacao.classList.add("active");
-
         campoPublicacao.focus();
     }
 );
 
-
-/* FECHAR MODAL */
-
 fecharPublicacao.addEventListener(
     "click",
     function () {
-
         modalPublicacao.classList.remove("active");
     }
 );
-
-
-/* FECHAR CLICANDO FORA */
 
 modalPublicacao.addEventListener(
     "click",
     function (event) {
 
         if (event.target === modalPublicacao) {
-
             modalPublicacao.classList.remove("active");
-
         }
     }
 );
-
-
-/* CONTADOR DE CARACTERES */
 
 campoPublicacao.addEventListener(
     "input",
     function () {
 
-        const quantidade =
-            campoPublicacao.value.length;
-
         contadorPublicacao.textContent =
-            `${quantidade} / 1500`;
+            campoPublicacao.value.length + " / 1500";
 
         verificarPublicacao();
     }
 );
 
+categoriasPublicacao.forEach(function (botao) {
 
-/* ESCOLHER CATEGORIA */
+    botao.addEventListener("click", function () {
 
-categoriasPublicacao.forEach(
-    function (botao) {
+        categoriasPublicacao.forEach(function (item) {
+            item.classList.remove("selected");
+        });
 
-        botao.addEventListener(
-            "click",
-            function () {
+        botao.classList.add("selected");
 
-                categoriasPublicacao.forEach(
-                    function (categoria) {
+        categoriaSelecionada =
+            botao.dataset.categoria;
 
-                        categoria.classList.remove(
-                            "selected"
-                        );
-
-                    }
-                );
-
-
-                botao.classList.add(
-                    "selected"
-                );
-
-
-                categoriaSelecionada =
-                    botao.dataset.categoria;
-
-
-                verificarPublicacao();
-            }
-        );
-
-    }
-);
-
-
-/* HABILITAR PUBLICAR */
+        verificarPublicacao();
+    });
+});
 
 function verificarPublicacao() {
 
@@ -846,13 +816,13 @@ function verificarPublicacao() {
     const temCategoria =
         categoriaSelecionada !== null;
 
-
     botaoPublicar.disabled =
         !(temTexto && temCategoria);
 }
-       /* =====================================================
-   PUBLICAR POST NO SUPABASE
-   ===================================================== */
+
+/* =========================================
+   PUBLICAR POST
+   ========================================= */
 
 botaoPublicar.addEventListener(
     "click",
@@ -865,754 +835,788 @@ botaoPublicar.addEventListener(
             return;
         }
 
-
-        /* DESABILITA O BOTÃO ENQUANTO PUBLICA */
+        if (!usuarioAtual) {
+            alert("Sua sessão ainda não foi carregada.");
+            return;
+        }
 
         botaoPublicar.disabled = true;
         botaoPublicar.textContent = "Publicando...";
 
-
-        /* DESCOBRE QUEM ESTÁ LOGADO */
-
-        const {
-            data: { user },
-            error: userError
-        } = await supabaseClient.auth.getUser();
-
-
-        if (userError || !user) {
-
-            alert(
-                "Não foi possível identificar sua conta. Entre novamente."
-            );
-
-            botaoPublicar.textContent = "Publicar";
-
-            verificarPublicacao();
-
-            return;
-        }
-
-
-        /* SALVA O POST */
-
         const { error } = await supabaseClient
             .from("posts")
             .insert({
-                user_id: user.id,
+                user_id: usuarioAtual.id,
                 conteudo: conteudo,
                 categoria: categoriaSelecionada
             });
 
-
         if (error) {
 
-            console.error(
-                "Erro ao publicar:",
-                error
-            );
+            console.error("Erro ao publicar:", error);
 
-            alert(
-                "Não foi possível publicar. Tente novamente."
-            );
+            alert("Não foi possível publicar.");
 
             botaoPublicar.textContent = "Publicar";
-
             verificarPublicacao();
 
             return;
         }
 
-
-        /* PUBLICAÇÃO CONCLUÍDA */
-
         campoPublicacao.value = "";
+        contadorPublicacao.textContent = "0 / 1500";
 
-        contadorPublicacao.textContent =
-            "0 / 1500";
-
-
-        categoriasPublicacao.forEach(
-            function (categoria) {
-
-                categoria.classList.remove(
-                    "selected"
-                );
-
-            }
-        );
-
+        categoriasPublicacao.forEach(function (item) {
+            item.classList.remove("selected");
+        });
 
         categoriaSelecionada = null;
 
+        modalPublicacao.classList.remove("active");
 
-        modalPublicacao.classList.remove(
-            "active"
-        );
+        botaoPublicar.textContent = "Publicar";
+        botaoPublicar.disabled = true;
 
-
-        botaoPublicar.textContent =
-            "Publicar";
-
-        botaoPublicar.disabled =
-            true;
-
-await carregarPosts();
-        alert(
-            "Publicação criada com sucesso!"
-        );
+        await carregarPosts();
     }
 );
-       /* =====================================================
-   CARREGAR POSTS DO SUPABASE
-   ===================================================== */
+
+/* =========================================
+   CARREGAR POSTS
+   ========================================= */
 
 async function carregarPosts() {
 
     const feedPosts =
         document.getElementById("feed-posts");
 
-
-    const { data: posts, error } =
-        await supabaseClient
-            .from("posts")
-            .select("*")
-            .order("created_at", {
-                ascending: false
-            });
-const idsAutores = [
-    ...new Set(
-        (posts || []).map(
-            post => post.user_id
-        )
-    )
-];
-
-
-const { data: perfisAutores, error: erroPerfisAutores } =
-    await supabaseClient
-        .from("profiles")
-        .select("id, nome, usuario, foto_url")
-        .in("id", idsAutores);
-
-
-if (erroPerfisAutores) {
-    console.error(
-        "Erro ao carregar autores dos posts:",
-        erroPerfisAutores
-    );
-}
-
-
-const perfisPorId = {};
-
-(perfisAutores || []).forEach(
-    function (perfil) {
-        perfisPorId[perfil.id] = perfil;
-    }
-);
+    const {
+        data: posts,
+        error
+    } = await supabaseClient
+        .from("posts")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
 
     if (error) {
-
-        console.error(
-            "Erro ao carregar posts:",
-            error
-        );
-
+        console.error("Erro ao carregar posts:", error);
         return;
     }
-
-
-    /* SE NÃO EXISTIREM POSTS */
 
     if (!posts || posts.length === 0) {
 
         feedPosts.innerHTML = `
             <div class="feed-empty">
-
                 <i data-lucide="message-circle"></i>
-
-                <h2>
-                    A comunidade está começando.
-                </h2>
-
-                <p>
-                    As publicações aparecerão aqui.
-                </p>
-
+                <h2>A comunidade está começando.</h2>
+                <p>As publicações aparecerão aqui.</p>
             </div>
         `;
 
-        lucide.createIcons();
-
+        atualizarIcones();
         return;
     }
 
+    /* BUSCAR AUTORES */
 
-    /* LIMPA O ESTADO VAZIO */
+    const idsAutores = [
+        ...new Set(posts.map(post => post.user_id))
+    ];
 
-    feedPosts.innerHTML = "";
-
-
-    /* CRIA UM CARD PARA CADA POST */
-
-    posts.forEach(
-        function (post) {
-const autor =
-    perfisPorId[post.user_id];
-
-const nomeAutor =
-    autor?.nome || "Usuário";
-
-const inicialAutor =
-    nomeAutor
-        .trim()
-        .charAt(0)
-        .toUpperCase()
-    || "U";
-
-const fotoAutor =
-    autor?.foto_url || null;
-            const card =
-                document.createElement("article");
-
-            card.className = "community-post";
-
-
-            const nomesCategorias = {
-                alimentacao: "Alimentação",
-                familias: "Famílias",
-                ciencia: "Ciência",
-                historias: "Histórias"
-            };
-
-
-            const nomeCategoria =
-                nomesCategorias[post.categoria]
-                || post.categoria;
-
-
-            const dataPost =
-                new Date(
-                    post.created_at
-                ).toLocaleDateString(
-                    "pt-BR",
-                    {
-                        day: "2-digit",
-                        month: "short",
-                        year: "numeric"
-                    }
-                );
-
-
-            card.innerHTML = `
-                <div class="community-post-header">
-
-                    <div class="profile-placeholder post-author-avatar">
-    ${
-        fotoAutor
-            ? `<img
-                src="${fotoAutor}"
-                alt="Foto de ${nomeAutor}"
-                style="
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    border-radius: 50%;
-                "
-            >`
-            : inicialAutor
-    }
-</div>
-
-<div class="community-post-author">
-
-    <strong>
-        ${nomeAutor}
-    </strong>
-
-    <span>
-        ${dataPost}
-    </span>
-
-</div>
-
-                    <span class="post-category-tag ${post.categoria}">
-                        ${nomeCategoria}
-                    </span>
-                    ${
-    usuarioAtual &&
-    post.user_id === usuarioAtual.id
-        ? `
-            <button
-                type="button"
-                class="post-menu-button"
-                aria-label="Opções da publicação"
-            >
-                <i data-lucide="ellipsis"></i>
-            </button>
-        `
-        : ""
-}
-
-                </div>
-
-                <p class="community-post-text"></p>
-
-                <div class="community-post-actions">
-
-                    <button type="button">
-                        <i data-lucide="heart"></i>
-                        Curtir
-                    </button>
-
-                    <button
-    type="button"
-    class="post-comment-button"
->
-    <i data-lucide="message-circle"></i>
-    Comentar
-</button>
-
-                </div>
-                <div class="post-comments" hidden>
-
-    <div class="comments-list"></div>
-
-    <div class="comment-compose">
-
-        <div class="profile-placeholder comment-current-avatar">
-            U
-        </div>
-
-        <textarea
-            class="comment-input"
-            placeholder="Escreva um comentário..."
-            maxlength="1000"
-            rows="1"
-        ></textarea>
-
-        <button
-            type="button"
-            class="comment-submit-button"
-            aria-label="Publicar comentário"
-        >
-            <i data-lucide="send"></i>
-        </button>
-
-    </div>
-
-</div>
-            `;
-
-
-            card
-                .querySelector(".community-post-text")
-                .textContent = post.conteudo;
-            const botaoComentar =
-    card.querySelector(".post-comment-button");
-
-const areaComentarios =
-    card.querySelector(".post-comments");
-
-const campoComentario =
-    card.querySelector(".comment-input");
-    // Mostrar a foto do usuário no campo de comentários
-const avatarCampoComentario =
-    card.querySelector(".comment-current-avatar");
-
-const avatarPublicacao =
-    document.getElementById("create-post-avatar");
-
-if (avatarCampoComentario && avatarPublicacao) {
-
-    avatarCampoComentario.innerHTML =
-        avatarPublicacao.innerHTML;
-}
-            async function carregarComentarios() {
-
-    const listaComentarios =
-        card.querySelector(".comments-list");
-
-    const { data: comentarios, error } =
-        await supabaseClient
-            .from("comments")
-            .select("*")
-            .eq("post_id", post.id)
-            .order("created_at", {
-                ascending: true
-            });
-
-    if (error) {
-        console.error(
-            "Erro ao carregar comentários:",
-            error
-        );
-        return;
-    }
-
-    listaComentarios.innerHTML = "";
-
-    if (!comentarios || comentarios.length === 0) {
-        return;
-    }
-    // Identificar os autores dos comentários
-const idsAutoresComentarios = [
-    ...new Set(
-        comentarios.map(
-            comentario => comentario.user_id
-        )
-    )
-];
-
-// Buscar os perfis no Supabase
-const { data: perfisComentarios, error: erroPerfis } =
-    await supabaseClient
+    const {
+        data: perfisAutores,
+        error: erroAutores
+    } = await supabaseClient
         .from("profiles")
         .select("id, nome, usuario, foto_url")
-        .in("id", idsAutoresComentarios);
+        .in("id", idsAutores);
 
-if (erroPerfis) {
-    console.error(
-        "Erro ao buscar perfis dos comentários:",
-        erroPerfis
-    );
+    if (erroAutores) {
+        console.error("Erro ao buscar autores:", erroAutores);
+    }
+
+    const perfisPorId = {};
+
+    (perfisAutores || []).forEach(function (perfil) {
+        perfisPorId[perfil.id] = perfil;
+    });
+
+    feedPosts.replaceChildren();
+
+    posts.forEach(function (post) {
+
+        const autor =
+            perfisPorId[post.user_id] || null;
+
+        const nomeAutor =
+            autor?.nome ||
+            autor?.usuario ||
+            "Usuário";
+
+        const card = document.createElement("article");
+        card.className = "community-post";
+
+        /* CABEÇALHO */
+
+        const cabecalho = document.createElement("div");
+        cabecalho.className = "community-post-header";
+
+        const avatarAutor = criarAvatar(
+            autor,
+            "post-author-avatar"
+        );
+
+        const informacoesAutor =
+            document.createElement("div");
+
+        informacoesAutor.className =
+            "community-post-author";
+
+        const nomeElemento =
+            document.createElement("strong");
+
+        nomeElemento.textContent = nomeAutor;
+
+        const dataElemento =
+            document.createElement("span");
+
+        dataElemento.textContent =
+            formatarData(post.created_at);
+
+        informacoesAutor.appendChild(nomeElemento);
+        informacoesAutor.appendChild(dataElemento);
+
+        const categoriaElemento =
+            document.createElement("span");
+
+        categoriaElemento.className =
+            "post-category-tag " + post.categoria;
+
+        categoriaElemento.textContent =
+            nomeCategoria(post.categoria);
+
+        cabecalho.appendChild(avatarAutor);
+        cabecalho.appendChild(informacoesAutor);
+        cabecalho.appendChild(categoriaElemento);
+
+        /* TEXTO */
+
+        const textoPost = document.createElement("p");
+
+        textoPost.className = "community-post-text";
+        textoPost.textContent = post.conteudo;
+
+        /* MENU DO AUTOR */
+
+        if (
+            usuarioAtual &&
+            post.user_id === usuarioAtual.id
+        ) {
+
+            const botaoMenu =
+                document.createElement("button");
+
+            botaoMenu.type = "button";
+            botaoMenu.className = "post-menu-button";
+            botaoMenu.setAttribute(
+                "aria-label",
+                "Opções da publicação"
+            );
+
+            botaoMenu.innerHTML =
+                '<i data-lucide="ellipsis"></i>';
+
+            const menuOpcoes =
+                document.createElement("div");
+
+            menuOpcoes.className = "post-options-menu";
+            menuOpcoes.hidden = true;
+
+            const botaoEditar =
+                document.createElement("button");
+
+            botaoEditar.type = "button";
+            botaoEditar.textContent = "Editar publicação";
+
+            const botaoExcluir =
+                document.createElement("button");
+
+            botaoExcluir.type = "button";
+            botaoExcluir.className = "delete-option";
+            botaoExcluir.textContent = "Excluir publicação";
+
+            menuOpcoes.appendChild(botaoEditar);
+            menuOpcoes.appendChild(botaoExcluir);
+
+            cabecalho.appendChild(botaoMenu);
+            cabecalho.appendChild(menuOpcoes);
+
+            botaoMenu.addEventListener(
+                "click",
+                function () {
+
+                    menuOpcoes.hidden = !menuOpcoes.hidden;
+                }
+            );
+
+            /* EDITAR PUBLICAÇÃO */
+
+            botaoEditar.addEventListener(
+                "click",
+                function () {
+
+                    menuOpcoes.hidden = true;
+
+                    const areaEdicao =
+                        document.createElement("div");
+
+                    areaEdicao.className = "post-edit-area";
+
+                    const campoEdicao =
+                        document.createElement("textarea");
+
+                    campoEdicao.value = post.conteudo;
+                    campoEdicao.maxLength = 1500;
+
+                    const seletorCategoria =
+                        document.createElement("select");
+
+                    const categorias = [
+                        ["alimentacao", "Alimentação"],
+                        ["familias", "Famílias"],
+                        ["ciencia", "Ciência"],
+                        ["historias", "Histórias"]
+                    ];
+
+                    categorias.forEach(function (item) {
+
+                        const opcao =
+                            document.createElement("option");
+
+                        opcao.value = item[0];
+                        opcao.textContent = item[1];
+
+                        seletorCategoria.appendChild(opcao);
+                    });
+
+                    seletorCategoria.value =
+                        post.categoria;
+
+                    const acoes =
+                        document.createElement("div");
+
+                    acoes.className = "post-edit-actions";
+
+                    const salvar =
+                        document.createElement("button");
+
+                    salvar.type = "button";
+                    salvar.className = "post-edit-save";
+                    salvar.textContent = "Salvar alterações";
+
+                    const cancelar =
+                        document.createElement("button");
+
+                    cancelar.type = "button";
+                    cancelar.className = "post-edit-cancel";
+                    cancelar.textContent = "Cancelar";
+
+                    acoes.appendChild(salvar);
+                    acoes.appendChild(cancelar);
+
+                    areaEdicao.appendChild(campoEdicao);
+                    areaEdicao.appendChild(seletorCategoria);
+                    areaEdicao.appendChild(acoes);
+
+                    const edicaoAnterior =
+                        card.querySelector(".post-edit-area");
+
+                    if (edicaoAnterior) {
+                        edicaoAnterior.remove();
+                    }
+
+                    textoPost.hidden = true;
+
+                    textoPost.insertAdjacentElement(
+                        "afterend",
+                        areaEdicao
+                    );
+
+                    cancelar.addEventListener(
+                        "click",
+                        function () {
+
+                            areaEdicao.remove();
+                            textoPost.hidden = false;
+                        }
+                    );
+
+                    salvar.addEventListener(
+                        "click",
+                        async function () {
+
+                            const novoTexto =
+                                campoEdicao.value.trim();
+
+                            const novaCategoria =
+                                seletorCategoria.value;
+
+                            if (!novoTexto) {
+                                alert("Escreva o conteúdo do post.");
+                                return;
+                            }
+
+                            salvar.disabled = true;
+                            salvar.textContent = "Salvando...";
+
+                            const { data, error } =
+                                await supabaseClient
+                                    .from("posts")
+                                    .update({
+                                        conteudo: novoTexto,
+                                        categoria: novaCategoria
+                                    })
+                                    .eq("id", post.id)
+                                    .eq("user_id", usuarioAtual.id)
+                                    .select("id");
+
+                            if (error || !data?.length) {
+
+                                console.error(
+                                    "Erro ao editar:",
+                                    error
+                                );
+
+                                alert(
+                                    "Não foi possível salvar a edição."
+                                );
+
+                                salvar.disabled = false;
+                                salvar.textContent =
+                                    "Salvar alterações";
+
+                                return;
+                            }
+
+                            await carregarPosts();
+                        }
+                    );
+                }
+            );
+
+            /* EXCLUIR PUBLICAÇÃO */
+
+            botaoExcluir.addEventListener(
+                "click",
+                async function () {
+
+                    menuOpcoes.hidden = true;
+
+                    const confirmar = confirm(
+                        "Deseja excluir esta publicação?"
+                    );
+
+                    if (!confirmar) return;
+
+                    botaoExcluir.disabled = true;
+
+                    const {
+                        data,
+                        error
+                    } = await supabaseClient
+                        .from("posts")
+                        .delete()
+                        .eq("id", post.id)
+                        .eq("user_id", usuarioAtual.id)
+                        .select("id");
+
+                    if (error || !data?.length) {
+
+                        console.error(
+                            "Erro ao excluir publicação:",
+                            error
+                        );
+
+                        alert(
+                            "Não foi possível excluir a publicação."
+                        );
+
+                        botaoExcluir.disabled = false;
+
+                        return;
+                    }
+
+                    await carregarPosts();
+                }
+            );
+        }
+
+        /* AÇÕES DO POST */
+
+        const acoesPost =
+            document.createElement("div");
+
+        acoesPost.className = "community-post-actions";
+
+        const botaoCurtir =
+            document.createElement("button");
+
+        botaoCurtir.type = "button";
+        botaoCurtir.innerHTML =
+            '<i data-lucide="heart"></i> Curtir';
+
+        // Curtidas serão conectadas ao Supabase
+        // na próxima etapa.
+
+        const botaoComentar =
+            document.createElement("button");
+
+        botaoComentar.type = "button";
+        botaoComentar.className = "post-comment-button";
+
+        botaoComentar.innerHTML =
+            '<i data-lucide="message-circle"></i> Comentar';
+
+        acoesPost.appendChild(botaoCurtir);
+        acoesPost.appendChild(botaoComentar);
+
+        /* ÁREA DE COMENTÁRIOS */
+
+        const areaComentarios =
+            document.createElement("div");
+
+        areaComentarios.className = "post-comments";
+        areaComentarios.hidden = true;
+
+        const listaComentarios =
+            document.createElement("div");
+
+        listaComentarios.className = "comments-list";
+
+        const areaEscrever =
+            document.createElement("div");
+
+        areaEscrever.className = "comment-compose";
+
+        const avatarAtual = criarAvatar(
+            perfilAtual,
+            "comment-current-avatar"
+        );
+
+        const campoComentario =
+            document.createElement("textarea");
+
+        campoComentario.className = "comment-input";
+        campoComentario.placeholder =
+            "Escreva um comentário...";
+
+        campoComentario.maxLength = 1000;
+        campoComentario.rows = 1;
+
+        const botaoEnviar =
+            document.createElement("button");
+
+        botaoEnviar.type = "button";
+        botaoEnviar.className = "comment-submit-button";
+        botaoEnviar.setAttribute(
+            "aria-label",
+            "Publicar comentário"
+        );
+
+        botaoEnviar.innerHTML =
+            '<i data-lucide="send"></i>';
+
+        areaEscrever.appendChild(avatarAtual);
+        areaEscrever.appendChild(campoComentario);
+        areaEscrever.appendChild(botaoEnviar);
+
+        areaComentarios.appendChild(listaComentarios);
+        areaComentarios.appendChild(areaEscrever);
+
+        /* ABRIR COMENTÁRIOS */
+
+        botaoComentar.addEventListener(
+            "click",
+            function () {
+
+                areaComentarios.hidden =
+                    !areaComentarios.hidden;
+
+                if (!areaComentarios.hidden) {
+                    campoComentario.focus();
+                }
+            }
+        );
+
+        /* CARREGAR COMENTÁRIOS */
+
+        async function carregarComentarios() {
+
+            const {
+                data: comentarios,
+                error
+            } = await supabaseClient
+                .from("comments")
+                .select("*")
+                .eq("post_id", post.id)
+                .order("created_at", {
+                    ascending: true
+                });
+
+            if (error) {
+
+                console.error(
+                    "Erro ao carregar comentários:",
+                    error
+                );
+
+                return;
+            }
+
+            listaComentarios.replaceChildren();
+
+            if (!comentarios || comentarios.length === 0) {
+                return;
+            }
+
+            const idsAutoresComentarios = [
+                ...new Set(
+                    comentarios.map(
+                        comentario => comentario.user_id
+                    )
+                )
+            ];
+
+            const {
+                data: perfisComentarios,
+                error: erroPerfis
+            } = await supabaseClient
+                .from("profiles")
+                .select("id, nome, usuario, foto_url")
+                .in("id", idsAutoresComentarios);
+
+            if (erroPerfis) {
+                console.error(
+                    "Erro ao buscar autores dos comentários:",
+                    erroPerfis
+                );
+            }
+
+            const autoresComentarios = {};
+
+            (perfisComentarios || []).forEach(
+                function (perfil) {
+                    autoresComentarios[perfil.id] = perfil;
+                }
+            );
+
+            comentarios.forEach(function (comentario) {
+
+                if (comentario.parent_id !== null) {
+                    return;
+                }
+
+                const elemento =
+                    document.createElement("div");
+
+                elemento.className = "comment-item";
+
+                const autorComentario =
+                    autoresComentarios[comentario.user_id];
+
+                const cabecalhoComentario =
+                    document.createElement("div");
+
+                cabecalhoComentario.className =
+                    "comment-author-header";
+
+                const avatarComentario = criarAvatar(
+                    autorComentario,
+                    "comment-author-avatar"
+                );
+
+                const nomeElemento =
+                    document.createElement("strong");
+
+                nomeElemento.className =
+                    "comment-author-name";
+
+                nomeElemento.textContent =
+                    autorComentario?.nome ||
+                    autorComentario?.usuario ||
+                    "Usuário";
+
+                cabecalhoComentario.appendChild(
+                    avatarComentario
+                );
+
+                cabecalhoComentario.appendChild(
+                    nomeElemento
+                );
+
+                const texto =
+                    document.createElement("p");
+
+                texto.className = "comment-text";
+                texto.textContent = comentario.conteudo;
+
+                elemento.appendChild(cabecalhoComentario);
+                elemento.appendChild(texto);
+
+                /* EXCLUIR PRÓPRIO COMENTÁRIO */
+
+                if (
+                    usuarioAtual &&
+                    comentario.user_id === usuarioAtual.id
+                ) {
+
+                    const botaoExcluirComentario =
+                        document.createElement("button");
+
+                    botaoExcluirComentario.type = "button";
+                    botaoExcluirComentario.className =
+                        "comment-delete-button";
+
+                    botaoExcluirComentario.textContent =
+                        "Excluir";
+
+                    botaoExcluirComentario.addEventListener(
+                        "click",
+                        async function () {
+
+                            const confirmar = confirm(
+                                "Deseja excluir este comentário?"
+                            );
+
+                            if (!confirmar) return;
+
+                            botaoExcluirComentario.disabled = true;
+
+                            const {
+                                data,
+                                error
+                            } = await supabaseClient
+                                .from("comments")
+                                .delete()
+                                .eq("id", comentario.id)
+                                .eq("user_id", usuarioAtual.id)
+                                .select("id");
+
+                            if (error || !data?.length) {
+
+                                console.error(
+                                    "Erro ao excluir comentário:",
+                                    error
+                                );
+
+                                alert(
+                                    "Não foi possível excluir o comentário."
+                                );
+
+                                botaoExcluirComentario.disabled = false;
+                                return;
+                            }
+
+                            await carregarComentarios();
+                        }
+                    );
+
+                    elemento.appendChild(
+                        botaoExcluirComentario
+                    );
+                }
+
+                listaComentarios.appendChild(elemento);
+            });
+        }
+
+        /* PUBLICAR COMENTÁRIO */
+
+        botaoEnviar.addEventListener(
+            "click",
+            async function () {
+
+                const conteudo =
+                    campoComentario.value.trim();
+
+                if (!conteudo) return;
+
+                if (!usuarioAtual) {
+                    alert("Faça login para comentar.");
+                    return;
+                }
+
+                botaoEnviar.disabled = true;
+
+                const { error } = await supabaseClient
+                    .from("comments")
+                    .insert({
+                        post_id: post.id,
+                        user_id: usuarioAtual.id,
+                        conteudo: conteudo,
+                        parent_id: null
+                    });
+
+                if (error) {
+
+                    console.error(
+                        "Erro ao publicar comentário:",
+                        error
+                    );
+
+                    alert(
+                        "Não foi possível publicar o comentário."
+                    );
+
+                    botaoEnviar.disabled = false;
+                    return;
+                }
+
+                campoComentario.value = "";
+                botaoEnviar.disabled = false;
+
+                await carregarComentarios();
+            }
+        );
+
+        /* MONTAR CARD */
+
+        card.appendChild(cabecalho);
+        card.appendChild(textoPost);
+        card.appendChild(acoesPost);
+        card.appendChild(areaComentarios);
+
+        feedPosts.appendChild(card);
+
+        carregarComentarios();
+    });
+
+    atualizarIcones();
 }
 
-// Organizar os perfis por ID
-const autoresComentarios = {};
+/* =========================================
+   INICIALIZAÇÃO
+   ========================================= */
 
-(perfisComentarios || []).forEach(function (perfil) {
-    autoresComentarios[perfil.id] = perfil;
-});
-    console.log(
-        "Comentários do post:",
-        comentarios
-    );
-                comentarios.forEach(function (comentario) {
+async function iniciarFeed() {
 
-    // As respostas serão exibidas separadamente depois
-    if (comentario.parent_id !== null) {
+    await carregarUsuario();
+
+    if (!usuarioAtual) {
         return;
     }
 
-    const elemento = document.createElement("div");
+    await carregarPosts();
 
-    elemento.className = "comment-item";
-                    // Perfil de quem escreveu o comentário
-const autorComentario =
-    autoresComentarios[comentario.user_id];
-
-const nomeComentario =
-    autorComentario?.nome ||
-    autorComentario?.usuario ||
-    "Usuário";
-
-const fotoComentario =
-    autorComentario?.foto_url;
-
-// Cabeçalho do comentário
-const cabecalhoComentario =
-    document.createElement("div");
-
-cabecalhoComentario.className =
-    "comment-author-header";
-
-// Foto do autor
-const avatarComentario =
-    document.createElement("div");
-
-avatarComentario.className =
-    "profile-placeholder comment-author-avatar";
-
-if (fotoComentario) {
-
-    const imagem = document.createElement("img");
-
-    imagem.src = fotoComentario;
-    imagem.alt = `Foto de ${nomeComentario}`;
-    imagem.style.width = "100%";
-    imagem.style.height = "100%";
-    imagem.style.objectFit = "cover";
-    imagem.style.borderRadius = "50%";
-
-    avatarComentario.appendChild(imagem);
-
-} else {
-
-    avatarComentario.textContent =
-        nomeComentario.charAt(0).toUpperCase();
-
+    atualizarIcones();
 }
 
-// Nome do autor
-const nomeElemento =
-    document.createElement("strong");
+iniciarFeed();
 
-nomeElemento.className = "comment-author-name";
-nomeElemento.textContent = nomeComentario;
-
-cabecalhoComentario.appendChild(avatarComentario);
-cabecalhoComentario.appendChild(nomeElemento);
-
-elemento.appendChild(cabecalhoComentario);
-
-    const texto = document.createElement("p");
-texto.className = "comment-text";
-texto.textContent = comentario.conteudo;
-
-elemento.appendChild(texto);
-
-// Mostrar opção de exclusão apenas ao autor
-if (
-    usuarioAtual &&
-    comentario.user_id === usuarioAtual.id
-) {
-
-    const botaoExcluir = document.createElement("button");
-
-    botaoExcluir.type = "button";
-    botaoExcluir.className = "comment-delete-button";
-    botaoExcluir.textContent = "Excluir";
-    botaoExcluir.setAttribute(
-        "aria-label",
-        "Excluir meu comentário"
-    );
-
-    botaoExcluir.addEventListener(
-        "click",
-        async function () {
-
-            const confirmar = confirm(
-                "Deseja excluir este comentário?"
-            );
-
-            if (!confirmar) {
-                return;
-            }
-
-            botaoExcluir.disabled = true;
-
-            const { error } = await supabaseClient
-                .from("comments")
-                .delete()
-                .eq("id", comentario.id)
-                .eq("user_id", usuarioAtual.id);
-
-            if (error) {
-
-                console.error(
-                    "Erro ao excluir comentário:",
-                    error
-                );
-
-                alert(
-                    "Não foi possível excluir o comentário."
-                );
-
-                botaoExcluir.disabled = false;
-                return;
-            }
-
-            await carregarComentarios();
-        }
-    );
-
-    elemento.appendChild(botaoExcluir);
-}
-
-listaComentarios.appendChild(elemento);
-
-});
-}
-
-carregarComentarios();
-const botaoEnviarComentario =
-    card.querySelector(".comment-submit-button");
-
-
-botaoEnviarComentario.addEventListener(
-    "click",
-    async function () {
-
-        const conteudo =
-            campoComentario.value.trim();
-
-        if (!conteudo) {
-            return;
-        }
-
-
-        if (!usuarioAtual) {
-
-            alert(
-                "Não foi possível identificar sua conta."
-            );
-
-            return;
-        }
-
-
-        botaoEnviarComentario.disabled = true;
-
-
-        const { error } =
-            await supabaseClient
-                .from("comments")
-                .insert({
-                    post_id: post.id,
-                    user_id: usuarioAtual.id,
-                    conteudo: conteudo,
-                    parent_id: null
-                });
-
-
-        if (error) {
-
-            console.error(
-                "Erro ao publicar comentário:",
-                error
-            );
-
-            alert(
-                "Não foi possível publicar o comentário."
-            );
-
-            botaoEnviarComentario.disabled = false;
-
-            return;
-        }
-
-
-        campoComentario.value = "";
-
-        botaoEnviarComentario.disabled = false;
-
-        alert("Comentário publicado!");
-    }
-);
-
-botaoComentar.addEventListener(
-    "click",
-    function () {
-
-        const estaEscondido =
-            areaComentarios.hidden;
-
-        areaComentarios.hidden =
-            !estaEscondido;
-
-        if (estaEscondido) {
-            campoComentario.focus();
-        }
-    }
-);
-const botaoMenu =
-    card.querySelector(".post-menu-button");
-
-
-
-if (botaoMenu) {
-
-    const menuOpcoes = document.createElement("div");
-    menuOpcoes.className = "post-options-menu";
-    menuOpcoes.hidden = true;
-
-    const botaoEditar = document.createElement("button");
-    botaoEditar.type = "button";
-    botaoEditar.textContent = "Editar publicação";
-
-    const botaoExcluir = document.createElement("button");
-    botaoExcluir.type = "button";
-    botaoExcluir.textContent = "Excluir publicação";
-
-    menuOpcoes.appendChild(botaoEditar);
-    menuOpcoes.appendChild(botaoExcluir);
-
-    botaoMenu.insertAdjacentElement(
-        "afterend",
-        menuOpcoes
-    );
-
-    botaoMenu.addEventListener("click", function () {
-        menuOpcoes.hidden = !menuOpcoes.hidden;
-    });
-
-    botaoEditar.addEventListener("click", function () {
-        menuOpcoes.hidden = true;
-        alert("Vamos implementar a edição no próximo passo!");
-    });
-
-    botaoExcluir.addEventListener("click", async function () {
-
-        menuOpcoes.hidden = true;
-
-        const confirmar = confirm(
-            "Deseja excluir esta publicação?"
-        );
-
-        if (!confirmar) return;
-
-        const { error } = await supabaseClient
-            .from("posts")
-            .delete()
-            .eq("id", post.id)
-            .eq("user_id", usuarioAtual.id);
-
-        if (error) {
-            console.error("Erro ao excluir:", error);
-            alert("Não foi possível excluir a publicação.");
-            return;
-        }
-
-        await carregarPosts();
-    });
-}
-
-
-            const { error } =
-                await supabaseClient
-                    .from("posts")
-                    .delete()
-                    .eq("id", post.id);
-
-
-            if (error) {
-
-                console.error(
-                    "Erro ao excluir publicação:",
-                    error
-                );
-
-                alert(
-                    "Não foi possível excluir a publicação."
-                );
-
-                return;
-            }
-
-
-            await carregarPosts();
-        }
-    );
-}
-
-            feedPosts.appendChild(card);
-
-        }
-    );
-
-
-    lucide.createIcons();
-}
-
-
-/* CARREGA OS POSTS QUANDO A PÁGINA ABRE */
-
-carregarPosts();
-    lucide.createIcons();
 </script>
 
 </body>
-
 </html>
+
