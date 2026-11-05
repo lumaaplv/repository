@@ -1244,7 +1244,35 @@ const campoComentario =
     if (!comentarios || comentarios.length === 0) {
         return;
     }
+    // Identificar os autores dos comentários
+const idsAutoresComentarios = [
+    ...new Set(
+        comentarios.map(
+            comentario => comentario.user_id
+        )
+    )
+];
 
+// Buscar os perfis no Supabase
+const { data: perfisComentarios, error: erroPerfis } =
+    await supabaseClient
+        .from("profiles")
+        .select("id, nome, usuario, foto_url")
+        .in("id", idsAutoresComentarios);
+
+if (erroPerfis) {
+    console.error(
+        "Erro ao buscar perfis dos comentários:",
+        erroPerfis
+    );
+}
+
+// Organizar os perfis por ID
+const autoresComentarios = {};
+
+(perfisComentarios || []).forEach(function (perfil) {
+    autoresComentarios[perfil.id] = perfil;
+});
     console.log(
         "Comentários do post:",
         comentarios
