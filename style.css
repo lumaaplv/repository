@@ -7190,3 +7190,178 @@ footer .logo img {
     object-fit: cover;
     border-radius: 50%;
 }
+
+/* =========================================
+   LUMA — COMENTÁRIOS
+   ========================================= */
+
+.post-comments {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(180, 220, 235, 0.12);
+}
+
+.post-comments[hidden] {
+    display: none !important;
+}
+
+/* Lista de comentários */
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.comment-item {
+    padding: 14px 16px;
+    background: rgba(153, 210, 232, 0.055);
+    border: 1px solid rgba(180, 220, 235, 0.08);
+    border-radius: 16px;
+}
+
+/* Autor */
+
+.comment-author-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.comment-author-avatar {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #a1ddf1;
+    color: #082331;
+    font-size: 13px;
+}
+
+.comment-author-name {
+    color: #f1f7f9;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* Texto */
+
+.comment-text {
+    color: #d4e4ea;
+    font-size: 14px;
+    line-height: 1.65;
+    margin: 0 0 10px;
+    overflow-wrap: anywhere;
+}
+
+/* Excluir — provisório */
+
+.comment-delete-button {
+    border: none;
+    background: transparent;
+    color: #8faab6;
+    font-size: 12px;
+    padding: 4px 0;
+    cursor: pointer;
+}
+
+.comment-delete-button:hover {
+    color: #f1f7f9;
+}
+
+/* Campo para escrever */
+
+.comment-compose {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comment-current-avatar {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comment-input {
+    flex: 1;
+    min-width: 0;
+    min-height: 42px;
+    padding: 11px 14px;
+    border: 1px solid rgba(180, 220, 235, 0.15);
+    border-radius: 14px;
+    background: #102e3c;
+    color: #f1f7f9;
+    font: inherit;
+    font-size: 13px;
+    resize: vertical;
+    outline: none;
+}
+
+.comment-input::placeholder {
+    color: #819da9;
+}
+
+.comment-input:focus {
+    border-color: #91d9ee;
+}
+
+/* Botão de enviar */
+
+.comment-submit-button {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 13px;
+    background: #a1ddf1;
+    color: #092735;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.comment-submit-button:hover {
+    background: #c2ebf7;
+}
+
+.comment-submit-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.comment-submit-button svg {
+    width: 17px;
+    height: 17px;
+}
+
+/* Responsividade */
+
+@media (max-width: 600px) {
+    .comment-item {
+        padding: 12px;
+    }
+
+    .comment-compose {
+        gap: 8px;
+    }
+
+    .comment-current-avatar {
+        width: 30px;
+        height: 30px;
+        min-width: 30px;
+    }
+}
