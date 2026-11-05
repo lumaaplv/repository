@@ -1249,6 +1249,25 @@ const campoComentario =
         "Comentários do post:",
         comentarios
     );
+                comentarios.forEach(function (comentario) {
+
+    // As respostas serão exibidas separadamente depois
+    if (comentario.parent_id !== null) {
+        return;
+    }
+
+    const elemento = document.createElement("div");
+
+    elemento.className = "comment-item";
+
+    const texto = document.createElement("p");
+    texto.className = "comment-text";
+    texto.textContent = comentario.conteudo;
+
+    elemento.appendChild(texto);
+    listaComentarios.appendChild(elemento);
+
+});
 }
 
 carregarComentarios();
