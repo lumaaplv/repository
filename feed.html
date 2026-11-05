@@ -1511,21 +1511,63 @@ const botaoMenu =
     card.querySelector(".post-menu-button");
 
 
+
 if (botaoMenu) {
 
-    botaoMenu.addEventListener(
-        "click",
-        async function () {
+    const menuOpcoes = document.createElement("div");
+    menuOpcoes.className = "post-options-menu";
+    menuOpcoes.hidden = true;
 
-            const confirmar =
-                confirm(
-                    "Deseja excluir esta publicação?"
-                );
+    const botaoEditar = document.createElement("button");
+    botaoEditar.type = "button";
+    botaoEditar.textContent = "Editar publicação";
 
+    const botaoExcluir = document.createElement("button");
+    botaoExcluir.type = "button";
+    botaoExcluir.textContent = "Excluir publicação";
 
-            if (!confirmar) {
-                return;
-            }
+    menuOpcoes.appendChild(botaoEditar);
+    menuOpcoes.appendChild(botaoExcluir);
+
+    botaoMenu.insertAdjacentElement(
+        "afterend",
+        menuOpcoes
+    );
+
+    botaoMenu.addEventListener("click", function () {
+        menuOpcoes.hidden = !menuOpcoes.hidden;
+    });
+
+    botaoEditar.addEventListener("click", function () {
+        menuOpcoes.hidden = true;
+        alert("Vamos implementar a edição no próximo passo!");
+    });
+
+    botaoExcluir.addEventListener("click", async function () {
+
+        menuOpcoes.hidden = true;
+
+        const confirmar = confirm(
+            "Deseja excluir esta publicação?"
+        );
+
+        if (!confirmar) return;
+
+        const { error } = await supabaseClient
+            .from("posts")
+            .delete()
+            .eq("id", post.id)
+            .eq("user_id", usuarioAtual.id);
+
+        if (error) {
+            console.error("Erro ao excluir:", error);
+            alert("Não foi possível excluir a publicação.");
+            return;
+        }
+
+        await carregarPosts();
+    });
+}
 
 
             const { error } =
