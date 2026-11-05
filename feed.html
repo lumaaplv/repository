@@ -1287,6 +1287,63 @@ const autoresComentarios = {};
     const elemento = document.createElement("div");
 
     elemento.className = "comment-item";
+                    // Perfil de quem escreveu o comentário
+const autorComentario =
+    autoresComentarios[comentario.user_id];
+
+const nomeComentario =
+    autorComentario?.nome ||
+    autorComentario?.usuario ||
+    "Usuário";
+
+const fotoComentario =
+    autorComentario?.foto_url;
+
+// Cabeçalho do comentário
+const cabecalhoComentario =
+    document.createElement("div");
+
+cabecalhoComentario.className =
+    "comment-author-header";
+
+// Foto do autor
+const avatarComentario =
+    document.createElement("div");
+
+avatarComentario.className =
+    "profile-placeholder comment-author-avatar";
+
+if (fotoComentario) {
+
+    const imagem = document.createElement("img");
+
+    imagem.src = fotoComentario;
+    imagem.alt = `Foto de ${nomeComentario}`;
+    imagem.style.width = "100%";
+    imagem.style.height = "100%";
+    imagem.style.objectFit = "cover";
+    imagem.style.borderRadius = "50%";
+
+    avatarComentario.appendChild(imagem);
+
+} else {
+
+    avatarComentario.textContent =
+        nomeComentario.charAt(0).toUpperCase();
+
+}
+
+// Nome do autor
+const nomeElemento =
+    document.createElement("strong");
+
+nomeElemento.className = "comment-author-name";
+nomeElemento.textContent = nomeComentario;
+
+cabecalhoComentario.appendChild(avatarComentario);
+cabecalhoComentario.appendChild(nomeElemento);
+
+elemento.appendChild(cabecalhoComentario);
 
     const texto = document.createElement("p");
 texto.className = "comment-text";
