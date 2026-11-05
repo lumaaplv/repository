@@ -7365,3 +7365,27 @@ footer .logo img {
         min-width: 30px;
     }
 }
+
+/* CURTIDAS DO LUMA */
+
+.post-like-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.post-like-button.liked {
+    color: #f28fa6;
+}
+
+.post-like-button.liked svg {
+    fill: #f28fa6;
+    stroke: #f28fa6;
+}
+
+.post-like-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
