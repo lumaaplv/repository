@@ -1217,6 +1217,41 @@ const areaComentarios =
 
 const campoComentario =
     card.querySelector(".comment-input");
+            async function carregarComentarios() {
+
+    const listaComentarios =
+        card.querySelector(".comments-list");
+
+    const { data: comentarios, error } =
+        await supabaseClient
+            .from("comments")
+            .select("*")
+            .eq("post_id", post.id)
+            .order("created_at", {
+                ascending: true
+            });
+
+    if (error) {
+        console.error(
+            "Erro ao carregar comentários:",
+            error
+        );
+        return;
+    }
+
+    listaComentarios.innerHTML = "";
+
+    if (!comentarios || comentarios.length === 0) {
+        return;
+    }
+
+    console.log(
+        "Comentários do post:",
+        comentarios
+    );
+}
+
+carregarComentarios();
 const botaoEnviarComentario =
     card.querySelector(".comment-submit-button");
 
