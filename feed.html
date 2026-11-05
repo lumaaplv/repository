@@ -1217,6 +1217,18 @@ const areaComentarios =
 
 const campoComentario =
     card.querySelector(".comment-input");
+    // Mostrar a foto do usuário no campo de comentários
+const avatarCampoComentario =
+    card.querySelector(".comment-current-avatar");
+
+const avatarPublicacao =
+    document.getElementById("create-post-avatar");
+
+if (avatarCampoComentario && avatarPublicacao) {
+
+    avatarCampoComentario.innerHTML =
+        avatarPublicacao.innerHTML;
+}
             async function carregarComentarios() {
 
     const listaComentarios =
