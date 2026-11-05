@@ -1260,15 +1260,98 @@ async function carregarPosts() {
 
         acoesPost.className = "community-post-actions";
 
-        const botaoCurtir =
-            document.createElement("button");
+        
+const botaoCurtir =
+    document.createElement("button");
 
-        botaoCurtir.type = "button";
-        botaoCurtir.innerHTML =
-            '<i data-lucide="heart"></i> Curtir';
+botaoCurtir.type = "button";
+botaoCurtir.className = "post-like-button";
 
-        // Curtidas serão conectadas ao Supabase
-        // na próxima etapa.
+let curtiu = false;
+let quantidadeCurtidas = 0;
+
+function atualizarBotaoCurtir() {
+    botaoCurtir.innerHTML = "";
+
+    const icone = document.createElement("i");
+    icone.setAttribute("data-lucide", "heart");
+
+    const texto = document.createElement("span");
+    texto.textContent =
+        ` ${quantidadeCurtidas} ${quantidadeCurtidas === 1 ? "curtida" : "curtidas"}`;
+
+    botaoCurtir.appendChild(icone);
+    botaoCurtir.appendChild(texto);
+
+    botaoCurtir.classList.toggle("liked", curtiu);
+    botaoCurtir.setAttribute("aria-pressed", String(curtiu));
+
+    atualizarIcones();
+}
+
+async function carregarCurtidas() {
+
+    const { data, error } = await supabaseClient
+        .from("post_likes")
+        .select("user_id")
+        .eq("post_id", post.id);
+
+    if (error) {
+        console.error("Erro ao carregar curtidas:", error);
+        return;
+    }
+
+    quantidadeCurtidas = data.length;
+
+    curtiu = data.some(
+        curtida => curtida.user_id === usuarioAtual?.id
+    );
+
+    atualizarBotaoCurtir();
+}
+
+botaoCurtir.addEventListener("click", async function () {
+
+    if (!usuarioAtual || botaoCurtir.disabled) return;
+
+    botaoCurtir.disabled = true;
+
+    let resultado;
+
+    if (curtiu) {
+
+        resultado = await supabaseClient
+            .from("post_likes")
+            .delete()
+            .eq("post_id", post.id)
+            .eq("user_id", usuarioAtual.id);
+
+    } else {
+
+        resultado = await supabaseClient
+            .from("post_likes")
+            .insert({
+                post_id: post.id,
+                user_id: usuarioAtual.id
+            });
+    }
+
+    if (resultado.error) {
+
+        console.error("Erro ao atualizar curtida:", resultado.error);
+        alert("Não foi possível atualizar sua curtida.");
+
+    } else {
+
+        await carregarCurtidas();
+    }
+
+    botaoCurtir.disabled = false;
+});
+
+atualizarBotaoCurtir();
+carregarCurtidas();
+
 
         const botaoComentar =
             document.createElement("button");
