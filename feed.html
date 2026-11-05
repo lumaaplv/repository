@@ -1261,11 +1261,70 @@ const campoComentario =
     elemento.className = "comment-item";
 
     const texto = document.createElement("p");
-    texto.className = "comment-text";
-    texto.textContent = comentario.conteudo;
+texto.className = "comment-text";
+texto.textContent = comentario.conteudo;
 
-    elemento.appendChild(texto);
-    listaComentarios.appendChild(elemento);
+elemento.appendChild(texto);
+
+// Mostrar opção de exclusão apenas ao autor
+if (
+    usuarioAtual &&
+    comentario.user_id === usuarioAtual.id
+) {
+
+    const botaoExcluir = document.createElement("button");
+
+    botaoExcluir.type = "button";
+    botaoExcluir.className = "comment-delete-button";
+    botaoExcluir.textContent = "Excluir";
+    botaoExcluir.setAttribute(
+        "aria-label",
+        "Excluir meu comentário"
+    );
+
+    botaoExcluir.addEventListener(
+        "click",
+        async function () {
+
+            const confirmar = confirm(
+                "Deseja excluir este comentário?"
+            );
+
+            if (!confirmar) {
+                return;
+            }
+
+            botaoExcluir.disabled = true;
+
+            const { error } = await supabaseClient
+                .from("comments")
+                .delete()
+                .eq("id", comentario.id)
+                .eq("user_id", usuarioAtual.id);
+
+            if (error) {
+
+                console.error(
+                    "Erro ao excluir comentário:",
+                    error
+                );
+
+                alert(
+                    "Não foi possível excluir o comentário."
+                );
+
+                botaoExcluir.disabled = false;
+                return;
+            }
+
+            await carregarComentarios();
+        }
+    );
+
+    elemento.appendChild(botaoExcluir);
+}
+
+listaComentarios.appendChild(elemento);
 
 });
 }
