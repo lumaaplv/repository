@@ -7389,3 +7389,268 @@ footer .logo img {
     opacity: 0.6;
     cursor: wait;
 }
+
+/* =========================================
+   LUMA — NOVO DESIGN DOS POSTS
+   ========================================= */
+
+/* CARD PRINCIPAL */
+
+.feed-page .community-post {
+    background: #102d3b;
+    border: 1px solid rgba(183, 219, 232, 0.14);
+    border-radius: 20px;
+    padding: 22px;
+    margin: 0 0 20px;
+    color: #e2eef3;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* CABEÇALHO */
+
+.feed-page .community-post-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    margin-bottom: 18px;
+}
+
+/* FOTO */
+
+.feed-page .post-author-avatar {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.feed-page .post-author-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* NOME E DATA */
+
+.feed-page .community-post-author {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+    gap: 5px;
+}
+
+.feed-page .community-post-author strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: #f0f7fa;
+    overflow-wrap: anywhere;
+}
+
+.feed-page .community-post-author span {
+    display: block;
+    font-size: 12px;
+    color: #8daab8;
+}
+
+/* CATEGORIA */
+
+.feed-page .post-category-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 11px;
+    border-radius: 999px;
+    background: #234b5a;
+    color: #c7e9f4;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* BOTÃO DOS TRÊS PONTINHOS */
+
+.feed-page .post-menu-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: #bad2dc;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.feed-page .post-menu-button:hover {
+    background: rgba(183, 219, 232, 0.1);
+}
+
+.feed-page .post-menu-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* MENU EDITAR / EXCLUIR */
+
+.feed-page .post-options-menu {
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 185px;
+    min-width: 185px;
+    padding: 7px;
+    margin: 0;
+    background: #193c4b;
+    border: 1px solid #365a69;
+    border-radius: 13px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, .25);
+}
+
+.feed-page .post-options-menu[hidden] {
+    display: none !important;
+}
+
+.feed-page .post-options-menu button {
+    display: block;
+    width: 100%;
+    padding: 11px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    box-shadow: none;
+    color: #edf6fa;
+    font-family: inherit;
+    font-size: 13px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.feed-page .post-options-menu button:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.feed-page .post-options-menu .delete-option {
+    color: #f2a6aa;
+}
+
+/* TEXTO DA PUBLICAÇÃO */
+
+.feed-page .community-post-text {
+    margin: 0 0 20px;
+    color: #e2eef3;
+    font-size: 14px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+/* ÁREA DOS BOTÕES */
+
+.feed-page .community-post-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 22px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(183, 219, 232, 0.15);
+}
+
+/* CURTIR E COMENTAR */
+
+.feed-page .community-post-actions button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 7px 2px;
+    margin: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    color: #a7c6d4;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.feed-page .community-post-actions button:hover {
+    color: #e2f3fa;
+}
+
+.feed-page .community-post-actions svg {
+    width: 19px;
+    height: 19px;
+    stroke-width: 1.8;
+}
+
+/* CORAÇÃO CURTIDO */
+
+.feed-page .post-like-button.liked {
+    color: #f28fa6;
+}
+
+.feed-page .post-like-button.liked svg {
+    fill: #f28fa6;
+    stroke: #f28fa6;
+}
+
+.feed-page .community-post-actions button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* VERSÃO MOBILE */
+
+@media (max-width: 600px) {
+
+    .feed-page .community-post {
+        padding: 16px;
+        border-radius: 16px;
+    }
+
+    .feed-page .community-post-header {
+        gap: 9px;
+        flex-wrap: wrap;
+    }
+
+    .feed-page .post-author-avatar {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+    }
+
+    .feed-page .community-post-author strong {
+        font-size: 13px;
+    }
+
+    .feed-page .post-category-tag {
+        font-size: 10px;
+        padding: 5px 9px;
+    }
+
+    .feed-page .community-post-actions {
+        gap: 18px;
+    }
+}
