@@ -7723,3 +7723,29 @@ footer .logo img {
     background: #294958;
     color: #e6f2f6;
 }
+
+/* BOTÃO SALVAR PUBLICAÇÃO */
+
+.feed-page .community-post-actions .post-save-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: #a7c6d4;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.feed-page .community-post-actions .post-save-button:hover {
+    color: #e2f3fa;
+}
+
+.feed-page .community-post-actions .post-save-button.saved {
+    color: #a8ddeb;
+}
+
+.feed-page .community-post-actions .post-save-button.saved svg {
+    fill: #a8ddeb;
+    stroke: #a8ddeb;
+}
