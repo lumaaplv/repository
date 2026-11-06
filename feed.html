@@ -1964,6 +1964,48 @@ async function iniciarFeed() {
     atualizarIcones();
 }
 
+/* NAVEGAÇÃO — POSTS SALVOS */
+
+const botaoAbrirSalvos =
+    document.getElementById("abrir-salvos");
+
+botaoAbrirSalvos.addEventListener("click", async function () {
+
+    mostrandoSalvos = !mostrandoSalvos;
+
+    botaoAbrirSalvos.classList.toggle(
+        "active",
+        mostrandoSalvos
+    );
+
+    const botaoFeed =
+        document.querySelector(
+            '.community-menu-item[href="feed.html"]'
+        );
+
+    if (botaoFeed) {
+        botaoFeed.classList.toggle(
+            "active",
+            !mostrandoSalvos
+        );
+    }
+
+    const titulo =
+        document.querySelector(".feed-welcome h1");
+
+    if (titulo) {
+        titulo.textContent = mostrandoSalvos
+            ? "Publicações salvas"
+            : "Olá, " + (
+                perfilAtual?.nome ||
+                perfilAtual?.usuario ||
+                "usuário"
+            );
+    }
+
+    await carregarPosts();
+});
+
 iniciarFeed();
 
 </script>
