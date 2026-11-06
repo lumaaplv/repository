@@ -1364,6 +1364,92 @@ carregarCurtidas();
 
         acoesPost.appendChild(botaoCurtir);
         acoesPost.appendChild(botaoComentar);
+        
+/* SALVAR PUBLICAÇÕES */
+
+const botaoSalvar = document.createElement("button");
+botaoSalvar.type = "button";
+botaoSalvar.className = "post-save-button";
+
+let postSalvo = false;
+
+function atualizarBotaoSalvar() {
+    botaoSalvar.innerHTML = "";
+
+    const icone = document.createElement("i");
+    icone.setAttribute("data-lucide", "bookmark");
+
+    const texto = document.createElement("span");
+    texto.textContent = postSalvo ? "Salvo" : "Salvar";
+
+    botaoSalvar.appendChild(icone);
+    botaoSalvar.appendChild(texto);
+
+    botaoSalvar.classList.toggle("saved", postSalvo);
+    botaoSalvar.setAttribute(
+        "aria-pressed",
+        String(postSalvo)
+    );
+
+    atualizarIcones();
+}
+
+async function carregarEstadoSalvo() {
+    if (!usuarioAtual) return;
+
+    const { data, error } = await supabaseClient
+        .from("saved_posts")
+        .select("id")
+        .eq("post_id", post.id)
+        .eq("user_id", usuarioAtual.id)
+        .maybeSingle();
+
+    if (error) {
+        console.error("Erro ao verificar post salvo:", error);
+        return;
+    }
+
+    postSalvo = !!data;
+    atualizarBotaoSalvar();
+}
+
+botaoSalvar.addEventListener("click", async function () {
+    if (!usuarioAtual || botaoSalvar.disabled) return;
+
+    botaoSalvar.disabled = true;
+
+    let resultado;
+
+    if (postSalvo) {
+        resultado = await supabaseClient
+            .from("saved_posts")
+            .delete()
+            .eq("post_id", post.id)
+            .eq("user_id", usuarioAtual.id);
+    } else {
+        resultado = await supabaseClient
+            .from("saved_posts")
+            .insert({
+                post_id: post.id,
+                user_id: usuarioAtual.id
+            });
+    }
+
+    if (resultado.error) {
+        console.error("Erro ao salvar publicação:", resultado.error);
+        alert("Não foi possível atualizar os posts salvos.");
+    } else {
+        await carregarEstadoSalvo();
+    }
+
+    botaoSalvar.disabled = false;
+});
+
+acoesPost.appendChild(botaoSalvar);
+
+atualizarBotaoSalvar();
+carregarEstadoSalvo();
+
 
         /* ÁREA DE COMENTÁRIOS */
 
