@@ -938,13 +938,23 @@ async function carregarPosts() {
 
     if (!posts || posts.length === 0) {
 
-        feedPosts.innerHTML = `
-            <div class="feed-empty">
-                <i data-lucide="message-circle"></i>
-                <h2>A comunidade está começando.</h2>
-                <p>As publicações aparecerão aqui.</p>
-            </div>
-        `;
+        
+feedPosts.innerHTML = mostrandoSalvos
+    ? `
+        <div class="feed-empty">
+            <i data-lucide="bookmark"></i>
+            <h2>Nenhuma publicação salva ainda.</h2>
+            <p>Salve publicações para encontrá-las aqui.</p>
+        </div>
+    `
+    : `
+        <div class="feed-empty">
+            <i data-lucide="message-circle"></i>
+            <h2>A comunidade está começando.</h2>
+            <p>As publicações aparecerão aqui.</p>
+        </div>
+    `;
+
 
         atualizarIcones();
         return;
