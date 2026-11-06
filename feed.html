@@ -930,6 +930,12 @@ async function carregarPosts() {
         return;
     }
 
+    if (mostrandoSalvos) {
+        posts = (posts || []).filter(
+            post => idsPostsSalvos.includes(post.id)
+        );
+    }
+
     if (!posts || posts.length === 0) {
 
         feedPosts.innerHTML = `
