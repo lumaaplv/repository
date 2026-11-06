@@ -896,6 +896,22 @@ botaoPublicar.addEventListener(
 
 async function carregarPosts() {
 
+    if (mostrandoSalvos && usuarioAtual) {
+        const { data, error } = await supabaseClient
+            .from("saved_posts")
+            .select("post_id")
+            .eq("user_id", usuarioAtual.id);
+
+        if (error) {
+            console.error("Erro ao carregar salvos:", error);
+            return;
+        }
+
+        idsPostsSalvos = (data || []).map(
+            item => item.post_id
+        );
+    }
+
     const feedPosts =
         document.getElementById("feed-posts");
 
