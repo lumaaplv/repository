@@ -1611,6 +1611,157 @@ carregarCurtidas();
                     );
                 }
 
+/* RESPOSTAS AOS COMENTÁRIOS */
+
+const botaoResponder = document.createElement("button");
+botaoResponder.type = "button";
+botaoResponder.className = "comment-reply-button";
+botaoResponder.textContent = "Responder";
+
+const listaRespostas = document.createElement("div");
+listaRespostas.className = "comment-replies";
+
+const formularioResposta = document.createElement("div");
+formularioResposta.className = "comment-reply-form";
+formularioResposta.hidden = true;
+
+const campoResposta = document.createElement("textarea");
+campoResposta.placeholder = "Escreva sua resposta...";
+campoResposta.maxLength = 1000;
+campoResposta.rows = 2;
+
+const enviarResposta = document.createElement("button");
+enviarResposta.type = "button";
+enviarResposta.textContent = "Enviar";
+
+const cancelarResposta = document.createElement("button");
+cancelarResposta.type = "button";
+cancelarResposta.textContent = "Cancelar";
+
+formularioResposta.append(
+    campoResposta,
+    enviarResposta,
+    cancelarResposta
+);
+
+botaoResponder.addEventListener("click", function () {
+    formularioResposta.hidden = !formularioResposta.hidden;
+
+    if (!formularioResposta.hidden) {
+        campoResposta.focus();
+    }
+});
+
+cancelarResposta.addEventListener("click", function () {
+    formularioResposta.hidden = true;
+    campoResposta.value = "";
+});
+
+enviarResposta.addEventListener("click", async function () {
+    const conteudo = campoResposta.value.trim();
+
+    if (!conteudo || !usuarioAtual) return;
+
+    enviarResposta.disabled = true;
+
+    const { error } = await supabaseClient
+        .from("comments")
+        .insert({
+            post_id: post.id,
+            user_id: usuarioAtual.id,
+            conteudo: conteudo,
+            parent_id: comentario.id
+        });
+
+    if (error) {
+        console.error("Erro ao responder:", error);
+        alert("Não foi possível enviar a resposta.");
+        enviarResposta.disabled = false;
+        return;
+    }
+
+    campoResposta.value = "";
+    formularioResposta.hidden = true;
+    enviarResposta.disabled = false;
+
+    await carregarComentarios();
+});
+
+/* MOSTRAR RESPOSTAS EXISTENTES */
+
+const respostas = comentarios.filter(function (item) {
+    return item.parent_id === comentario.id;
+});
+
+respostas.forEach(function (resposta) {
+    const perfilResposta =
+        autoresComentarios[resposta.user_id];
+
+    const itemResposta = document.createElement("div");
+    itemResposta.className = "comment-reply-item";
+
+    const cabecalhoResposta = document.createElement("div");
+    cabecalhoResposta.className = "comment-author-header";
+
+    const avatarResposta = criarAvatar(
+        perfilResposta,
+        "comment-author-avatar"
+    );
+
+    const nomeResposta = document.createElement("strong");
+    nomeResposta.className = "comment-author-name";
+    nomeResposta.textContent =
+        perfilResposta?.nome ||
+        perfilResposta?.usuario ||
+        "Usuário";
+
+    cabecalhoResposta.append(avatarResposta, nomeResposta);
+
+    const textoResposta = document.createElement("p");
+    textoResposta.className = "comment-text";
+    textoResposta.textContent = resposta.conteudo;
+
+    itemResposta.append(cabecalhoResposta, textoResposta);
+
+    if (usuarioAtual && resposta.user_id === usuarioAtual.id) {
+        const excluirResposta = document.createElement("button");
+        excluirResposta.type = "button";
+        excluirResposta.className = "comment-delete-button";
+        excluirResposta.textContent = "Excluir";
+
+        excluirResposta.addEventListener("click", async function () {
+            if (!confirm("Deseja excluir esta resposta?")) return;
+
+            excluirResposta.disabled = true;
+
+            const { data, error } = await supabaseClient
+                .from("comments")
+                .delete()
+                .eq("id", resposta.id)
+                .eq("user_id", usuarioAtual.id)
+                .select("id");
+
+            if (error || !data?.length) {
+                alert("Não foi possível excluir a resposta.");
+                excluirResposta.disabled = false;
+                return;
+            }
+
+            await carregarComentarios();
+        });
+
+        itemResposta.appendChild(excluirResposta);
+    }
+
+    listaRespostas.appendChild(itemResposta);
+});
+
+elemento.append(
+    botaoResponder,
+    formularioResposta,
+    listaRespostas
+);
+
                 listaComentarios.appendChild(elemento);
             });
         }
