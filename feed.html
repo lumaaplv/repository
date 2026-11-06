@@ -2013,6 +2013,33 @@ botaoAbrirSalvos.addEventListener("click", async function () {
             );
     }
 
+/* ORGANIZAR A TELA DE SALVOS */
+
+const caixaPublicacao =
+    document.querySelector(".create-post-card");
+
+const filtrosFeed =
+    document.querySelector(".feed-filters");
+
+const textoBoasVindas =
+    document.querySelector(".feed-welcome p");
+
+if (caixaPublicacao) {
+    caixaPublicacao.style.display =
+        mostrandoSalvos ? "none" : "";
+}
+
+if (filtrosFeed) {
+    filtrosFeed.style.display =
+        mostrandoSalvos ? "none" : "";
+}
+
+if (textoBoasVindas) {
+    textoBoasVindas.textContent = mostrandoSalvos
+        ? "Suas publicações favoritas, reunidas em um só lugar."
+        : "Que bom ter você na Comunidade LUMA.";
+}
+
     await carregarPosts();
 });
 
