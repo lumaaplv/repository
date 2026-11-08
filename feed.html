@@ -2452,7 +2452,7 @@ registrarServiceWorker();
 /* =========================================
    PERMISSÃO PARA NOTIFICAÇÕES PUSH
    ========================================= */
-
+const VAPID_PUBLIC_KEY = "BKjDCtZKhK8LAgP_WGvpqMCRJZqZdc4QT6QbwMHkWyFRChHfUzol5Ln0j8DyPu8521PkHxUB073tToD9pTXCMK8";
 const botaoAtivarPush =
     document.getElementById("ativar-push");
 
@@ -2497,23 +2497,108 @@ function atualizarEstadoPush() {
     }
 }
 
-botaoAtivarPush?.addEventListener(
-    "click",
-    async function () {
 
-        if (!("Notification" in window)) return;
+/* LUMA — ATIVAR NOTIFICAÇÕES PUSH */
+
+function converterChaveVapid(chave) {
+    const padding = "=".repeat(
+        (4 - chave.length % 4) % 4
+    );
+
+    const base64 = (chave + padding)
+        .replace(/-/g, "+")
+        .replace(/_/g, "/");
+
+    const dados = atob(base64);
+
+    return Uint8Array.from(
+        dados,
+        caractere => caractere.charCodeAt(0)
+    );
+}
+
+botaoAtivarPush?.addEventListener("click", async function () {
+    botaoAtivarPush.disabled = true;
+    statusPush.textContent = "Ativando notificações...";
+
+    try {
+        if (
+            !("serviceWorker" in navigator) ||
+            !("PushManager" in window) ||
+            !("Notification" in window)
+        ) {
+            throw new Error(
+                "Este navegador não suporta notificações push."
+            );
+        }
 
         const permissao =
             await Notification.requestPermission();
 
-        atualizarEstadoPush();
+        if (permissao !== "granted") {
+            statusPush.textContent =
+                "Permissão não concedida.";
+            atualizarEstadoPush();
+            return;
+        }
 
-        console.log(
-            "Permissão de notificações:",
-            permissao
-        );
+        const registro =
+            await navigator.serviceWorker.ready;
+
+        let inscricao =
+            await registro.pushManager.getSubscription();
+
+        if (!inscricao) {
+            inscricao =
+                await registro.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey:
+                        converterChaveVapid(VAPID_PUBLIC_KEY)
+                });
+        }
+
+        const {
+            data: { session },
+            error: erroSessao
+        } = await supabaseClient.auth.getSession();
+
+        if (erroSessao || !session) {
+            throw new Error(
+                "Entre na sua conta para ativar notificações."
+            );
+        }
+
+        const { data, error } =
+            await supabaseClient.functions.invoke(
+                "register-push",
+                {
+                    body: inscricao.toJSON()
+                }
+            );
+
+        if (error || !data?.success) {
+            throw new Error(
+                "Não foi possível registrar o dispositivo."
+            );
+        }
+
+        statusPush.textContent =
+            "Notificações ativadas neste dispositivo!";
+
+        botaoAtivarPush.textContent =
+            "Notificações ativadas";
+
+    } catch (erro) {
+        console.error("Erro ao ativar push:", erro);
+
+        statusPush.textContent =
+            erro.message ||
+            "Não foi possível ativar as notificações.";
+
+        botaoAtivarPush.disabled = false;
     }
-);
+});
+
 
 const abrirNotificacoesOriginal =
     document.getElementById("abrir-notificacoes");
