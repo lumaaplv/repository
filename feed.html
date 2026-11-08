@@ -2082,6 +2082,243 @@ if (textoBoasVindas) {
     await carregarPosts();
 });
 
+/* =========================================
+   CENTRAL DE NOTIFICAÇÕES LUMA
+   ========================================= */
+
+const botaoNotificacoes =
+    document.getElementById("abrir-notificacoes");
+
+const centralNotificacoes =
+    document.getElementById("central-notificacoes");
+
+const listaNotificacoes =
+    document.getElementById("lista-notificacoes");
+
+const contadorNotificacoes =
+    document.getElementById("contador-notificacoes");
+
+const botaoMarcarLidas =
+    document.getElementById("marcar-notificacoes-lidas");
+
+let mostrandoNotificacoes = false;
+
+function mensagemNotificacao(tipo) {
+    const mensagens = {
+        like: "curtiu sua publicação.",
+        comment: "comentou sua publicação.",
+        reply: "respondeu ao seu comentário.",
+        mention: "mencionou você.",
+        follow: "começou a seguir você."
+    };
+
+    return mensagens[tipo] || "interagiu com você.";
+}
+
+async function carregarNotificacoes() {
+    if (!usuarioAtual) return;
+
+    const { data, error } = await supabaseClient
+        .from("notifications")
+        .select(
+            "id, actor_id, type, is_read, created_at"
+        )
+        .eq("recipient_id", usuarioAtual.id)
+        .order("created_at", { ascending: false })
+        .limit(50);
+
+    if (error) {
+        console.error("Erro nas notificações:", error);
+
+        if (mostrandoNotificacoes) {
+            listaNotificacoes.textContent =
+                "Não foi possível carregar as notificações.";
+        }
+        return;
+    }
+
+    const notificacoes = data || [];
+
+    const naoLidas = notificacoes.filter(
+        item => !item.is_read
+    ).length;
+
+    contadorNotificacoes.hidden = naoLidas === 0;
+    contadorNotificacoes.textContent =
+        naoLidas > 99 ? "99+" : String(naoLidas);
+
+    if (!mostrandoNotificacoes) return;
+
+    listaNotificacoes.replaceChildren();
+
+    if (notificacoes.length === 0) {
+        const vazio = document.createElement("p");
+        vazio.className = "notifications-empty";
+        vazio.textContent =
+            "Você ainda não recebeu notificações.";
+        listaNotificacoes.appendChild(vazio);
+        return;
+    }
+
+    const idsAutores = [
+        ...new Set(
+            notificacoes
+                .map(item => item.actor_id)
+                .filter(Boolean)
+        )
+    ];
+
+    const perfisPorId = {};
+
+    if (idsAutores.length > 0) {
+        const { data: perfis, error: erroPerfis } =
+            await supabaseClient
+                .from("profiles")
+                .select("id, nome, usuario, foto_url")
+                .in("id", idsAutores);
+
+        if (erroPerfis) {
+            console.error(
+                "Erro ao buscar perfis:",
+                erroPerfis
+            );
+        }
+
+        (perfis || []).forEach(perfil => {
+            perfisPorId[perfil.id] = perfil;
+        });
+    }
+
+    notificacoes.forEach(notificacao => {
+        const perfil =
+            perfisPorId[notificacao.actor_id];
+
+        const nome =
+            perfil?.nome ||
+            perfil?.usuario ||
+            "Alguém";
+
+        const item = document.createElement("div");
+        item.className = "notification-item";
+
+        if (!notificacao.is_read) {
+            item.classList.add("unread");
+        }
+
+        const avatar = criarAvatar(
+            perfil,
+            "notification-avatar"
+        );
+
+        const conteudo = document.createElement("div");
+        conteudo.className = "notification-content";
+
+        const descricao = document.createElement("p");
+
+        const nomeForte = document.createElement("strong");
+        nomeForte.textContent = nome + " ";
+
+        descricao.appendChild(nomeForte);
+        descricao.appendChild(
+            document.createTextNode(
+                mensagemNotificacao(notificacao.type)
+            )
+        );
+
+        const data = document.createElement("small");
+
+        data.textContent = new Date(
+            notificacao.created_at
+        ).toLocaleString("pt-BR");
+
+        conteudo.append(descricao, data);
+        item.append(avatar, conteudo);
+
+        if (!notificacao.is_read) {
+            const indicador = document.createElement("span");
+            indicador.className = "notification-unread-dot";
+            item.appendChild(indicador);
+        }
+
+        listaNotificacoes.appendChild(item);
+    });
+}
+
+async function abrirCentralNotificacoes() {
+    if (!usuarioAtual) return;
+
+    mostrandoNotificacoes = true;
+    mostrandoSalvos = false;
+
+    const caixaPublicacao =
+        document.querySelector(".create-post-card");
+
+    const filtros =
+        document.querySelector(".feed-filters");
+
+    const feed =
+        document.getElementById("feed-posts");
+
+    const titulo =
+        document.querySelector(".feed-welcome h1");
+
+    const descricao =
+        document.querySelector(".feed-welcome p");
+
+    if (caixaPublicacao) caixaPublicacao.hidden = true;
+    if (filtros) filtros.hidden = true;
+    if (feed) feed.hidden = true;
+
+    centralNotificacoes.hidden = false;
+
+    if (titulo) {
+        titulo.textContent = "Notificações";
+    }
+
+    if (descricao) {
+        descricao.textContent =
+            "Acompanhe as novidades da comunidade LUMA.";
+    }
+
+    document.querySelectorAll(
+        ".community-menu-item"
+    ).forEach(item => item.classList.remove("active"));
+
+    botaoNotificacoes.classList.add("active");
+
+    await carregarNotificacoes();
+}
+
+botaoNotificacoes?.addEventListener(
+    "click",
+    abrirCentralNotificacoes
+);
+
+botaoMarcarLidas?.addEventListener(
+    "click",
+    async function () {
+        if (!usuarioAtual) return;
+
+        botaoMarcarLidas.disabled = true;
+
+        const { error } = await supabaseClient
+            .from("notifications")
+            .update({ is_read: true })
+            .eq("recipient_id", usuarioAtual.id)
+            .eq("is_read", false);
+
+        botaoMarcarLidas.disabled = false;
+
+        if (error) {
+            console.error("Erro ao marcar como lidas:", error);
+            alert("Não foi possível atualizar as notificações.");
+            return;
+        }
+
+        await carregarNotificacoes();
+    }
+);
+
 iniciarFeed();
 
 </script>
