@@ -370,6 +370,35 @@
     </div>
 </section>
 
+<!-- ATIVAR NOTIFICAÇÕES PUSH -->
+
+<div
+    id="configuracao-push"
+    class="push-settings"
+    hidden
+>
+    <div class="push-settings-info">
+        <i data-lucide="bell-ring"></i>
+
+        <div>
+            <strong>Notificações no dispositivo</strong>
+            <p>
+                Receba avisos de novas interações
+                mesmo quando não estiver no LUMA.
+            </p>
+        </div>
+    </div>
+
+    <button
+        id="ativar-push"
+        type="button"
+    >
+        Ativar notificações
+    </button>
+
+    <p id="status-push" role="status"></p>
+</div>
+
             <!-- PUBLICAÇÕES -->
 
             <div id="feed-posts">
@@ -2419,6 +2448,89 @@ async function registrarServiceWorker() {
 }
 
 registrarServiceWorker();
+
+/* =========================================
+   PERMISSÃO PARA NOTIFICAÇÕES PUSH
+   ========================================= */
+
+const botaoAtivarPush =
+    document.getElementById("ativar-push");
+
+const configuracaoPush =
+    document.getElementById("configuracao-push");
+
+const statusPush =
+    document.getElementById("status-push");
+
+function atualizarEstadoPush() {
+
+    if (!("Notification" in window) ||
+        !("serviceWorker" in navigator) ||
+        !("PushManager" in window)) {
+
+        botaoAtivarPush.disabled = true;
+        statusPush.textContent =
+            "Notificações push indisponíveis neste navegador.";
+        return;
+    }
+
+    if (Notification.permission === "granted") {
+        botaoAtivarPush.textContent =
+            "Permissão concedida";
+        botaoAtivarPush.disabled = true;
+
+        statusPush.textContent =
+            "O envio de notificações será configurado em breve.";
+
+    } else if (Notification.permission === "denied") {
+        botaoAtivarPush.disabled = true;
+
+        statusPush.textContent =
+            "Notificações bloqueadas nas configurações do navegador.";
+
+    } else {
+        botaoAtivarPush.disabled = false;
+        botaoAtivarPush.textContent =
+            "Ativar notificações";
+
+        statusPush.textContent = "";
+    }
+}
+
+botaoAtivarPush?.addEventListener(
+    "click",
+    async function () {
+
+        if (!("Notification" in window)) return;
+
+        const permissao =
+            await Notification.requestPermission();
+
+        atualizarEstadoPush();
+
+        console.log(
+            "Permissão de notificações:",
+            permissao
+        );
+    }
+);
+
+const abrirNotificacoesOriginal =
+    document.getElementById("abrir-notificacoes");
+
+abrirNotificacoesOriginal?.addEventListener(
+    "click",
+    function () {
+        configuracaoPush.hidden = false;
+        atualizarEstadoPush();
+    }
+);
+
+document.getElementById("sininho-topo")
+    ?.addEventListener("click", function () {
+        configuracaoPush.hidden = false;
+        atualizarEstadoPush();
+    });
 
 iniciarFeed();
 
