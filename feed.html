@@ -231,6 +231,7 @@
 
                 <button
                     class="header-icon-button"
+                    id="sininho-topo"
                     aria-label="Notificações"
                 >
                     <i data-lucide="bell"></i>
@@ -2151,6 +2152,16 @@ async function carregarNotificacoes() {
     contadorNotificacoes.hidden = naoLidas === 0;
     contadorNotificacoes.textContent =
         naoLidas > 99 ? "99+" : String(naoLidas);
+    
+const contadorTopo =
+    document.getElementById("contador-topo");
+
+if (contadorTopo) {
+    contadorTopo.hidden = naoLidas === 0;
+    contadorTopo.textContent =
+        naoLidas > 99 ? "99+" : String(naoLidas);
+}
+
 
     if (!mostrandoNotificacoes) return;
 
@@ -2323,6 +2334,17 @@ botaoMarcarLidas?.addEventListener(
         await carregarNotificacoes();
     }
 );
+    
+/* SININHO DO TOPO */
+
+const sininhoTopo =
+    document.getElementById("sininho-topo");
+
+sininhoTopo?.addEventListener(
+    "click",
+    abrirCentralNotificacoes
+);
+
 
 iniciarFeed();
 
