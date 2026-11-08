@@ -7871,3 +7871,60 @@ footer .logo img {
     background: #a9e1f3;
     border-radius: 50%;
 }
+
+/* CONFIGURAÇÕES DE NOTIFICAÇÕES PUSH */
+
+.push-settings[hidden] {
+    display: none !important;
+}
+
+.push-settings {
+    background: #102e3c;
+    border: 1px solid rgba(180, 220, 235, 0.18);
+    border-radius: 18px;
+    padding: 20px;
+    margin: 18px 0;
+}
+
+.push-settings-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    color: #e8f4f8;
+}
+
+.push-settings-info svg {
+    color: #b5e4f3;
+    flex-shrink: 0;
+}
+
+.push-settings-info strong {
+    font-size: 14px;
+}
+
+.push-settings-info p {
+    color: #a5c5d0;
+    font-size: 12px;
+    margin: 6px 0 15px;
+}
+
+#ativar-push {
+    background: #b5e4f3;
+    color: #092735;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#ativar-push:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+#status-push {
+    color: #a5c5d0;
+    font-size: 12px;
+    margin: 10px 0 0;
+}
