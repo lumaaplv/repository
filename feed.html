@@ -2382,6 +2382,44 @@ sininhoTopo?.addEventListener(
 );
 
 
+/* =========================================
+   LUMA — REGISTRO DO SERVICE WORKER
+   ========================================= */
+
+async function registrarServiceWorker() {
+
+    if (!("serviceWorker" in navigator)) {
+        console.log(
+            "Este navegador não suporta Service Workers."
+        );
+        return null;
+    }
+
+    try {
+        const registro =
+            await navigator.serviceWorker.register(
+                "./sw.js"
+            );
+
+        console.log(
+            "Service Worker registrado:",
+            registro.scope
+        );
+
+        return registro;
+
+    } catch (erro) {
+        console.error(
+            "Erro ao registrar Service Worker:",
+            erro
+        );
+
+        return null;
+    }
+}
+
+registrarServiceWorker();
+
 iniciarFeed();
 
 </script>
