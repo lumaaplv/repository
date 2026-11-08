@@ -7821,3 +7821,53 @@ footer .logo img {
         flex-direction: column;
     }
 }
+
+/* ITENS DA CENTRAL DE NOTIFICAÇÕES */
+
+.feed-page [hidden] {
+    display: none !important;
+}
+
+.notification-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 12px;
+    border-bottom: 1px solid rgba(180, 220, 235, 0.12);
+}
+
+.notification-item.unread {
+    background: rgba(166, 220, 239, 0.07);
+    border-radius: 12px;
+}
+
+.notification-avatar {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-content p {
+    color: #e8f4f8;
+    font-size: 13px;
+    margin: 0 0 6px;
+    line-height: 1.5;
+}
+
+.notification-content small {
+    color: #8fb7c7;
+    font-size: 11px;
+}
+
+.notification-unread-dot {
+    width: 8px;
+    height: 8px;
+    background: #a9e1f3;
+    border-radius: 50%;
+}
