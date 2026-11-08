@@ -2000,6 +2000,7 @@ elemento.append(
    INICIALIZAÇÃO
    ========================================= */
 
+
 async function iniciarFeed() {
 
     await carregarUsuario();
@@ -2010,8 +2011,12 @@ async function iniciarFeed() {
 
     await carregarPosts();
 
+    // Verificar notificações ao entrar no Feed
+    await carregarNotificacoes();
+
     atualizarIcones();
 }
+
 
 /* NAVEGAÇÃO — POSTS SALVOS */
 
