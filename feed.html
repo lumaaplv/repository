@@ -2532,6 +2532,17 @@ document.getElementById("sininho-topo")
         atualizarEstadoPush();
     });
 
+/* VOLTAR AO FEED PELA NAVEGAÇÃO */
+
+const linkFeedMobile = document.querySelector(
+    '.community-menu-item[href="feed.html"]'
+);
+
+linkFeedMobile?.addEventListener("click", function (event) {
+    event.preventDefault();
+    window.location.href = "feed.html";
+});
+
 iniciarFeed();
 
 </script>
