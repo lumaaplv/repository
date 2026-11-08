@@ -2002,6 +2002,41 @@ elemento.append(
    ========================================= */
 
 
+/* =========================================
+   NOTIFICAÇÕES EM TEMPO REAL
+   ========================================= */
+
+let canalNotificacoes = null;
+
+function iniciarNotificacoesRealtime() {
+
+    if (!usuarioAtual || canalNotificacoes) return;
+
+    canalNotificacoes = supabaseClient
+        .channel(
+            "notificacoes-" + usuarioAtual.id
+        )
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "notifications",
+                filter: "recipient_id=eq." + usuarioAtual.id
+            },
+            async function () {
+                await carregarNotificacoes();
+            }
+        )
+        .subscribe(function (status) {
+            if (status === "CHANNEL_ERROR") {
+                console.error(
+                    "Erro ao conectar notificações em tempo real."
+                );
+            }
+        });
+}
+
 async function iniciarFeed() {
 
     await carregarUsuario();
@@ -2014,6 +2049,7 @@ async function iniciarFeed() {
 
     // Verificar notificações ao entrar no Feed
     await carregarNotificacoes();
+    iniciarNotificacoesRealtime();
 
     atualizarIcones();
 }
