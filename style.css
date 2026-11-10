@@ -8233,3 +8233,14 @@ footer .logo img {
         font-size: 12px;
     }
 }
+
+/* BOTÃO SEGUIR / SEGUINDO */
+
+.profile-follow-button {
+    min-width: 180px;
+    min-height: 46px;
+    padding: 13px 30px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 12px;
+}
