@@ -2652,6 +2652,51 @@ linkFeedMobile?.addEventListener("click", function (event) {
     window.location.href = "feed.html";
 });
 
+/* AVISO PARA IPHONE — LUMA */
+
+function configurarAvisoInstalacao() {
+    const aviso = document.getElementById(
+        "aviso-instalar-luma"
+    );
+
+    const fechar = document.getElementById(
+        "fechar-aviso-luma"
+    );
+
+    if (!aviso) return;
+
+    const iphone = /iPhone|iPod/i.test(
+        navigator.userAgent
+    );
+
+    const instalado =
+        window.matchMedia(
+            "(display-mode: standalone)"
+        ).matches ||
+        navigator.standalone === true;
+
+    const dispensado =
+        sessionStorage.getItem(
+            "luma-aviso-instalacao-dispensado"
+        ) === "sim";
+
+    if (iphone && !instalado && !dispensado) {
+        aviso.hidden = false;
+        atualizarIcones();
+    }
+
+    fechar?.addEventListener("click", function () {
+        aviso.hidden = true;
+
+        sessionStorage.setItem(
+            "luma-aviso-instalacao-dispensado",
+            "sim"
+        );
+    });
+}
+
+configurarAvisoInstalacao();
+
 iniciarFeed();
 
 </script>
