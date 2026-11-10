@@ -472,7 +472,7 @@ if (profileId === user.id) {
                 profileId,
                 nome
             );
-
+await configurarSeguidores(profileId, user.id);
 
             lucide.createIcons();
 
@@ -662,6 +662,81 @@ if (profileId === user.id) {
 
         }
 
+
+async function configurarSeguidores(profileId, userId) {
+    const botao = document.getElementById("profile-follow-button");
+    const seguidores = document.getElementById("profile-followers-count");
+    const seguindo = document.getElementById("profile-following-count");
+
+    const atualizar = async () => {
+        const [resultadoSeguidores, resultadoSeguindo] = await Promise.all([
+            supabaseClient.from("follows")
+                .select("*", { count: "exact", head: true })
+                .eq("following_id", profileId),
+            supabaseClient.from("follows")
+                .select("*", { count: "exact", head: true })
+                .eq("follower_id", profileId)
+        ]);
+
+        if (resultadoSeguidores.error || resultadoSeguindo.error) {
+            console.error("Erro ao contar seguidores");
+            return;
+        }
+
+        seguidores.textContent = resultadoSeguidores.count ?? 0;
+        seguindo.textContent = resultadoSeguindo.count ?? 0;
+    };
+
+    await atualizar();
+
+    if (profileId === userId) return;
+
+    const { data, error } = await supabaseClient
+        .from("follows")
+        .select("id")
+        .eq("follower_id", userId)
+        .eq("following_id", profileId)
+        .maybeSingle();
+
+    if (error) {
+        console.error("Erro ao consultar seguidores:", error);
+        return;
+    }
+
+    let estaSeguindo = Boolean(data);
+
+    const atualizarBotao = () => {
+        botao.textContent = estaSeguindo ? "Seguindo" : "Seguir";
+    };
+
+    atualizarBotao();
+
+    botao.addEventListener("click", async () => {
+        botao.disabled = true;
+
+        const resultado = estaSeguindo
+            ? await supabaseClient.from("follows")
+                .delete()
+                .eq("follower_id", userId)
+                .eq("following_id", profileId)
+            : await supabaseClient.from("follows")
+                .insert({
+                    follower_id: userId,
+                    following_id: profileId
+                });
+
+        if (resultado.error) {
+            console.error("Erro ao seguir:", resultado.error);
+            alert("Não foi possível atualizar. Tente novamente.");
+        } else {
+            estaSeguindo = !estaSeguindo;
+            atualizarBotao();
+            await atualizar();
+        }
+
+        botao.disabled = false;
+    });
+}
 
         /* =========================================
            INICIAR
