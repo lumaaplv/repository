@@ -8058,3 +8058,52 @@ footer .logo img {
         font-size: 9px;
     }
 }
+
+/* LUMA — AVISO DE INSTALAÇÃO NO IPHONE */
+
+.luma-install-banner[hidden] {
+    display: none !important;
+}
+
+.luma-install-banner {
+    background: #102e3c;
+    border: 1px solid rgba(181, 228, 243, 0.2);
+    border-radius: 18px;
+    padding: 22px;
+    margin: 18px 0;
+    color: #e8f4f8;
+}
+
+.luma-install-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #b5e4f3;
+}
+
+.luma-install-header svg {
+    width: 22px;
+    height: 22px;
+}
+
+.luma-install-banner p,
+.luma-install-banner li {
+    color: #c4dbe4;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.luma-install-banner ol {
+    padding-left: 20px;
+    margin: 14px 0;
+}
+
+#fechar-aviso-luma {
+    background: #b5e4f3;
+    color: #102e3c;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-weight: 600;
+    cursor: pointer;
+}
