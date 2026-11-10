@@ -8134,3 +8134,102 @@ footer .logo img {
     outline-offset: 4px;
     border-radius: 8px;
 }
+
+/* =========================================
+   LUMA — SISTEMA DE SEGUIDORES
+   ========================================= */
+
+.profile-follow-area {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+/* BOTÃO SEGUIR */
+
+.profile-follow-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 130px;
+    padding: 12px 24px;
+    background: #9bdcf7;
+    color: #102e3c;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.profile-follow-button:hover {
+    background: #c4edfc;
+}
+
+.profile-follow-button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* BOTÃO QUANDO JÁ ESTÁ SEGUINDO */
+
+.profile-follow-button.is-following {
+    background: transparent;
+    color: #9bdcf7;
+    border-color: #507b8b;
+}
+
+.profile-follow-button.is-following:hover {
+    background: rgba(155, 220, 247, 0.1);
+}
+
+/* CONTADORES */
+
+.profile-follow-stats {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    color: #c4dbe4;
+    font-size: 13px;
+}
+
+.profile-follow-stats span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.profile-follow-stats strong {
+    color: #f1f8fb;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* MANTER ELEMENTOS OCULTOS */
+
+.profile-follow-button[hidden] {
+    display: none !important;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .profile-follow-area {
+        width: 100%;
+        margin-top: 14px;
+    }
+
+    .profile-follow-button {
+        width: 100%;
+    }
+
+    .profile-follow-stats {
+        gap: 18px;
+        font-size: 12px;
+    }
+}
