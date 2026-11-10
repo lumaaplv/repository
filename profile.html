@@ -456,15 +456,15 @@
             /* EDITAR PERFIL APENAS SE FOR O DONO */
 
            
-if (profileId === user.id) {
-    document.getElementById(
-        "edit-profile"
-    ).hidden = false;
-} else {
-    document.getElementById(
-        "profile-follow-button"
-    ).hidden = false;
-}
+
+const botaoEditar = document.getElementById("edit-profile");
+const botaoSeguir = document.getElementById("profile-follow-button");
+
+const meuPerfil = profileId === user.id;
+
+botaoEditar.hidden = !meuPerfil;
+botaoSeguir.hidden = meuPerfil;
+
 
 
 
