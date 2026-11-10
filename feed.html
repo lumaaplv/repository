@@ -1131,9 +1131,24 @@ feedPosts.innerHTML = mostrandoSalvos
         categoriaElemento.textContent =
             nomeCategoria(post.categoria);
 
-        cabecalho.appendChild(avatarAutor);
-        cabecalho.appendChild(informacoesAutor);
-        cabecalho.appendChild(categoriaElemento);
+       
+const linkPerfilAutor = document.createElement("a");
+
+linkPerfilAutor.href =
+    "profile.html?id=" + encodeURIComponent(post.user_id);
+
+linkPerfilAutor.className = "post-author-profile-link";
+linkPerfilAutor.setAttribute(
+    "aria-label",
+    "Ver perfil de " + nomeAutor
+);
+
+linkPerfilAutor.appendChild(avatarAutor);
+linkPerfilAutor.appendChild(informacoesAutor);
+
+cabecalho.appendChild(linkPerfilAutor);
+cabecalho.appendChild(categoriaElemento);
+
 
         /* TEXTO */
 
