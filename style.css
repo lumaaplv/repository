@@ -8244,3 +8244,10 @@ footer .logo img {
     font-weight: 600;
     border-radius: 12px;
 }
+
+/* OCULTAR BOTÕES QUANDO NECESSÁRIO */
+
+#edit-profile[hidden],
+#profile-follow-button[hidden] {
+    display: none !important;
+}
