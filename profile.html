@@ -705,9 +705,11 @@ async function configurarSeguidores(profileId, userId) {
 
     let estaSeguindo = Boolean(data);
 
-    const atualizarBotao = () => {
-        botao.textContent = estaSeguindo ? "Seguindo" : "Seguir";
-    };
+    
+const atualizarBotao = () => {
+    botao.textContent = estaSeguindo ? "Seguindo" : "Seguir";
+    botao.classList.toggle("is-following", estaSeguindo);
+};
 
     atualizarBotao();
 
