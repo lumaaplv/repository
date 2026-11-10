@@ -8107,3 +8107,30 @@ footer .logo img {
     font-weight: 600;
     cursor: pointer;
 }
+
+/* LINKS PARA PERFIS — LUMA */
+
+.post-author-profile-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+    cursor: pointer;
+}
+
+.post-author-profile-link .community-post-author strong {
+    color: #f1f8fb;
+    transition: color 0.2s ease;
+}
+
+.post-author-profile-link:hover .community-post-author strong {
+    color: #9bdcf7;
+}
+
+.post-author-profile-link:focus-visible {
+    outline: 2px solid #9bdcf7;
+    outline-offset: 4px;
+    border-radius: 8px;
+}
