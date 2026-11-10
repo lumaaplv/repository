@@ -455,13 +455,17 @@
 
             /* EDITAR PERFIL APENAS SE FOR O DONO */
 
-            if (profileId === user.id) {
+           
+if (profileId === user.id) {
+    document.getElementById(
+        "edit-profile"
+    ).hidden = false;
+} else {
+    document.getElementById(
+        "profile-follow-button"
+    ).hidden = false;
+}
 
-                document.getElementById(
-                    "edit-profile"
-                ).hidden = false;
-
-            }
 
 
             await carregarPostsPerfil(
