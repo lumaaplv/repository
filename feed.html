@@ -1961,7 +1961,24 @@ respostas.forEach(function (resposta) {
         perfilResposta?.usuario ||
         "Usuário";
 
-    cabecalhoResposta.append(avatarResposta, nomeResposta);
+    
+const linkPerfilResposta = document.createElement("a");
+
+linkPerfilResposta.href =
+    "profile.html?id=" + encodeURIComponent(resposta.user_id);
+
+linkPerfilResposta.className = "comment-profile-link";
+
+linkPerfilResposta.setAttribute(
+    "aria-label",
+    "Ver perfil de " + nomeResposta.textContent
+);
+
+linkPerfilResposta.appendChild(avatarResposta);
+linkPerfilResposta.appendChild(nomeResposta);
+
+cabecalhoResposta.appendChild(linkPerfilResposta);
+
 
     const textoResposta = document.createElement("p");
     textoResposta.className = "comment-text";
