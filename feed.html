@@ -1339,6 +1339,53 @@ cabecalho.appendChild(categoriaElemento);
         textoPost.className = "community-post-text";
         textoPost.textContent = post.conteudo;
 
+/* IMAGENS DA PUBLICAÇÃO */
+
+const galeriaPost = document.createElement("div");
+galeriaPost.className = "post-gallery";
+
+async function carregarImagensPost() {
+    const { data: imagens, error } = await supabaseClient
+        .from("post_images")
+        .select("storage_path, position")
+        .eq("post_id", post.id)
+        .order("position", { ascending: true });
+
+    if (error) {
+        console.error("Erro ao buscar imagens:", error);
+        return;
+    }
+
+    if (!imagens?.length) return;
+
+    const caminhos = imagens.map(
+        imagem => imagem.storage_path
+    );
+
+    const { data: urls, error: erroUrls } =
+        await supabaseClient.storage
+            .from("post-images")
+            .createSignedUrls(caminhos, 3600);
+
+    if (erroUrls) {
+        console.error("Erro ao carregar fotos:", erroUrls);
+        return;
+    }
+
+    urls.forEach(function (item, indice) {
+        if (!item.signedUrl || item.error) return;
+
+        const imagem = document.createElement("img");
+        imagem.src = item.signedUrl;
+        imagem.alt = "Imagem da publicação " + (indice + 1);
+        imagem.loading = "lazy";
+
+        galeriaPost.appendChild(imagem);
+    });
+}
+
+carregarImagensPost();
+
         /* MENU DO AUTOR */
 
         if (
@@ -2262,10 +2309,12 @@ elemento.append(
 
         /* MONTAR CARD */
 
-        card.appendChild(cabecalho);
-        card.appendChild(textoPost);
-        card.appendChild(acoesPost);
-        card.appendChild(areaComentarios);
+       
+card.appendChild(cabecalho);
+card.appendChild(textoPost);
+card.appendChild(galeriaPost);
+card.appendChild(acoesPost);
+card.appendChild(areaComentarios);
 
         feedPosts.appendChild(card);
 
