@@ -943,16 +943,19 @@ categoriasPublicacao.forEach(function (botao) {
     });
 });
 
-function verificarPublicacao() {
 
+function verificarPublicacao() {
     const temTexto =
         campoPublicacao.value.trim().length > 0;
+
+    const temImagens =
+        imagensSelecionadas.length > 0;
 
     const temCategoria =
         categoriaSelecionada !== null;
 
     botaoPublicar.disabled =
-        !(temTexto && temCategoria);
+        !(temCategoria && (temTexto || temImagens));
 }
 
 /* =========================================
