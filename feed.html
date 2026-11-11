@@ -1766,13 +1766,24 @@ carregarEstadoSalvo();
                     autorComentario?.usuario ||
                     "Usuário";
 
-                cabecalhoComentario.appendChild(
-                    avatarComentario
-                );
+                
+const linkPerfilComentario = document.createElement("a");
 
-                cabecalhoComentario.appendChild(
-                    nomeElemento
-                );
+linkPerfilComentario.href =
+    "profile.html?id=" + encodeURIComponent(comentario.user_id);
+
+linkPerfilComentario.className = "comment-profile-link";
+
+linkPerfilComentario.setAttribute(
+    "aria-label",
+    "Ver perfil de " + nomeElemento.textContent
+);
+
+linkPerfilComentario.appendChild(avatarComentario);
+linkPerfilComentario.appendChild(nomeElemento);
+
+cabecalhoComentario.appendChild(linkPerfilComentario);
+
 
                 const texto =
                     document.createElement("p");
