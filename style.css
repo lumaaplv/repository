@@ -8346,3 +8346,41 @@ footer .logo img {
 .post-image-remove:hover {
     background: #b84a4a;
 }
+
+/* GALERIA DE IMAGENS DO FEED */
+
+.post-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 14px 0;
+}
+
+.post-gallery:empty {
+    display: none;
+}
+
+.post-gallery img {
+    display: block;
+    width: 100%;
+    max-height: 350px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.post-gallery:has(img:only-child) {
+    grid-template-columns: 1fr;
+}
+
+.post-gallery:has(img:only-child) img {
+    aspect-ratio: auto;
+    max-height: 450px;
+    object-fit: contain;
+}
+
+@media (max-width: 480px) {
+    .post-gallery img {
+        max-height: 220px;
+    }
+}
