@@ -8325,3 +8325,24 @@ footer .logo img {
         height: 120px;
     }
 }
+
+.post-image-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(10, 30, 42, 0.85);
+    color: white;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.post-image-remove:hover {
+    background: #b84a4a;
+}
