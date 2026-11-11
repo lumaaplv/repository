@@ -1096,62 +1096,74 @@ async function enviarImagensPost(postId) {
     return imagensEnviadas;
 }
 
-botaoPublicar.addEventListener(
-    "click",
-    async function () {
 
-        const conteudo =
-            campoPublicacao.value.trim();
+botaoPublicar.addEventListener("click", async function () {
+    const conteudo = campoPublicacao.value.trim();
 
-        if (!conteudo || !categoriaSelecionada) {
-            return;
-        }
+    if (
+        !categoriaSelecionada ||
+        (!conteudo && imagensSelecionadas.length === 0)
+    ) return;
 
-        if (!usuarioAtual) {
-            alert("Sua sessão ainda não foi carregada.");
-            return;
-        }
+    if (!usuarioAtual) {
+        alert("Sua sessão ainda não foi carregada.");
+        return;
+    }
 
-        botaoPublicar.disabled = true;
-        botaoPublicar.textContent = "Publicando...";
+    botaoPublicar.disabled = true;
+    botaoPublicar.textContent = "Publicando...";
 
-        const { error } = await supabaseClient
+    let postId = null;
+
+    try {
+        const { data: post, error } = await supabaseClient
             .from("posts")
             .insert({
                 user_id: usuarioAtual.id,
                 conteudo: conteudo,
                 categoria: categoriaSelecionada
-            });
+            })
+            .select("id")
+            .single();
 
-        if (error) {
+        if (error) throw error;
 
-            console.error("Erro ao publicar:", error);
+        postId = post.id;
 
-            alert("Não foi possível publicar.");
-
-            botaoPublicar.textContent = "Publicar";
-            verificarPublicacao();
-
-            return;
+        if (imagensSelecionadas.length > 0) {
+            await enviarImagensPost(postId);
         }
 
         campoPublicacao.value = "";
         contadorPublicacao.textContent = "0 / 1500";
+
+        imagensSelecionadas = [];
+        inputImagens.value = "";
+        atualizarPreviewImagens();
 
         categoriasPublicacao.forEach(function (item) {
             item.classList.remove("selected");
         });
 
         categoriaSelecionada = null;
-
         modalPublicacao.classList.remove("active");
 
-        botaoPublicar.textContent = "Publicar";
-        botaoPublicar.disabled = true;
-
         await carregarPosts();
+
+    } catch (erro) {
+        console.error("Erro ao publicar:", erro);
+
+        alert(
+            postId
+                ? "A publicação foi criada, mas ocorreu um erro ao enviar as imagens. Verifique o resultado antes de tentar novamente."
+                : "Não foi possível criar a publicação."
+        );
+    } finally {
+        botaoPublicar.textContent = "Publicar";
+        verificarPublicacao();
     }
-);
+});
+
 
 /* =========================================
    CARREGAR POSTS
