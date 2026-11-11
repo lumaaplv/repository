@@ -640,6 +640,51 @@ await configurarSeguidores(profileId, user.id);
                     post.conteudo;
 
 
+/* IMAGENS DAS PUBLICAÇÕES DO PERFIL */
+
+const galeriaPost = document.createElement("div");
+galeriaPost.className = "post-gallery";
+
+async function carregarImagensPerfil() {
+    const { data: imagens, error } = await supabaseClient
+        .from("post_images")
+        .select("storage_path, position")
+        .eq("post_id", post.id)
+        .order("position", { ascending: true });
+
+    if (error) {
+        console.error("Erro ao buscar imagens:", error);
+        return;
+    }
+
+    if (!imagens || imagens.length === 0) return;
+
+    const caminhos = imagens.map(imagem => imagem.storage_path);
+
+    const { data: urls, error: erroUrls } =
+        await supabaseClient.storage
+            .from("post-images")
+            .createSignedUrls(caminhos, 3600);
+
+    if (erroUrls) {
+        console.error("Erro ao carregar imagens:", erroUrls);
+        return;
+    }
+
+    urls.forEach(function (item, indice) {
+        if (!item.signedUrl || item.error) return;
+
+        const imagem = document.createElement("img");
+        imagem.src = item.signedUrl;
+        imagem.alt = "Imagem da publicação " + (indice + 1);
+        imagem.loading = "lazy";
+
+        galeriaPost.appendChild(imagem);
+    });
+}
+
+carregarImagensPerfil();
+
                 const data =
                     document.createElement("small");
 
@@ -653,6 +698,7 @@ await configurarSeguidores(profileId, user.id);
 
                 card.appendChild(header);
                 card.appendChild(texto);
+                card.appendChild(galeriaPost);
                 card.appendChild(data);
 
 
