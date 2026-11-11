@@ -956,6 +956,89 @@ function verificarPublicacao() {
 }
 
 /* =========================================
+   SELEÇÃO E PRÉ-VISUALIZAÇÃO DE IMAGENS
+   ========================================= */
+
+const inputImagens =
+    document.getElementById("imagens-publicacao");
+
+const botaoAdicionarImagens =
+    document.getElementById("adicionar-imagens");
+
+const previewImagens =
+    document.getElementById("preview-imagens");
+
+let imagensSelecionadas = [];
+
+botaoAdicionarImagens.addEventListener("click", function () {
+    inputImagens.click();
+});
+
+inputImagens.addEventListener("change", function () {
+    const novosArquivos = Array.from(inputImagens.files);
+
+    if (imagensSelecionadas.length + novosArquivos.length > 4) {
+        alert("Você pode adicionar até 4 imagens por publicação.");
+        inputImagens.value = "";
+        return;
+    }
+
+    for (const arquivo of novosArquivos) {
+        if (!["image/jpeg", "image/png", "image/webp"].includes(arquivo.type)) {
+            alert("Use apenas imagens JPG, PNG ou WebP.");
+            inputImagens.value = "";
+            return;
+        }
+
+        if (arquivo.size > 10 * 1024 * 1024) {
+            alert("Cada imagem deve ter no máximo 10 MB.");
+            inputImagens.value = "";
+            return;
+        }
+    }
+
+    imagensSelecionadas.push(...novosArquivos);
+    inputImagens.value = "";
+
+    atualizarPreviewImagens();
+});
+
+function atualizarPreviewImagens() {
+    previewImagens.replaceChildren();
+
+    imagensSelecionadas.forEach(function (arquivo, indice) {
+        const item = document.createElement("div");
+        item.className = "post-image-preview-item";
+        item.style.position = "relative";
+
+        const imagem = document.createElement("img");
+        const urlTemporaria = URL.createObjectURL(arquivo);
+
+        imagem.src = urlTemporaria;
+        imagem.alt = "Imagem " + (indice + 1);
+        imagem.onload = function () {
+            URL.revokeObjectURL(urlTemporaria);
+        };
+
+        const remover = document.createElement("button");
+        remover.type = "button";
+        remover.textContent = "×";
+        remover.setAttribute("aria-label", "Remover imagem");
+        remover.className = "post-image-remove";
+
+        remover.addEventListener("click", function () {
+            imagensSelecionadas.splice(indice, 1);
+            atualizarPreviewImagens();
+        });
+
+        item.append(imagem, remover);
+        previewImagens.appendChild(item);
+    });
+
+    verificarPublicacao();
+}
+
+/* =========================================
    PUBLICAR POST
    ========================================= */
 
