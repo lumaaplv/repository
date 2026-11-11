@@ -558,6 +558,39 @@
             maxlength="1500"
         ></textarea>
 
+<!-- ANEXAR IMAGENS À PUBLICAÇÃO -->
+
+<div class="post-image-upload">
+
+    <input
+        type="file"
+        id="imagens-publicacao"
+        accept="image/jpeg,image/png,image/webp"
+        multiple
+        hidden
+    >
+
+    <button
+        type="button"
+        id="adicionar-imagens"
+        class="post-image-button"
+    >
+        <i data-lucide="image-plus"></i>
+        Adicionar fotos
+    </button>
+
+    <span class="post-image-limit">
+        Até 4 imagens
+    </span>
+
+    <div
+        id="preview-imagens"
+        class="post-image-preview"
+        aria-live="polite"
+    ></div>
+
+</div>
+
         <div class="post-modal-category">
 
             <p>Escolha um espaço</p>
