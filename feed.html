@@ -1045,6 +1045,57 @@ function atualizarPreviewImagens() {
    PUBLICAR POST
    ========================================= */
 
+/* ENVIAR IMAGENS AO SUPABASE */
+
+async function enviarImagensPost(postId) {
+    const imagensEnviadas = [];
+
+    for (let i = 0; i < imagensSelecionadas.length; i++) {
+        const arquivo = imagensSelecionadas[i];
+
+        const extensao = {
+            "image/jpeg": "jpg",
+            "image/png": "png",
+            "image/webp": "webp"
+        }[arquivo.type];
+
+        if (!extensao) {
+            throw new Error("Formato de imagem inválido.");
+        }
+
+        const caminho =
+            `${usuarioAtual.id}/${postId}/${crypto.randomUUID()}.${extensao}`;
+
+        const { error: erroUpload } = await supabaseClient.storage
+            .from("post-images")
+            .upload(caminho, arquivo, {
+                contentType: arquivo.type,
+                upsert: false
+            });
+
+        if (erroUpload) {
+            throw erroUpload;
+        }
+
+        imagensEnviadas.push(caminho);
+
+        const { error: erroRegistro } = await supabaseClient
+            .from("post_images")
+            .insert({
+                post_id: postId,
+                user_id: usuarioAtual.id,
+                storage_path: caminho,
+                position: i + 1
+            });
+
+        if (erroRegistro) {
+            throw erroRegistro;
+        }
+    }
+
+    return imagensEnviadas;
+}
+
 botaoPublicar.addEventListener(
     "click",
     async function () {
