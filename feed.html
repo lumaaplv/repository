@@ -1603,6 +1603,26 @@ carregarImagensPost();
                     const {
                         data,
                         error
+                        
+/* BUSCAR IMAGENS ANTES DE EXCLUIR O POST */
+
+const { data: imagensParaExcluir, error: erroImagens } =
+    await supabaseClient
+        .from("post_images")
+        .select("storage_path")
+        .eq("post_id", post.id)
+        .eq("user_id", usuarioAtual.id);
+
+if (erroImagens) {
+    console.error("Erro ao buscar imagens:", erroImagens);
+    alert("Não foi possível verificar as imagens da publicação.");
+    botaoExcluir.disabled = false;
+    return;
+}
+
+const caminhosImagens = (imagensParaExcluir || [])
+    .map(imagem => imagem.storage_path);
+
                     } = await supabaseClient
                         .from("posts")
                         .delete()
