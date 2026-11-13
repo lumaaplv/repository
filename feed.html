@@ -1646,6 +1646,31 @@ const caminhosImagens = (imagensParaExcluir || [])
                         return;
                     }
 
+/* EXCLUIR IMAGENS DO STORAGE */
+
+if (caminhosImagens.length > 0) {
+    const { data: arquivosRemovidos, error: erroStorage } =
+        await supabaseClient.storage
+            .from("post-images")
+            .remove(caminhosImagens);
+
+    if (erroStorage) {
+        console.error(
+            "A publicação foi excluída, mas as imagens permaneceram no Storage:",
+            erroStorage
+        );
+
+        alert(
+            "Publicação excluída, mas não foi possível remover todas as imagens do armazenamento."
+        );
+    } else {
+        console.log(
+            "Imagens removidas do Storage:",
+            arquivosRemovidos
+        );
+    }
+}
+
                     await carregarPosts();
                 }
             );
