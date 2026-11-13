@@ -68,13 +68,47 @@
             </div>
         </section>
 
-        <!-- PUBLICAÇÕES -->
-        <section class="explore-section">
-            <h2>Publicações populares</h2>
-            <div id="explore-posts">
-                <p>Em breve, publicações da comunidade.</p>
-            </div>
-        </section>
+       
+<!-- PUBLICAÇÕES POPULARES -->
+<section class="explore-section explore-popular-section">
+
+    <div class="explore-section-heading">
+        <h2>Publicações populares</h2>
+
+        <span class="explore-ranking-label">
+            <i data-lucide="trending-up"></i>
+            As 5 publicações mais curtidas
+        </span>
+    </div>
+
+    <div id="explore-posts" class="explore-popular-grid">
+        <p>Carregando publicações populares...</p>
+    </div>
+
+</section>
+
+<!-- EXPLORAR MAIS -->
+<section class="explore-section explore-more-section">
+
+    <div class="explore-section-heading">
+        <h2>Explorar mais</h2>
+    </div>
+
+    <div id="explore-more-posts" class="explore-more-list">
+        <p>Descubra mais publicações da comunidade.</p>
+    </div>
+
+    <button
+        type="button"
+        id="explore-load-more"
+        class="explore-load-more"
+        hidden
+    >
+        Carregar mais publicações
+        <i data-lucide="arrow-down"></i>
+    </button>
+
+</section>
 
         <!-- PROFISSIONAIS -->
         <section class="explore-section">
