@@ -8598,3 +8598,26 @@ footer .logo img {
         transform: none;
     }
 }
+
+/* FONTE PADRÃO — EXPLORAR LUMA */
+
+.explore-page,
+.explore-page h1,
+.explore-page h2,
+.explore-page h3,
+.explore-page p,
+.explore-page a,
+.explore-page span,
+.explore-page button,
+.explore-page input {
+    font-family: "Nunito", sans-serif;
+}
+
+.explore-header h1 {
+    font-weight: 800;
+    letter-spacing: -1.5px;
+}
+
+.explore-section h2 {
+    font-weight: 700;
+}
