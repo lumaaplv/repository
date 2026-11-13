@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
 
 :root {
     --azul: #80c9ed;
@@ -8619,5 +8619,35 @@ footer .logo img {
 }
 
 .explore-section h2 {
+    font-weight: 700;
+}
+
+/* =========================================
+   LUMA — PADRONIZAÇÃO DOS TÍTULOS
+   ========================================= */
+
+h1,
+h2,
+h3 {
+    font-family: "Nunito", sans-serif;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+}
+
+/* TÍTULOS PRINCIPAIS */
+
+h1 {
+    letter-spacing: -1.5px;
+}
+
+/* TÍTULOS DAS SEÇÕES */
+
+h2 {
+    font-weight: 800;
+}
+
+/* TÍTULOS MENORES */
+
+h3 {
     font-weight: 700;
 }
