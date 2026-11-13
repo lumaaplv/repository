@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Explorar | Comunidade LUMA</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="explore-page">
+
+    <!-- FUNDO ANIMADO -->
+    <div class="profile-floating-shapes" aria-hidden="true">
+        <span class="floating-circle circle-1"></span>
+        <span class="floating-circle circle-2"></span>
+        <span class="floating-circle circle-3"></span>
+        <span class="floating-circle circle-4"></span>
+        <span class="floating-circle circle-5"></span>
+        <span class="floating-circle circle-6"></span>
+    </div>
+
+    <main class="explore-container">
+
+        <a href="feed.html" class="explore-back">
+            <i data-lucide="arrow-left"></i>
+            Voltar à comunidade
+        </a>
+
+        <header class="explore-header">
+            <span class="explore-eyebrow">COMUNIDADE LUMA</span>
+
+            <h1>Explorar</h1>
+
+            <p>
+                Descubra histórias, experiências e conhecimento
+                compartilhados pela nossa comunidade.
+            </p>
+        </header>
+
+        <!-- BUSCA -->
+        <div class="explore-search">
+            <i data-lucide="search"></i>
+            <input
+                type="search"
+                id="explore-search-input"
+                placeholder="O que você deseja encontrar?"
+                aria-label="Buscar publicações"
+            >
+        </div>
+
+        <!-- CATEGORIAS -->
+        <section class="explore-section">
+            <h2>Explore por assunto</h2>
+
+            <div class="explore-categories">
+                <button data-category="alimentacao">Alimentação</button>
+                <button data-category="familias">Famílias</button>
+                <button data-category="ciencia">Ciência</button>
+                <button data-category="historias">Histórias</button>
+            </div>
+        </section>
+
+        <!-- PUBLICAÇÕES -->
+        <section class="explore-section">
+            <h2>Publicações populares</h2>
+            <div id="explore-posts">
+                <p>Em breve, publicações da comunidade.</p>
+            </div>
+        </section>
+
+        <!-- PROFISSIONAIS -->
+        <section class="explore-section">
+            <h2>Profissionais de saúde</h2>
+            <p>
+                Um espaço para descobrir conteúdos de
+                profissionais verificados.
+            </p>
+        </section>
+
+    </main>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>
