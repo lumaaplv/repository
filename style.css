@@ -9000,3 +9000,26 @@ h3 {
     box-shadow: 0 0 22px rgba(161, 221, 241, 0.25);
     scroll-margin-top: 100px;
 }
+
+/* IMAGENS DAS PUBLICAÇÕES — EXPLORAR */
+
+.explore-page .explore-post-image {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #092633;
+}
+
+.explore-page .explore-post-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.explore-page .explore-popular-grid .explore-post-card:has(.explore-post-image) p {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
