@@ -282,6 +282,10 @@ for (const postId of Object.keys(imagensPorPost)) {
         posts.forEach(function (post, indice) {
             const card = document.createElement("article");
             card.className = "explore-post-card";
+            
+/* CATEGORIA DA PUBLICAÇÃO */
+card.dataset.category = post.categoria || "";
+
             card.style.cursor = "pointer";
 card.setAttribute("role", "link");
 card.setAttribute("tabindex", "0");
@@ -451,9 +455,18 @@ campoPesquisa.addEventListener("input", function () {
     );
 
     cards.forEach(function (card) {
-        const conteudo = card.textContent.toLocaleLowerCase("pt-BR");
+       
+const conteudo = card.textContent.toLocaleLowerCase("pt-BR");
 
-        card.style.display = conteudo.includes(termo) ? "" : "none";
+const correspondePesquisa = conteudo.includes(termo);
+
+const correspondeCategoria =
+    !categoriaSelecionada ||
+    card.dataset.category === categoriaSelecionada;
+
+card.style.display =
+    correspondePesquisa && correspondeCategoria ? "" : "none";
+
     });
 });
 
@@ -478,6 +491,7 @@ botoesCategoria.forEach(function (botao) {
                 item.dataset.category === categoriaSelecionada
             );
         });
+        campoPesquisa.dispatchEvent(new Event("input"));
     });
 });
 
