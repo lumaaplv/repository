@@ -1169,6 +1169,30 @@ botaoPublicar.addEventListener("click", async function () {
    CARREGAR POSTS
    ========================================= */
 
+/* ABRIR PUBLICAÇÃO VINDO DO EXPLORAR */
+
+function localizarPublicacao() {
+    const parametros = new URLSearchParams(window.location.search);
+    const postId = parametros.get("post");
+
+    if (!postId) return;
+
+    const publicacao = document.getElementById("post-" + postId);
+
+    if (publicacao) {
+        publicacao.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+        publicacao.classList.add("post-destacado");
+
+        setTimeout(function () {
+            publicacao.classList.remove("post-destacado");
+        }, 3500);
+    }
+}
+
 async function carregarPosts() {
 
     if (mostrandoSalvos && usuarioAtual) {
@@ -2357,13 +2381,14 @@ card.appendChild(textoPost);
 card.appendChild(galeriaPost);
 card.appendChild(acoesPost);
 card.appendChild(areaComentarios);
-
+card.id = "post-" + post.id;
         feedPosts.appendChild(card);
 
         carregarComentarios();
     });
 
     atualizarIcones();
+     localizarPublicacao();
 }
 
 /* =========================================
