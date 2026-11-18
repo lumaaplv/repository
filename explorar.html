@@ -439,6 +439,24 @@ if (botaoCarregar && containerMais) {
 
     }
 
+/* PESQUISA DE PUBLICAÇÕES */
+
+const campoPesquisa = document.getElementById("explore-search-input");
+
+campoPesquisa.addEventListener("input", function () {
+    const termo = this.value.trim().toLocaleLowerCase("pt-BR");
+
+    const cards = document.querySelectorAll(
+        "#explore-posts .explore-post-card, #explore-more-posts .explore-post-card"
+    );
+
+    cards.forEach(function (card) {
+        const conteudo = card.textContent.toLocaleLowerCase("pt-BR");
+
+        card.style.display = conteudo.includes(termo) ? "" : "none";
+    });
+});
+
     carregarExplorar();
     lucide.createIcons();
 </script>
