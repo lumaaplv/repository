@@ -387,15 +387,54 @@ if (fotosPost.length > 0) {
 }
 
 
+
 /* SEPARAR TOP 5 DAS DEMAIS */
 
 if (indice < 5) {
     container.appendChild(card);
 } else {
-    document.getElementById("explore-more-posts")
-        .appendChild(card);
+    const containerMais = document.getElementById("explore-more-posts");
+
+    if (indice < 11) {
+        containerMais.appendChild(card);
+    } else {
+        card.hidden = true;
+        containerMais.appendChild(card);
+    }
 }
+
+});
+
+/* BOTÃO CARREGAR MAIS */
+
+const botaoCarregar = document.getElementById("explore-load-more");
+const containerMais = document.getElementById("explore-more-posts");
+
+if (botaoCarregar && containerMais) {
+    const cardsExtras = Array.from(containerMais.children);
+
+    let quantidadeVisivel = Math.min(6, cardsExtras.length);
+
+    function atualizarBotao() {
+        botaoCarregar.hidden = quantidadeVisivel >= cardsExtras.length;
+    }
+
+    botaoCarregar.addEventListener("click", function () {
+        quantidadeVisivel = Math.min(
+            quantidadeVisivel + 6,
+            cardsExtras.length
+        );
+
+        cardsExtras.forEach(function (card, indice) {
+            card.hidden = indice >= quantidadeVisivel;
         });
+
+        atualizarBotao();
+    });
+
+    atualizarBotao();
+}
+
         lucide.createIcons();
 
     }
