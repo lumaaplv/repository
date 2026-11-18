@@ -8995,3 +8995,8 @@ h3 {
     transform: translateY(-5px);
     border-color: #a1ddf1;
 }
+.post-destacado {
+    border: 2px solid #a1ddf1 !important;
+    box-shadow: 0 0 22px rgba(161, 221, 241, 0.25);
+    scroll-margin-top: 100px;
+}
