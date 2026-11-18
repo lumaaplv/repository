@@ -8887,3 +8887,97 @@ h3 {
     color: #b9dbe8;
     font: 500 11px "Nunito", sans-serif;
 }
+
+/* =========================================
+   LUMA — CARDS POPULARES REDESIGN
+   ========================================= */
+
+/* AUMENTAR A LARGURA DA PÁGINA */
+
+.explore-container {
+    width: min(92%, 1450px);
+}
+
+/* CINCO CARDS MAIORES */
+
+.explore-popular-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 16px;
+}
+
+/* FORMATO DOS CARDS */
+
+.explore-popular-grid .explore-post-card {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    aspect-ratio: 1 / 1.15;
+    height: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #356477;
+    border-radius: 22px;
+    background: #103746;
+    overflow: hidden;
+}
+
+/* AUTOR */
+
+.explore-popular-grid .explore-post-header {
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.explore-popular-grid .explore-post-avatar {
+    width: 42px;
+    height: 42px;
+}
+
+.explore-popular-grid .explore-post-author-info strong {
+    font-size: 13px;
+}
+
+/* TEXTO */
+
+.explore-popular-grid .explore-post-card p {
+    color: #f7fbff;
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+}
+
+/* CURTIDAS NA PARTE INFERIOR */
+
+.explore-popular-grid .explore-post-likes {
+    margin-top: auto;
+    padding-top: 12px;
+}
+
+/* TABLETS */
+
+@media (max-width: 1100px) {
+    .explore-popular-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+/* CELULARES */
+
+@media (max-width: 650px) {
+    .explore-container {
+        width: min(100% - 28px, 1450px);
+    }
+
+    .explore-popular-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 12px;
+    }
+
+    .explore-popular-grid .explore-post-card {
+        padding: 12px;
+        border-radius: 17px;
+    }
+}
