@@ -153,6 +153,41 @@
             return;
         }
 
+/* BUSCAR CURTIDAS DAS PUBLICAÇÕES */
+
+const idsPosts = (posts || []).map(post => post.id);
+
+let contagemCurtidas = {};
+
+if (idsPosts.length > 0) {
+    const { data: curtidas, error: erroCurtidas } =
+        await supabaseClient
+            .from("post_likes")
+            .select("post_id")
+            .in("post_id", idsPosts);
+
+    if (erroCurtidas) {
+        console.error("Erro ao buscar curtidas:", erroCurtidas);
+        container.textContent =
+            "Não foi possível carregar o ranking.";
+        return;
+    }
+
+    (curtidas || []).forEach(function (curtida) {
+        contagemCurtidas[curtida.post_id] =
+            (contagemCurtidas[curtida.post_id] || 0) + 1;
+    });
+}
+
+posts.sort(function (a, b) {
+    const diferenca =
+        (contagemCurtidas[b.id] || 0) -
+        (contagemCurtidas[a.id] || 0);
+
+    return diferenca ||
+        new Date(b.created_at) - new Date(a.created_at);
+});
+
         container.replaceChildren();
 
         if (!posts || posts.length === 0) {
