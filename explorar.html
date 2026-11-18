@@ -189,6 +189,8 @@ posts.sort(function (a, b) {
 });
 
         container.replaceChildren();
+        document.getElementById("explore-more-posts")
+    .replaceChildren();
 
         if (!posts || posts.length === 0) {
             container.textContent =
@@ -196,7 +198,7 @@ posts.sort(function (a, b) {
             return;
         }
 
-        posts.forEach(function (post) {
+        posts.forEach(function (post, indice) {
             const card = document.createElement("article");
             card.className = "explore-post-card";
 
@@ -216,9 +218,33 @@ posts.sort(function (a, b) {
                 post.created_at
             ).toLocaleDateString("pt-BR");
 
-            card.append(categoria, texto, data);
-            container.appendChild(card);
+            /* MOSTRAR QUANTIDADE DE CURTIDAS */
+
+const curtidas = document.createElement("div");
+curtidas.className = "explore-post-likes";
+
+const iconeCurtida = document.createElement("i");
+iconeCurtida.setAttribute("data-lucide", "heart");
+
+const quantidadeCurtidas = document.createElement("span");
+quantidadeCurtidas.textContent =
+    (contagemCurtidas[post.id] || 0) + " curtidas";
+
+curtidas.append(iconeCurtida, quantidadeCurtidas);
+
+card.append(categoria, texto, data, curtidas);
+
+/* SEPARAR TOP 5 DAS DEMAIS */
+
+if (indice < 5) {
+    container.appendChild(card);
+} else {
+    document.getElementById("explore-more-posts")
+        .appendChild(card);
+}
         });
+        lucide.createIcons();
+
     }
 
     carregarExplorar();
