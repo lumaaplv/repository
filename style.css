@@ -8651,3 +8651,154 @@ h2 {
 h3 {
     font-weight: 700;
 }
+
+/* =========================================
+   LUMA — EXPLORAR: PUBLICAÇÕES
+   ========================================= */
+
+/* CABEÇALHOS */
+
+.explore-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.explore-section-heading h2 {
+    margin: 0;
+    color: #f7fbff;
+    font-family: "Nunito", sans-serif;
+    font-weight: 800;
+}
+
+.explore-ranking-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #b9dbe8;
+    font-size: 13px;
+}
+
+.explore-ranking-label svg {
+    width: 17px;
+    height: 17px;
+    color: #ffe6a2;
+}
+
+/* TOP 5 */
+
+.explore-popular-grid {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 14px;
+}
+
+.explore-popular-grid .explore-post-card {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #315666;
+    border-radius: 18px;
+    background: #103341;
+    overflow: hidden;
+    transition: transform .2s, border-color .2s;
+}
+
+.explore-popular-grid .explore-post-card:hover {
+    transform: translateY(-3px);
+    border-color: #a1ddf1;
+}
+
+/* EXPLORAR MAIS */
+
+.explore-more-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.explore-more-list .explore-post-card {
+    padding: 24px;
+    border: 1px solid #315666;
+    border-radius: 20px;
+    background: #103341;
+}
+
+/* TEXTO DAS PUBLICAÇÕES */
+
+.explore-post-card {
+    color: #f5f9fc;
+    font-family: "Nunito", sans-serif;
+}
+
+.explore-post-card p {
+    color: #f1f7fa;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+.explore-post-card small {
+    color: #c1dce6;
+}
+
+/* BOTÃO CARREGAR MAIS */
+
+.explore-load-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 30px auto 0;
+    padding: 13px 24px;
+    border: 1px solid #a1ddf1;
+    border-radius: 30px;
+    background: transparent;
+    color: #e9f7fc;
+    font: 700 14px "Nunito", sans-serif;
+    cursor: pointer;
+}
+
+.explore-load-more[hidden] {
+    display: none;
+}
+
+.explore-load-more:hover {
+    background: #a1ddf1;
+    color: #061c27;
+}
+
+.explore-load-more svg {
+    width: 17px;
+    height: 17px;
+}
+
+/* CELULAR */
+
+@media (max-width: 900px) {
+    .explore-popular-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .explore-popular-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 10px;
+    }
+
+    .explore-more-list .explore-post-card {
+        padding: 16px;
+    }
+
+    .explore-ranking-label {
+        font-size: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .explore-post-card {
+        transition: none !important;
+    }
+}
