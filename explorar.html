@@ -226,6 +226,37 @@ if (idsAutores.length > 0) {
             const card = document.createElement("article");
             card.className = "explore-post-card";
 
+/* CABEÇALHO DO AUTOR */
+
+const perfil = perfisPorId[post.user_id] || {};
+
+const cabecalho = document.createElement("div");
+cabecalho.className = "explore-post-header";
+
+const avatar = document.createElement("div");
+avatar.className = "explore-post-avatar";
+
+const nomeAutor = perfil.nome || "Usuário LUMA";
+
+if (perfil.foto_url) {
+    const foto = document.createElement("img");
+    foto.src = perfil.foto_url;
+    foto.alt = "Foto de " + nomeAutor;
+    avatar.appendChild(foto);
+} else {
+    avatar.textContent = nomeAutor.charAt(0).toUpperCase();
+}
+
+const informacoes = document.createElement("div");
+informacoes.className = "explore-post-author-info";
+
+const nome = document.createElement("strong");
+nome.textContent = nomeAutor;
+
+informacoes.appendChild(nome);
+
+cabecalho.append(avatar, informacoes);
+
             const categoria = document.createElement("small");
             categoria.textContent = {
                 alimentacao: "Alimentação",
@@ -256,7 +287,8 @@ quantidadeCurtidas.textContent =
 
 curtidas.append(iconeCurtida, quantidadeCurtidas);
 
-card.append(categoria, texto, data, curtidas);
+informacoes.appendChild(categoria);
+card.append(cabecalho, texto, data, curtidas);
 
 /* SEPARAR TOP 5 DAS DEMAIS */
 
