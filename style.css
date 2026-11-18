@@ -8888,96 +8888,101 @@ h3 {
     font: 500 11px "Nunito", sans-serif;
 }
 
+
 /* =========================================
-   LUMA — CARDS POPULARES REDESIGN
+   LUMA — PUBLICAÇÕES POPULARES
+   DESIGN DEFINITIVO
    ========================================= */
 
-/* AUMENTAR A LARGURA DA PÁGINA */
-
-.explore-container {
-    width: min(92%, 1450px);
+/* Área principal */
+.explore-page .explore-container {
+    width: min(92%, 1250px);
+    max-width: 1250px;
 }
 
-/* CINCO CARDS MAIORES */
-
-.explore-popular-grid {
-    display: grid !important;
-    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
-    gap: 16px;
-}
-
-/* FORMATO DOS CARDS */
-
-.explore-popular-grid .explore-post-card {
-    box-sizing: border-box;
+/* Cards grandes com rolagem horizontal */
+.explore-page .explore-popular-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    grid-template-columns: none !important;
+    gap: 20px;
     width: 100%;
-    min-width: 0;
-    aspect-ratio: 1 / 1.15;
-    height: auto;
-    padding: 14px;
+    overflow-x: auto;
+    padding: 8px 2px 24px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: #356477 transparent;
+}
+
+/* Cada publicação */
+.explore-page .explore-popular-grid .explore-post-card {
+    flex: 0 0 280px;
+    width: 280px;
+    min-width: 280px;
+    height: 320px;
+    aspect-ratio: auto;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    border: 1px solid #356477;
+    gap: 12px;
     border-radius: 22px;
+    border: 1px solid #356477;
     background: #103746;
+    overflow: hidden;
+    scroll-snap-align: start;
+}
+
+/* Autor */
+.explore-page .explore-post-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+}
+
+.explore-page .explore-post-avatar {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+}
+
+.explore-page .explore-post-author-info strong {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+/* Texto legível */
+.explore-page .explore-popular-grid .explore-post-card p {
+    color: #f5f9fc;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
     overflow: hidden;
 }
 
-/* AUTOR */
-
-.explore-popular-grid .explore-post-header {
-    gap: 10px;
-    margin-bottom: 12px;
-}
-
-.explore-popular-grid .explore-post-avatar {
-    width: 42px;
-    height: 42px;
-}
-
-.explore-popular-grid .explore-post-author-info strong {
-    font-size: 13px;
-}
-
-/* TEXTO */
-
-.explore-popular-grid .explore-post-card p {
-    color: #f7fbff;
-    font-size: 14px;
-    line-height: 1.5;
-    -webkit-line-clamp: 4;
-    line-clamp: 4;
-}
-
-/* CURTIDAS NA PARTE INFERIOR */
-
-.explore-popular-grid .explore-post-likes {
+/* Curtidas no rodapé */
+.explore-page .explore-popular-grid .explore-post-likes {
     margin-top: auto;
     padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,.1);
 }
 
-/* TABLETS */
-
-@media (max-width: 1100px) {
-    .explore-popular-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    }
-}
-
-/* CELULARES */
-
+/* Celular */
 @media (max-width: 650px) {
-    .explore-container {
-        width: min(100% - 28px, 1450px);
+    .explore-page .explore-container {
+        width: calc(100% - 32px);
     }
 
-    .explore-popular-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        gap: 12px;
-    }
-
-    .explore-popular-grid .explore-post-card {
-        padding: 12px;
-        border-radius: 17px;
+    .explore-page .explore-popular-grid .explore-post-card {
+        flex-basis: 260px;
+        width: 260px;
+        min-width: 260px;
+        height: 310px;
+        padding: 18px;
     }
 }
