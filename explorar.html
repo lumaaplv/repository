@@ -221,6 +221,32 @@ if (idsAutores.length > 0) {
         });
     }
 }
+        
+/* BUSCAR IMAGENS DAS PUBLICAÇÕES */
+
+const imagensPorPost = {};
+
+if (posts.length > 0) {
+    const { data: imagens, error: erroImagens } =
+        await supabaseClient
+            .from("post_images")
+            .select("post_id, storage_path, position")
+            .in("post_id", posts.map(post => post.id))
+            .order("position", { ascending: true });
+
+    if (erroImagens) {
+        console.error("Erro ao buscar imagens:", erroImagens);
+    } else {
+        (imagens || []).forEach(function (imagem) {
+            if (!imagensPorPost[imagem.post_id]) {
+                imagensPorPost[imagem.post_id] = [];
+            }
+
+            imagensPorPost[imagem.post_id].push(imagem);
+        });
+    }
+}
+
 
         posts.forEach(function (post, indice) {
             const card = document.createElement("article");
