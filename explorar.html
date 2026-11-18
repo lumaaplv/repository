@@ -198,6 +198,30 @@ posts.sort(function (a, b) {
             return;
         }
 
+/* BUSCAR PERFIS DOS AUTORES */
+
+const idsAutores = [
+    ...new Set(posts.map(post => post.user_id).filter(Boolean))
+];
+
+const perfisPorId = {};
+
+if (idsAutores.length > 0) {
+    const { data: perfis, error: erroPerfis } =
+        await supabaseClient
+            .from("profiles")
+            .select("id, nome, foto_url")
+            .in("id", idsAutores);
+
+    if (erroPerfis) {
+        console.error("Erro ao buscar perfis:", erroPerfis);
+    } else {
+        (perfis || []).forEach(function (perfil) {
+            perfisPorId[perfil.id] = perfil;
+        });
+    }
+}
+
         posts.forEach(function (post, indice) {
             const card = document.createElement("article");
             card.className = "explore-post-card";
