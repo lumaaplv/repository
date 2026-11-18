@@ -225,6 +225,21 @@ if (idsAutores.length > 0) {
         posts.forEach(function (post, indice) {
             const card = document.createElement("article");
             card.className = "explore-post-card";
+            card.style.cursor = "pointer";
+card.setAttribute("role", "link");
+card.setAttribute("tabindex", "0");
+
+function abrirPublicacao() {
+    window.location.href = "feed.html?post=" + encodeURIComponent(post.id);
+}
+
+card.addEventListener("click", abrirPublicacao);
+
+card.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        abrirPublicacao();
+    }
+});
 
 /* CABEÇALHO DO AUTOR */
 
