@@ -142,7 +142,7 @@
 
         const { data: posts, error } = await supabaseClient
             .from("posts")
-            .select("id, conteudo, categoria, created_at")
+            .select("id, user_id, conteudo, categoria, created_at")
             .order("created_at", { ascending: false })
             .limit(30);
 
