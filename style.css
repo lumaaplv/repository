@@ -8816,3 +8816,24 @@ h3 {
     height: 17px;
     color: #f5b8c7;
 }
+/* CARDS QUADRADOS — EXPLORAR */
+
+.explore-popular-grid .explore-post-card {
+    aspect-ratio: 1 / 1;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-width: 0;
+}
+
+.explore-popular-grid .explore-post-card p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    line-height: 1.5;
+}
