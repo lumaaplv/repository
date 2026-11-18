@@ -9052,3 +9052,9 @@ h3 {
 #explore-load-more[hidden] {
     display: none;
 }
+
+/* OCULTAR PUBLICAÇÕES AINDA NÃO CARREGADAS */
+
+.explore-post-card[hidden] {
+    display: none !important;
+}
