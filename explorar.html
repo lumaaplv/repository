@@ -353,7 +353,32 @@ quantidadeCurtidas.textContent =
 curtidas.append(iconeCurtida, quantidadeCurtidas);
 
 informacoes.appendChild(categoria);
-card.append(cabecalho, texto, data, curtidas);
+
+/* IMAGENS DA PUBLICAÇÃO */
+
+const fotosPost = imagensPorPost[post.id] || [];
+
+const areaImagem = document.createElement("div");
+areaImagem.className = "explore-post-image";
+
+if (fotosPost.length > 0) {
+    const imagem = document.createElement("img");
+
+    imagem.src = fotosPost[0];
+    imagem.alt = "Imagem da publicação";
+    imagem.loading = "lazy";
+
+    areaImagem.appendChild(imagem);
+}
+
+/* MONTAR CARD */
+
+if (fotosPost.length > 0) {
+    card.append(cabecalho, areaImagem, texto, data, curtidas);
+} else {
+    card.append(cabecalho, texto, data, curtidas);
+}
+
 
 /* SEPARAR TOP 5 DAS DEMAIS */
 
