@@ -457,6 +457,30 @@ campoPesquisa.addEventListener("input", function () {
     });
 });
 
+/* FILTRAR PUBLICAÇÕES POR CATEGORIA */
+
+const botoesCategoria = document.querySelectorAll(
+    ".explore-categories [data-category], .explore-categorias [data-category]"
+);
+
+let categoriaSelecionada = "";
+
+botoesCategoria.forEach(function (botao) {
+    botao.addEventListener("click", function () {
+        const categoria = botao.dataset.category;
+
+        categoriaSelecionada =
+            categoriaSelecionada === categoria ? "" : categoria;
+
+        botoesCategoria.forEach(function (item) {
+            item.classList.toggle(
+                "active",
+                item.dataset.category === categoriaSelecionada
+            );
+        });
+    });
+});
+
     carregarExplorar();
     lucide.createIcons();
 </script>
