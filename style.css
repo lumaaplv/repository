@@ -9023,3 +9023,32 @@ h3 {
     -webkit-line-clamp: 2;
     line-clamp: 2;
 }
+
+/* BOTÃO CARREGAR MAIS — EXPLORAR */
+
+.explore-load-more-container {
+    display: flex;
+    justify-content: center;
+    margin: 28px 0 48px;
+}
+
+#explore-load-more {
+    background: #d9f1f8;
+    color: #102f40;
+    border: none;
+    border-radius: 14px;
+    padding: 13px 24px;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+#explore-load-more:hover {
+    background: #bce6f3;
+    transform: translateY(-2px);
+}
+
+#explore-load-more[hidden] {
+    display: none;
+}
