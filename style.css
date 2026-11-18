@@ -8802,3 +8802,17 @@ h3 {
         transition: none !important;
     }
 }
+.explore-post-likes {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 14px;
+    color: #f1f7fa;
+    font: 700 13px "Nunito", sans-serif;
+}
+
+.explore-post-likes svg {
+    width: 17px;
+    height: 17px;
+    color: #f5b8c7;
+}
