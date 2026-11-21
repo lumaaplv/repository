@@ -9084,3 +9084,25 @@ h3 {
 .profile-verification-button[hidden] {
     display: none !important;
 }
+
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin-left: 5px;
+    color: #38bdf8;
+    flex-shrink: 0;
+}
+
+.verified-badge svg {
+    width: 18px;
+    height: 18px;
+    fill: #38bdf8;
+    stroke: #092633;
+    stroke-width: 2;
+}
+
+.verified-badge[hidden] {
+    display: none !important;
+}
