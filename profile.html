@@ -143,7 +143,14 @@
     <i data-lucide="pencil"></i>
     Editar perfil
 </a>
-                
+      
+<a href="verificacao.html"
+   id="request-verification"
+   class="profile-verification-button"
+   hidden>
+    Solicitar verificação profissional
+</a>
+          
 <!-- SISTEMA DE SEGUIDORES LUMA -->
 <div class="profile-follow-area">
     <button
@@ -464,6 +471,11 @@ const meuPerfil = profileId === user.id;
 
 botaoEditar.hidden = !meuPerfil;
 botaoSeguir.hidden = meuPerfil;
+
+const botaoVerificacao =
+    document.getElementById("request-verification");
+
+botaoVerificacao.hidden = !meuPerfil;
 
 
 
