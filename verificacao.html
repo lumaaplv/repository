@@ -223,5 +223,70 @@
 
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const supabaseClient = supabase.createClient(
+    "SUA_SUPABASE_URL",
+    "SUA_SUPABASE_ANON_KEY"
+);
+
+const formulario = document.getElementById("verification-form");
+const mensagem = document.getElementById("verification-message");
+const botao = formulario.querySelector("button[type='submit']");
+
+formulario.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    botao.disabled = true;
+    mensagem.textContent = "Enviando solicitação...";
+
+    try {
+        const { data: { user }, error: authError } =
+            await supabaseClient.auth.getUser();
+
+        if (authError || !user) {
+            mensagem.textContent = "Entre na sua conta para solicitar a verificação.";
+            return;
+        }
+
+        const { error } = await supabaseClient
+            .from("professional_verification_requests")
+            .insert({
+                user_id: user.id,
+                full_name: document.getElementById("full-name").value.trim(),
+                profession: document.getElementById("profession").value,
+                council_name: document.getElementById("council").value,
+                registration_number: document.getElementById("registration").value.trim(),
+                registration_state: document.getElementById("state").value,
+                status: "pending"
+            });
+
+        if (error) {
+            if (error.code === "23505") {
+                mensagem.textContent =
+                    "Você já possui uma solicitação de verificação.";
+            } else {
+                mensagem.textContent =
+                    "Não foi possível enviar a solicitação.";
+                console.error(error);
+            }
+            return;
+        }
+
+        mensagem.style.color = "#a1ddf1";
+        mensagem.textContent =
+            "Solicitação enviada! Aguarde a análise da equipe LUMA.";
+
+        formulario.reset();
+
+    } catch (error) {
+        mensagem.textContent = "Ocorreu um erro. Tente novamente.";
+    } finally {
+        botao.disabled = false;
+    }
+});
+</script>
+
 </body>
 </html>
