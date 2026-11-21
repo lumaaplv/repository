@@ -70,9 +70,24 @@
 
             <div class="profile-main-info">
 
-                <h1 id="profile-name">
-                    Carregando...
-                </h1>
+                
+<h1 style="display: flex; align-items: center; gap: 5px;">
+    <span id="profile-name">Carregando...</span>
+
+    <span id="verified-badge"
+          class="verified-badge"
+          title="Profissional verificado pela LUMA"
+          aria-label="Profissional verificado pela LUMA"
+          hidden>
+
+        <svg viewBox="0 0 24 24">
+            <path d="M12 1 15 4 19 4 20 8 23 12 20 15 19 20 15 20 12 23 8 20 4 20 4 16 1 12 4 8 4 4 8 4Z"/>
+            <path d="m7 12 3 3 7-7" fill="none"/>
+        </svg>
+
+    </span>
+</h1>
+
 
                 <p
                     class="profile-username"
@@ -498,6 +513,21 @@ if (meuPerfil) {
         .maybeSingle();
 
     botaoAdmin.hidden = !!adminError || !admin;
+}
+
+/* VERIFICAÇÃO PROFISSIONAL */
+
+const { data: profissionalVerificado, error: erroVerificacao } =
+    await supabaseClient
+        .from("verified_professionals")
+        .select("profession")
+        .eq("user_id", profileId)
+        .maybeSingle();
+
+const seloVerificado = document.getElementById("verified-badge");
+
+if (seloVerificado) {
+    seloVerificado.hidden = !!erroVerificacao || !profissionalVerificado;
 }
 
 
