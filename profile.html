@@ -150,6 +150,13 @@
    hidden>
     Solicitar verificação profissional
 </a>
+
+<a href="admin.html"
+   id="admin-panel-link"
+   class="profile-verification-button"
+   hidden>
+    Painel administrativo
+</a>
           
 <!-- SISTEMA DE SEGUIDORES LUMA -->
 <div class="profile-follow-area">
@@ -476,6 +483,23 @@ const botaoVerificacao =
     document.getElementById("request-verification");
 
 botaoVerificacao.hidden = !meuPerfil;
+
+/* ACESSO AO PAINEL ADMINISTRATIVO */
+
+const botaoAdmin = document.getElementById("admin-panel-link");
+
+botaoAdmin.hidden = true;
+
+if (meuPerfil) {
+    const { data: admin, error: adminError } = await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    botaoAdmin.hidden = !!adminError || !admin;
+}
+
 
 
 
