@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificação profissional | LUMA</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #092633;
+            color: #f5f5ef;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .verification-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+        }
+
+        .verification-back {
+            color: #a1ddf1;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .verification-badge {
+            width: 65px;
+            height: 65px;
+            background: #a1ddf1;
+            color: #092633;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 32px;
+            margin: 30px 0 20px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1.2;
+        }
+
+        .verification-description {
+            color: #bfd0d9;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .verification-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .verification-form label {
+            font-weight: 700;
+            margin-top: 8px;
+        }
+
+        .verification-form input,
+        .verification-form select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #365461;
+            border-radius: 12px;
+            background: #123746;
+            color: #ffffff;
+            font: inherit;
+            outline: none;
+            color-scheme: dark;
+        }
+
+        .verification-form input:focus,
+        .verification-form select:focus {
+            border-color: #a1ddf1;
+        }
+
+        .verification-submit {
+            background: #a1ddf1;
+            color: #092633;
+            border: none;
+            border-radius: 14px;
+            padding: 16px;
+            font: inherit;
+            font-weight: 900;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .verification-notice {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 14px;
+            background: #123746;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #bfd0d9;
+        }
+
+        #verification-message {
+            margin-top: 18px;
+        }
+
+        @media (max-width: 600px) {
+            .verification-container {
+                margin: 10px auto;
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="verification-container">
+
+    <a href="profile.html" class="verification-back">
+        ← Voltar ao perfil
+    </a>
+
+    <div class="verification-badge">✓</div>
+
+    <h1>Verificação profissional</h1>
+
+    <p class="verification-description">
+        Você é um profissional de saúde? Solicite seu
+        selo de verificação e contribua para uma comunidade
+        fundamentada em ciência, informação e confiança.
+    </p>
+
+    <form id="verification-form" class="verification-form">
+
+        <label for="full-name">Nome completo</label>
+        <input id="full-name" type="text" required>
+
+        <label for="profession">Profissão</label>
+        <select id="profession" required>
+            <option value="">Selecione sua profissão</option>
+            <option value="Alergista">Alergista</option>
+            <option value="Pediatra">Pediatra</option>
+            <option value="Médico">Médico</option>
+            <option value="Nutricionista">Nutricionista</option>
+            <option value="Gastroenterologista">Gastroenterologista</option>
+            <option value="Enfermeiro">Enfermeiro</option>
+            <option value="Psicólogo">Psicólogo</option>
+            <option value="Outro">Outro</option>
+        </select>
+
+        <label for="council">Conselho profissional</label>
+        <select id="council" required>
+            <option value="">Selecione seu conselho</option>
+            <option value="CRM">CRM</option>
+            <option value="CRN">CRN</option>
+            <option value="CRP">CRP</option>
+            <option value="COREN">COREN</option>
+            <option value="Outro">Outro</option>
+        </select>
+
+        <label for="registration">Número de registro</label>
+        <input id="registration" type="text" required>
+
+        <label for="state">Estado do registro</label>
+        <select id="state" required>
+            <option value="">Selecione</option>
+            <option>AC</option>
+            <option>AL</option>
+            <option>AP</option>
+            <option>AM</option>
+            <option>BA</option>
+            <option>CE</option>
+            <option>DF</option>
+            <option>ES</option>
+            <option>GO</option>
+            <option>MA</option>
+            <option>MT</option>
+            <option>MS</option>
+            <option>MG</option>
+            <option>PA</option>
+            <option>PB</option>
+            <option>PR</option>
+            <option>PE</option>
+            <option>PI</option>
+            <option>RJ</option>
+            <option>RN</option>
+            <option>RS</option>
+            <option>RO</option>
+            <option>RR</option>
+            <option>SC</option>
+            <option>SP</option>
+            <option>SE</option>
+            <option>TO</option>
+        </select>
+
+        <div class="verification-notice">
+            Seus dados serão analisados pela equipe
+            administrativa da LUMA para verificar seu
+            registro profissional. O envio da solicitação
+            não garante a aprovação automática.
+        </div>
+
+        <button type="submit" class="verification-submit">
+            Solicitar verificação
+        </button>
+
+        <p id="verification-message" role="status"></p>
+
+    </form>
+
+</main>
+
+</body>
+</html>
