@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração | LUMA</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #071e29;
+            color: #f5f5ef;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        .admin-container {
+            max-width: 1050px;
+            margin: 0 auto;
+            padding: 40px 25px;
+        }
+
+        .admin-back {
+            color: #a1ddf1;
+            text-decoration: none;
+            font-weight: 800;
+        }
+
+        .admin-header {
+            margin: 35px 0;
+        }
+
+        .admin-header h1 {
+            font-size: 34px;
+            margin: 10px 0;
+            font-weight: 900;
+        }
+
+        .admin-header p {
+            color: #9fb9c5;
+        }
+
+        .admin-icon {
+            background: #a1ddf1;
+            color: #092633;
+            width: 55px;
+            height: 55px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: #103340;
+            border: 1px solid #375662;
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 32px;
+            color: #a1ddf1;
+        }
+
+        .admin-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .admin-tab {
+            background: transparent;
+            color: #a1ddf1;
+            border: 1px solid #375662;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: 800;
+        }
+
+        .admin-tab.active {
+            background: #a1ddf1;
+            color: #092633;
+        }
+
+        .request-card {
+            background: #103340;
+            border: 1px solid #375662;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 18px;
+            overflow-wrap: anywhere;
+        }
+
+        .request-card h3 {
+            margin: 0 0 8px;
+            font-size: 22px;
+        }
+
+        .request-card p {
+            color: #bfd0d9;
+            margin: 8px 0;
+        }
+
+        .request-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .action {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .approve {
+            background: #246d51;
+        }
+
+        .reject {
+            background: #943f50;
+        }
+
+        .action:disabled {
+            opacity: 0.5;
+            cursor: wait;
+        }
+
+        .status-label {
+            color: #a1ddf1;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        #admin-message {
+            color: #bfd0d9;
+        }
+
+        @media (max-width: 600px) {
+            .admin-container {
+                padding: 25px 18px;
+            }
+
+            .admin-header h1 {
+                font-size: 27px;
+            }
+
+            .admin-stats {
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 12px;
+                font-size: 12px;
+            }
+
+            .stat-card strong {
+                font-size: 25px;
+            }
+
+            .request-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<main class="admin-container">
+
+    <a href="profile.html" class="admin-back">
+        ← Voltar à comunidade
+    </a>
+
+    <p id="admin-message" role="status">
+        Verificando permissões...
+    </p>
+
+    <section id="admin-panel" hidden>
+
+        <header class="admin-header">
+            <div class="admin-icon">
+                <i data-lucide="shield-check"></i>
+            </div>
+
+            <h1>Administração LUMA</h1>
+
+            <p>Gerencie as verificações dos profissionais de saúde.</p>
+        </header>
+
+        <div class="admin-stats">
+            <div class="stat-card">
+                <strong id="pending-count">0</strong>
+                Pendentes
+            </div>
+
+            <div class="stat-card">
+                <strong id="approved-count">0</strong>
+                Aprovados
+            </div>
+
+            <div class="stat-card">
+                <strong id="rejected-count">0</strong>
+                Recusados
+            </div>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-status="pending">
+                Pendentes
+            </button>
+
+            <button class="admin-tab" data-status="approved">
+                Aprovados
+            </button>
+
+            <button class="admin-tab" data-status="rejected">
+                Recusados
+            </button>
+        </div>
+
+        <div id="requests-container"></div>
+
+    </section>
+
+</main>
+
+<script>
+
+const supabaseClient = supabase.createClient(
+    "https://hyavqrkzcgubtbvkqiev.supabase.co/rest/v1/",
+    "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1"
+);
+
+let solicitacoes = [];
+let statusSelecionado = "pending";
+
+const painel = document.getElementById("admin-panel");
+const mensagem = document.getElementById("admin-message");
+const container = document.getElementById("requests-container");
+
+/* VERIFICAR ACESSO ADMINISTRATIVO */
+
+async function verificarAdmin() {
+
+    const { data: { user }, error: authError } =
+        await supabaseClient.auth.getUser();
+
+    if (authError || !user) {
+        mensagem.textContent = "Entre na sua conta administrativa.";
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (error || !data) {
+        mensagem.textContent = "Acesso restrito à administração da LUMA.";
+        return;
+    }
+
+    mensagem.textContent = "";
+    painel.hidden = false;
+
+    await carregarSolicitacoes();
+}
+
+/* CARREGAR SOLICITAÇÕES */
+
+async function carregarSolicitacoes() {
+
+    const { data, error } = await supabaseClient
+        .from("professional_verification_requests")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        container.textContent = "Erro ao carregar solicitações.";
+        console.error(error);
+        return;
+    }
+
+    solicitacoes = data || [];
+
+    atualizarContadores();
+    renderizarSolicitacoes();
+}
+
+/* CONTADORES */
+
+function atualizarContadores() {
+
+    ["pending", "approved", "rejected"].forEach(function(status) {
+
+        document.getElementById(status + "-count").textContent =
+            solicitacoes.filter(item => item.status === status).length;
+
+    });
+}
+
+/* MOSTRAR SOLICITAÇÕES */
+
+function renderizarSolicitacoes() {
+
+    container.replaceChildren();
+
+    const filtradas = solicitacoes.filter(
+        item => item.status === statusSelecionado
+    );
+
+    if (filtradas.length === 0) {
+        container.textContent = "Nenhuma solicitação nesta categoria.";
+        return;
+    }
+
+    filtradas.forEach(function(item) {
+
+        const card = document.createElement("article");
+        card.className = "request-card";
+
+        const nome = document.createElement("h3");
+        nome.textContent = item.full_name;
+
+        const status = document.createElement("span");
+        status.className = "status-label";
+        status.textContent = {
+            pending: "Aguardando análise",
+            approved: "Verificado",
+            rejected: "Recusado"
+        }[item.status];
+
+        card.append(nome, status);
+
+        const informacoes = [
+            "Profissão: " + item.profession,
+            "Conselho: " + item.council_name,
+            "Registro: " + item.registration_number,
+            "Estado: " + item.registration_state,
+            "Solicitação: " + new Date(item.created_at)
+                .toLocaleDateString("pt-BR")
+        ];
+
+        informacoes.forEach(function(texto) {
+
+            const paragrafo = document.createElement("p");
+            paragrafo.textContent = texto;
+            card.appendChild(paragrafo);
+
+        });
+
+        const acoes = document.createElement("div");
+        acoes.className = "request-actions";
+
+        if (item.status !== "approved") {
+
+            const aprovar = document.createElement("button");
+            aprovar.className = "action approve";
+            aprovar.textContent = "Aprovar";
+
+            aprovar.onclick = function() {
+                alterarStatus(item.id, "approved", acoes);
+            };
+
+            acoes.appendChild(aprovar);
+        }
+
+        if (item.status !== "rejected") {
+
+            const recusar = document.createElement("button");
+            recusar.className = "action reject";
+
+            recusar.textContent = item.status === "approved"
+                ? "Revogar verificação"
+                : "Recusar";
+
+            recusar.onclick = function() {
+                alterarStatus(item.id, "rejected", acoes);
+            };
+
+            acoes.appendChild(recusar);
+        }
+
+        card.appendChild(acoes);
+        container.appendChild(card);
+
+    });
+}
+
+/* APROVAR, RECUSAR OU REVOGAR */
+
+async function alterarStatus(id, novoStatus, acoes) {
+
+    const texto = novoStatus === "approved"
+        ? "Você conferiu a identidade e o registro profissional desta pessoa?"
+        : "Deseja confirmar a recusa ou revogação desta verificação?";
+
+    if (!confirm(texto)) return;
+
+    const botoes = acoes.querySelectorAll("button");
+    botoes.forEach(botao => botao.disabled = true);
+
+    try {
+
+        const { data, error } = await supabaseClient
+            .from("professional_verification_requests")
+            .update({ status: novoStatus })
+            .eq("id", id)
+            .select("id")
+            .single();
+
+        if (error || !data) {
+            alert("Não foi possível atualizar a solicitação.");
+            return;
+        }
+
+        await carregarSolicitacoes();
+
+    } finally {
+
+        botoes.forEach(botao => botao.disabled = false);
+
+    }
+}
+
+/* ABAS */
+
+document.querySelectorAll(".admin-tab").forEach(function(botao) {
+
+    botao.addEventListener("click", function() {
+
+        statusSelecionado = botao.dataset.status;
+
+        document.querySelectorAll(".admin-tab").forEach(function(item) {
+            item.classList.toggle("active", item === botao);
+        });
+
+        renderizarSolicitacoes();
+
+    });
+
+});
+
+verificarAdmin();
+lucide.createIcons();
+
+</script>
+
+</body>
+</html>
