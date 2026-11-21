@@ -9106,3 +9106,12 @@ h3 {
 .verified-badge[hidden] {
     display: none !important;
 }
+
+.community-post-author .verified-badge {
+    margin-left: 4px;
+}
+
+.community-post-author .verified-badge svg {
+    width: 20px;
+    height: 20px;
+}
