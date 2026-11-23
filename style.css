@@ -9140,3 +9140,13 @@ h3 {
     margin-left: 0;
     flex-shrink: 0;
 }
+
+.explore-post-author-info .verified-badge svg {
+    width: 18px;
+    height: 18px;
+}
+
+.explore-post-author-info .verified-badge {
+    margin-left: 0;
+    flex-shrink: 0;
+}
