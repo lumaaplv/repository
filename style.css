@@ -9124,3 +9124,19 @@ h3 {
 .comment-author-name .verified-badge {
     margin-left: 4px;
 }
+/* Nome e selo de verificação na mesma linha */
+
+.community-post-author strong,
+.comment-author-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.community-post-author .verified-badge,
+.comment-author-name .verified-badge {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-left: 0;
+    flex-shrink: 0;
+}
