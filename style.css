@@ -9115,3 +9115,12 @@ h3 {
     width: 20px;
     height: 20px;
 }
+
+.comment-author-name .verified-badge svg {
+    width: 17px;
+    height: 17px;
+}
+
+.comment-author-name .verified-badge {
+    margin-left: 4px;
+}
