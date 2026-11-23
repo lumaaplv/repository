@@ -1343,12 +1343,18 @@ feedPosts.innerHTML = mostrandoSalvos
 
         informacoesAutor.className =
             "community-post-author";
+        informacoesAutor.style.display = "flex";
+informacoesAutor.style.flexDirection = "column";
+informacoesAutor.style.alignItems = "flex-start";
 
         const nomeElemento =
             document.createElement("strong");
 
         nomeElemento.textContent = nomeAutor;
-
+nomeElemento.style.display = "inline-flex";
+nomeElemento.style.alignItems = "center";
+nomeElemento.style.gap = "5px";
+nomeElemento.style.whiteSpace = "nowrap";
 /* SELO DE PROFISSIONAL VERIFICADO */
 
 supabaseClient
