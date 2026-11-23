@@ -717,6 +717,36 @@ function atualizarIcones() {
     }
 }
 
+/* SELO DE PROFISSIONAL VERIFICADO */
+
+async function adicionarSeloVerificado(elemento, userId) {
+    if (!elemento || !userId) return;
+
+    const { data, error } = await supabaseClient
+        .from("verified_professionals")
+        .select("user_id")
+        .eq("user_id", userId)
+        .maybeSingle();
+
+    if (error || !data || !elemento.isConnected) return;
+
+    if (elemento.querySelector(".verified-badge")) return;
+
+    const selo = document.createElement("span");
+    selo.className = "verified-badge";
+    selo.title = "Profissional verificado pela LUMA";
+    selo.setAttribute("aria-label", selo.title);
+
+    selo.innerHTML = `
+        <svg viewBox="0 0 24 24">
+            <path d="M12 1 15 4 19 4 20 8 23 12 20 15 19 20 15 20 12 23 8 20 4 20 4 16 1 12 4 8 4 4 8 4 4 8 4Z"/>
+            <path d="m7 12 3 3 7-7" fill="none"/>
+        </svg>
+    `;
+
+    elemento.appendChild(selo);
+}
+
 function criarAvatar(perfil, classe = "") {
 
     const avatar = document.createElement("div");
@@ -2089,6 +2119,11 @@ carregarEstadoSalvo();
                     autorComentario?.usuario ||
                     "Usuário";
 
+adicionarSeloVerificado(
+    nomeElemento,
+    comentario.user_id
+);
+
                 
 const linkPerfilComentario = document.createElement("a");
 
@@ -2284,7 +2319,12 @@ respostas.forEach(function (resposta) {
         perfilResposta?.usuario ||
         "Usuário";
 
-    
+
+adicionarSeloVerificado(
+    nomeResposta,
+    resposta.user_id
+);
+
 const linkPerfilResposta = document.createElement("a");
 
 linkPerfilResposta.href =
