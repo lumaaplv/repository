@@ -9384,3 +9384,23 @@ h3 {
     border-color: #e58b8b;
     background: rgba(229, 139, 139, 0.08);
 }
+
+.verification-notification-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 900;
+    border-radius: 50%;
+}
+
+.notification-verification-approved {
+    background: rgba(56, 189, 248, 0.15);
+    color: #38bdf8;
+}
+
+.notification-verification-alert {
+    background: rgba(231, 199, 108, 0.15);
+    color: #e7c76c;
+}
+
