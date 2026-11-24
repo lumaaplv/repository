@@ -2796,6 +2796,29 @@ if (verificacaoOficial) {
             item.appendChild(indicador);
         }
 
+/* DIRECIONAMENTO DAS NOTIFICAÇÕES DE VERIFICAÇÃO */
+
+if (verificacaoOficial) {
+
+    item.style.cursor = "pointer";
+
+    item.addEventListener("click", async function() {
+
+        const { error } = await supabaseClient
+            .from("notifications")
+            .update({ is_read: true })
+            .eq("id", notificacao.id)
+            .eq("recipient_id", usuarioAtual.id);
+
+        if (error) {
+            console.error(error);
+        }
+
+        window.location.href = "profile.html";
+
+    });
+}
+
         listaNotificacoes.appendChild(item);
     });
 }
