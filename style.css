@@ -9150,3 +9150,71 @@ h3 {
     margin-left: 0;
     flex-shrink: 0;
 }
+
+/* PROFISSIONAIS VERIFICADOS */
+
+.professionals-search {
+    margin: 22px 0;
+}
+
+.professionals-search input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #375662;
+    border-radius: 14px;
+    background: #103340;
+    color: #f5f5ef;
+    font-family: 'Nunito', sans-serif;
+    font-size: 15px;
+    outline: none;
+}
+
+.professionals-search input:focus {
+    border-color: #a1ddf1;
+}
+
+.verified-professionals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.verified-professional-card {
+    background: #103340;
+    border: 1px solid #375662;
+    border-radius: 20px;
+    padding: 24px;
+    text-align: center;
+}
+
+.verified-professional-card img {
+    width: 76px;
+    height: 76px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 12px;
+}
+
+.verified-professional-card h3 {
+    margin: 8px 0;
+    font-size: 18px;
+}
+
+.verified-professional-card p {
+    color: #a1ddf1;
+    margin-bottom: 18px;
+}
+
+.verified-professional-card a {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #a1ddf1;
+    color: #092633;
+    border-radius: 12px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.verified-professional-card a:hover {
+    background: #d1f0fa;
+}
