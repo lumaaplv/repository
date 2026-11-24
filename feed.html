@@ -2613,13 +2613,23 @@ const botaoMarcarLidas =
 
 let mostrandoNotificacoes = false;
 
+
 function mensagemNotificacao(tipo) {
     const mensagens = {
         like: "curtiu sua publicação.",
         comment: "comentou sua publicação.",
         reply: "respondeu ao seu comentário.",
         mention: "mencionou você.",
-        follow: "começou a seguir você."
+        follow: "começou a seguir você.",
+
+        verification_approved:
+            "aprovou sua verificação profissional! Agora você possui o selo de verificado.",
+
+        verification_rejected:
+            "não aprovou sua solicitação de verificação profissional.",
+
+        verification_revoked:
+            "revogou sua verificação profissional."
     };
 
     return mensagens[tipo] || "interagiu com você.";
@@ -2713,10 +2723,17 @@ if (contadorTopo) {
         const perfil =
             perfisPorId[notificacao.actor_id];
 
-        const nome =
-            perfil?.nome ||
-            perfil?.usuario ||
-            "Alguém";
+       
+const verificacaoOficial = [
+    "verification_approved",
+    "verification_rejected",
+    "verification_revoked"
+].includes(notificacao.type);
+
+const nome = verificacaoOficial
+    ? "Equipe LUMA"
+    : (perfil?.nome || perfil?.usuario || "Alguém");
+
 
         const item = document.createElement("div");
         item.className = "notification-item";
@@ -2729,6 +2746,25 @@ if (contadorTopo) {
             perfil,
             "notification-avatar"
         );
+        
+if (verificacaoOficial) {
+
+    avatar.replaceChildren();
+
+    avatar.classList.add("verification-notification-avatar");
+
+    const aprovada =
+        notificacao.type === "verification_approved";
+
+    avatar.classList.add(
+        aprovada
+            ? "notification-verification-approved"
+            : "notification-verification-alert"
+    );
+
+    avatar.textContent = aprovada ? "✓" : "!";
+}
+
 
         const conteudo = document.createElement("div");
         conteudo.className = "notification-content";
