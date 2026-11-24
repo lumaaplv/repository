@@ -499,6 +499,46 @@ const botaoVerificacao =
 
 botaoVerificacao.hidden = !meuPerfil;
 
+/* STATUS DA SOLICITAÇÃO DE VERIFICAÇÃO */
+
+if (meuPerfil) {
+
+    const { data: solicitacao, error: erroStatus } =
+        await supabaseClient
+            .from("professional_verification_requests")
+            .select("status")
+            .eq("user_id", user.id)
+            .maybeSingle();
+
+    if (erroStatus) {
+        console.error(erroStatus);
+        botaoVerificacao.textContent =
+            "Status temporariamente indisponível";
+        botaoVerificacao.removeAttribute("href");
+
+    } else if (solicitacao) {
+
+        botaoVerificacao.removeAttribute("href");
+        botaoVerificacao.classList.add("verification-status");
+
+        if (solicitacao.status === "pending") {
+            botaoVerificacao.textContent = "Verificação em análise";
+            botaoVerificacao.classList.add("verification-pending");
+        }
+
+        if (solicitacao.status === "approved") {
+            botaoVerificacao.textContent = "Profissional verificado";
+            botaoVerificacao.classList.add("verification-approved");
+        }
+
+        if (solicitacao.status === "rejected") {
+            botaoVerificacao.textContent = "Verificação não aprovada";
+            botaoVerificacao.classList.add("verification-rejected");
+        }
+    }
+}
+
+
 /* ACESSO AO PAINEL ADMINISTRATIVO */
 
 const botaoAdmin = document.getElementById("admin-panel-link");
