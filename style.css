@@ -9359,3 +9359,28 @@ h3 {
         grid-template-columns: 1fr;
     }
 }
+
+/* STATUS DA VERIFICAÇÃO PROFISSIONAL */
+
+.verification-status {
+    cursor: default;
+    pointer-events: none;
+}
+
+.verification-pending {
+    color: #e7c76c;
+    border-color: #e7c76c;
+    background: rgba(231, 199, 108, 0.08);
+}
+
+.verification-approved {
+    color: #38bdf8;
+    border-color: #38bdf8;
+    background: rgba(56, 189, 248, 0.08);
+}
+
+.verification-rejected {
+    color: #e58b8b;
+    border-color: #e58b8b;
+    background: rgba(229, 139, 139, 0.08);
+}
