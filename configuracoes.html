@@ -212,6 +212,10 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const supabaseClient = supabase.createClient(
+    "https://hyavqrkzcgubtbvkqiev.supabase.co",
+    "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1"
+);
 
 const opcoes = [
     ["email_likes", "Curtidas", false],
@@ -245,6 +249,125 @@ opcoes.forEach(([id, nome, ativo]) => {
     container.appendChild(linha);
 
 });
+
+const botaoSalvar = document.getElementById("save-settings");
+const mensagem = document.getElementById("settings-message");
+
+let usuarioAtual = null;
+
+async function carregarPreferencias() {
+
+    const { data: { user }, error: authError } =
+        await supabaseClient.auth.getUser();
+
+    if (authError || !user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    usuarioAtual = user;
+
+    const { data, error } = await supabaseClient
+        .from("notification_preferences")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (error) {
+        mensagem.textContent =
+            "Não foi possível carregar suas preferências.";
+        return;
+    }
+
+    if (data) {
+
+        document.getElementById("email_enabled").checked =
+            data.email_enabled;
+
+        opcoes.forEach(([id]) => {
+            document.getElementById(id).checked =
+                data[id] === true;
+        });
+
+    }
+
+    botaoSalvar.disabled = false;
+}
+
+botaoSalvar.addEventListener("click", async () => {
+
+    if (!usuarioAtual) return;
+
+    botaoSalvar.disabled = true;
+    botaoSalvar.textContent = "Salvando...";
+
+    const preferencias = {
+        email_enabled:
+            document.getElementById("email_enabled").checked
+    };
+
+    opcoes.forEach(([id]) => {
+        preferencias[id] =
+            document.getElementById(id).checked;
+    });
+
+    try {
+
+        const { data: existente, error: consultaError } =
+            await supabaseClient
+                .from("notification_preferences")
+                .select("user_id")
+                .eq("user_id", usuarioAtual.id)
+                .maybeSingle();
+
+        if (consultaError) throw consultaError;
+
+        let resultado;
+
+        if (existente) {
+
+            resultado = await supabaseClient
+                .from("notification_preferences")
+                .update(preferencias)
+                .eq("user_id", usuarioAtual.id);
+
+        } else {
+
+            resultado = await supabaseClient
+                .from("notification_preferences")
+                .insert({
+                    user_id: usuarioAtual.id,
+                    ...preferencias
+                });
+
+        }
+
+        if (resultado.error) throw resultado.error;
+
+        mensagem.textContent =
+            "Preferências salvas com sucesso!";
+
+        mensagem.style.color = "#a1ddf1";
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensagem.textContent =
+            "Erro ao salvar. Tente novamente.";
+
+        mensagem.style.color = "#e58b8b";
+
+    } finally {
+
+        botaoSalvar.disabled = false;
+        botaoSalvar.textContent = "Salvar preferências";
+
+    }
+
+});
+
+carregarPreferencias();
 
 </script>
 
