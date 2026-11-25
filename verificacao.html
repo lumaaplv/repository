@@ -231,6 +231,58 @@ const supabaseClient = supabase.createClient(
     "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1"
 );
 
+const modoReenvio = new URLSearchParams(
+    window.location.search
+).get("resubmit") === "true";
+
+async function carregarSolicitacaoAnterior() {
+
+    if (!modoReenvio) return;
+
+    const { data: { user } } =
+        await supabaseClient.auth.getUser();
+
+    if (!user) return;
+
+    const { data, error } = await supabaseClient
+        .from("professional_verification_requests")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("status", "rejected")
+        .maybeSingle();
+
+    if (error || !data) {
+        window.location.href = "profile.html";
+        return;
+    }
+
+    document.getElementById("full-name").value =
+        data.full_name;
+
+    document.getElementById("profession").value =
+        data.profession;
+
+    document.getElementById("council").value =
+        data.council_name;
+
+    document.getElementById("registration").value =
+        data.registration_number;
+
+    document.getElementById("state").value =
+        data.registration_state;
+
+    const botao = document.querySelector(
+        "#verification-form button[type='submit']"
+    );
+
+    if (botao) {
+        botao.textContent = "Reenviar solicitação";
+    }
+}
+
+carregarSolicitacaoAnterior();
+
+
 const formulario = document.getElementById("verification-form");
 const mensagem = document.getElementById("verification-message");
 const botao = formulario.querySelector("button[type='submit']");
