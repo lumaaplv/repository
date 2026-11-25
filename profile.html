@@ -43,13 +43,18 @@
             LUMA
         </a>
 
-        <button
-            type="button"
-            class="profile-header-button"
-            aria-label="Configurações"
-        >
-            <i data-lucide="settings"></i>
-        </button>
+       
+<a
+    href="configuracoes.html"
+    id="profile-settings-button"
+    class="profile-header-button"
+    aria-label="Configurações"
+    style="text-decoration: none;"
+    hidden
+>
+    <i data-lucide="settings"></i>
+</a>
+
 
     </header>
 
@@ -498,6 +503,12 @@ const botaoVerificacao =
     document.getElementById("request-verification");
 
 botaoVerificacao.hidden = !meuPerfil;
+
+const botaoConfiguracoes =
+    document.getElementById("profile-settings-button");
+
+botaoConfiguracoes.hidden = !meuPerfil;
+
 
 /* STATUS DA SOLICITAÇÃO DE VERIFICAÇÃO */
 
