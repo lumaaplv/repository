@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Configurações | LUMA</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #092633;
+            color: #f5f5ef;
+            font-family: "Nunito", sans-serif;
+        }
+
+        main {
+            max-width: 650px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        .back-link {
+            color: #a1ddf1;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-top: 30px;
+        }
+
+        h2 {
+            color: #a1ddf1;
+            font-size: 21px;
+        }
+
+        .description {
+            color: #b2c5ce;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .settings-card {
+            background: #103340;
+            border: 1px solid #284956;
+            border-radius: 20px;
+            padding: 22px;
+            margin-top: 25px;
+        }
+
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 18px 0;
+            border-bottom: 1px solid #284956;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-name {
+            font-weight: 700;
+        }
+
+        .setting-description {
+            font-size: 13px;
+            color: #b2c5ce;
+            margin-top: 4px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 26px;
+            flex-shrink: 0;
+        }
+
+        .switch input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #375462;
+            border-radius: 30px;
+            transition: .2s;
+            pointer-events: none;
+        }
+
+        .slider::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: .2s;
+        }
+
+        input:checked + .slider {
+            background: #a1ddf1;
+        }
+
+        input:checked + .slider::before {
+            transform: translateX(20px);
+            background: #092633;
+        }
+
+        input:focus-visible + .slider {
+            outline: 2px solid white;
+            outline-offset: 4px;
+        }
+
+        .save-button {
+            width: 100%;
+            background: #a1ddf1;
+            color: #092633;
+            border: none;
+            border-radius: 14px;
+            padding: 15px;
+            font-family: inherit;
+            font-weight: 800;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 25px;
+        }
+
+        .save-button:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        #settings-message {
+            text-align: center;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+<main>
+
+    <a href="profile.html" class="back-link">
+        ← Voltar ao perfil
+    </a>
+
+    <h1>Configurações</h1>
+
+    <p class="description">
+        Personalize sua experiência na Comunidade LUMA.
+    </p>
+
+    <section class="settings-card">
+
+        <h2>Notificações por e-mail</h2>
+
+        <p class="description">
+            Escolha quais notificações deseja receber
+            no e-mail cadastrado na sua conta.
+        </p>
+
+        <div class="setting-row">
+            <div>
+                <div class="setting-name">
+                    Ativar notificações por e-mail
+                </div>
+                <div class="setting-description">
+                    Autorizar o recebimento de notificações.
+                </div>
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" id="email_enabled"
+                       aria-label="Ativar notificações por e-mail">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <div id="email-options"></div>
+
+    </section>
+
+    <button class="save-button" id="save-settings" disabled>
+        Salvar preferências
+    </button>
+
+    <p id="settings-message" role="status"></p>
+
+</main>
+
+<script>
+
+const opcoes = [
+    ["email_likes", "Curtidas", false],
+    ["email_comments", "Comentários", true],
+    ["email_replies", "Respostas", true],
+    ["email_mentions", "Menções", true],
+    ["email_followers", "Novos seguidores", false],
+    ["email_announcements", "Comunicados da LUMA", false]
+];
+
+const container = document.getElementById("email-options");
+
+opcoes.forEach(([id, nome, ativo]) => {
+
+    const linha = document.createElement("div");
+
+    linha.className = "setting-row";
+
+    linha.innerHTML = `
+        <span class="setting-name">${nome}</span>
+
+        <label class="switch">
+            <input type="checkbox"
+                   id="${id}"
+                   aria-label="${nome}"
+                   ${ativo ? "checked" : ""}>
+            <span class="slider"></span>
+        </label>
+    `;
+
+    container.appendChild(linha);
+
+});
+
+</script>
+
+</body>
+</html>
