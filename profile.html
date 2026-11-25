@@ -532,8 +532,18 @@ if (meuPerfil) {
         }
 
         if (solicitacao.status === "rejected") {
-            botaoVerificacao.textContent = "Verificação não aprovada";
+            botaoVerificacao.textContent = "Solicitar nova análise";
             botaoVerificacao.classList.add("verification-rejected");
+            
+botaoVerificacao.href = "verificacao.html?resubmit=true";
+
+botaoVerificacao.classList.remove(
+    "verification-status",
+    "verification-rejected"
+);
+
+botaoVerificacao.style.pointerEvents = "auto";
+
         }
     }
 }
