@@ -302,17 +302,44 @@ formulario.addEventListener("submit", async function(event) {
             return;
         }
 
-        const { error } = await supabaseClient
-            .from("professional_verification_requests")
-            .insert({
-                user_id: user.id,
-                full_name: document.getElementById("full-name").value.trim(),
-                profession: document.getElementById("profession").value,
-                council_name: document.getElementById("council").value,
-                registration_number: document.getElementById("registration").value.trim(),
-                registration_state: document.getElementById("state").value,
-                status: "pending"
-            });
+        
+const dadosSolicitacao = {
+    full_name: document.getElementById("full-name").value.trim(),
+    profession: document.getElementById("profession").value,
+    council_name: document.getElementById("council").value,
+    registration_number: document.getElementById("registration").value.trim(),
+    registration_state: document.getElementById("state").value
+};
+
+let resultado;
+
+if (modoReenvio) {
+
+    resultado = await supabaseClient.rpc(
+        "resubmit_professional_verification",
+        {
+            p_full_name: dadosSolicitacao.full_name,
+            p_profession: dadosSolicitacao.profession,
+            p_council_name: dadosSolicitacao.council_name,
+            p_registration_number: dadosSolicitacao.registration_number,
+            p_registration_state: dadosSolicitacao.registration_state
+        }
+    );
+
+} else {
+
+    resultado = await supabaseClient
+        .from("professional_verification_requests")
+        .insert({
+            user_id: user.id,
+            ...dadosSolicitacao,
+            status: "pending"
+        });
+
+}
+
+const { error } = resultado;
+
 
         if (error) {
             if (error.code === "23505") {
