@@ -816,3 +816,207 @@ html[data-theme] .feed-page .notification-item.unread {
 html[data-theme] .feed-page .notification-unread-dot {
     background: var(--luma-accent);
 }
+/* =========================================
+   LUMA — MODAL DE DENÚNCIAS
+   ========================================= */
+
+.report-modal {
+    width: min(480px, calc(100% - 28px));
+    max-height: 90dvh;
+    margin: auto;
+    padding: 28px;
+    background: var(--luma-card);
+    color: var(--luma-text);
+    border: 1px solid var(--luma-border);
+    border-radius: 24px;
+    box-shadow: 0 20px 70px rgba(0,0,0,.25);
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.report-modal::backdrop {
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(5px);
+}
+
+#report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.report-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.report-header svg {
+    color: var(--luma-accent);
+    width: 25px;
+    height: 25px;
+}
+
+.report-header h2 {
+    color: var(--luma-text);
+    font-size: 23px;
+    font-weight: 900;
+    margin: 0;
+}
+
+.report-reasons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border: none;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+}
+
+.report-reasons legend {
+    color: var(--luma-text-secondary);
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.report-reasons label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid var(--luma-border);
+    border-radius: 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.report-reasons label:hover,
+.report-reasons label:has(input:checked) {
+    background: var(--luma-tag-bg);
+    border-color: var(--luma-accent);
+}
+
+.report-reasons input {
+    accent-color: var(--luma-accent);
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+}
+
+#report-description {
+    width: 100%;
+    box-sizing: border-box;
+    background: var(--luma-input);
+    color: var(--luma-text);
+    border: 1px solid var(--luma-border);
+    border-radius: 12px;
+    padding: 12px;
+    font: inherit;
+    font-size: 14px;
+    resize: vertical;
+}
+
+#report-description::placeholder {
+    color: var(--luma-text-secondary);
+}
+
+#report-description:focus {
+    outline: 2px solid var(--luma-accent);
+}
+
+.report-privacy {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--luma-input);
+    color: var(--luma-text-secondary);
+}
+
+.report-privacy svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.report-privacy p {
+    font-size: 12px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+#submit-report,
+#cancel-report {
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+#submit-report {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+}
+
+#cancel-report {
+    background: transparent;
+    color: var(--luma-text-secondary);
+}
+
+#submit-report:disabled,
+#cancel-report:disabled {
+    opacity: .5;
+    cursor: wait;
+}
+
+#report-message {
+    color: var(--luma-tag-text);
+    font-size: 13px;
+    text-align: center;
+    margin: 0;
+}
+
+#report-message:empty {
+    display: none;
+}
+
+html[data-theme="light"] #submit-report {
+    background: #B82D63;
+    color: white;
+}
+
+html[data-theme="light"] .report-header svg {
+    color: #B82D63;
+}
+
+html[data-theme] .feed-page .post-options-menu .report-option {
+    color: var(--luma-tag-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.report-option svg {
+    width: 16px;
+    height: 16px;
+}
+
+@media (max-width: 600px) {
+
+    .report-modal {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .report-header h2 {
+        font-size: 20px;
+    }
+
+    #report-description {
+        font-size: 16px;
+    }
+}
