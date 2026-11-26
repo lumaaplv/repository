@@ -614,7 +614,7 @@ async function carregarDadosPerfil() {
         photoPreviewImage.onerror =
             function () {
 
-                fotoAtualUrl = null;
+               
 
                 photoPreviewImage
                     .removeAttribute("src");
@@ -627,8 +627,33 @@ async function carregarDadosPerfil() {
             };
 
 
-        photoPreviewImage.src =
-            fotoAtualUrl;
+       
+try {
+
+    const caminho = decodeURIComponent(
+        new URL(fotoAtualUrl).pathname.split(
+            "/object/public/profile-photos/"
+        )[1]
+    );
+
+    const { data, error } =
+        await supabaseClient.storage
+            .from("profile-photos")
+            .createSignedUrl(caminho, 3600);
+
+    if (error) throw error;
+
+    photoPreviewImage.src = data.signedUrl;
+
+} catch (error) {
+
+    console.error("Erro ao carregar foto:", error);
+
+    photoPreviewImage.hidden = true;
+    photoInitial.hidden = false;
+
+}
+
 
     } else {
 
