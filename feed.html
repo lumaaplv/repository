@@ -1021,6 +1021,179 @@ let categoriaSelecionada = null;
 
 let mostrandoSalvos = false;
 let idsPostsSalvos = [];
+/* =========================================
+   SISTEMA DE DENÚNCIAS LUMA
+   ========================================= */
+
+const modalDenuncia =
+    document.getElementById("report-modal");
+
+const formularioDenuncia =
+    document.getElementById("report-form");
+
+const mensagemDenuncia =
+    document.getElementById("report-message");
+
+const botaoEnviarDenuncia =
+    document.getElementById("submit-report");
+
+const botaoCancelarDenuncia =
+    document.getElementById("cancel-report");
+
+let alvoDenuncia = null;
+let enviandoDenuncia = false;
+
+function abrirDenuncia(tipo, id) {
+
+    if (!usuarioAtual || enviandoDenuncia) return;
+
+    alvoDenuncia = {
+        tipo: tipo,
+        id: String(id)
+    };
+
+    formularioDenuncia.reset();
+
+    mensagemDenuncia.textContent = "";
+
+    const titulos = {
+        post: "Denunciar publicação",
+        comment: "Denunciar comentário",
+        profile: "Denunciar perfil"
+    };
+
+    document.getElementById("report-title")
+        .textContent = titulos[tipo];
+
+    modalDenuncia.showModal();
+
+    atualizarIcones();
+}
+
+botaoCancelarDenuncia.addEventListener(
+    "click",
+    function () {
+
+        if (enviandoDenuncia) return;
+
+        modalDenuncia.close();
+    }
+);
+
+modalDenuncia.addEventListener(
+    "cancel",
+    function (event) {
+
+        if (enviandoDenuncia) {
+            event.preventDefault();
+        }
+    }
+);
+
+modalDenuncia.addEventListener(
+    "close",
+    function () {
+
+        alvoDenuncia = null;
+        formularioDenuncia.reset();
+        mensagemDenuncia.textContent = "";
+    }
+);
+
+formularioDenuncia.addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+        if (
+            !alvoDenuncia ||
+            !usuarioAtual ||
+            enviandoDenuncia
+        ) return;
+
+        const motivo =
+            formularioDenuncia.querySelector(
+                'input[name="report-reason"]:checked'
+            );
+
+        if (!motivo) {
+
+            mensagemDenuncia.textContent =
+                "Selecione um motivo.";
+
+            return;
+        }
+
+        const descricao =
+            document.getElementById(
+                "report-description"
+            ).value.trim();
+
+        enviandoDenuncia = true;
+
+        botaoEnviarDenuncia.disabled = true;
+        botaoCancelarDenuncia.disabled = true;
+
+        botaoEnviarDenuncia.textContent =
+            "Enviando...";
+
+        mensagemDenuncia.textContent = "";
+
+        try {
+
+            const { data, error } =
+                await supabaseClient.rpc(
+                    "submit_report",
+                    {
+                        p_target_type: alvoDenuncia.tipo,
+                        p_target_id: alvoDenuncia.id,
+                        p_reason: motivo.value,
+                        p_description: descricao || null
+                    }
+                );
+
+            if (error) throw error;
+
+            if (!data) {
+                throw new Error("Denúncia não confirmada.");
+            }
+
+            modalDenuncia.close();
+
+            alert(
+                "Denúncia enviada com sucesso. " +
+                "Ela será encaminhada para análise."
+            );
+
+        } catch (error) {
+
+            const mensagensPermitidas = [
+                "Você já possui uma denúncia em análise para este conteúdo.",
+                "Limite temporário de denúncias atingido.",
+                "Conteúdo indisponível.",
+                "Você não pode denunciar seu próprio conteúdo.",
+                "Aceite as diretrizes da comunidade.",
+                "Autenticação necessária."
+            ];
+
+            mensagemDenuncia.textContent =
+                mensagensPermitidas.includes(error.message)
+                    ? error.message
+                    : "Não foi possível enviar a denúncia. Tente novamente.";
+
+        } finally {
+
+            enviandoDenuncia = false;
+
+            botaoEnviarDenuncia.disabled = false;
+            botaoCancelarDenuncia.disabled = false;
+
+            botaoEnviarDenuncia.textContent =
+                "Enviar denúncia";
+        }
+    }
+);
 
 /* =========================================
    ELEMENTOS DA PÁGINA
@@ -2078,7 +2251,90 @@ async function carregarImagensPost() {
 }
 
 carregarImagensPost();
+/* MENU DE DENÚNCIA */
 
+if (
+    usuarioAtual &&
+    post.user_id &&
+    post.user_id !== usuarioAtual.id
+) {
+
+    const botaoMenuDenuncia =
+        document.createElement("button");
+
+    botaoMenuDenuncia.type = "button";
+
+    botaoMenuDenuncia.className =
+        "post-menu-button";
+
+    botaoMenuDenuncia.setAttribute(
+        "aria-label",
+        "Opções da publicação"
+    );
+
+    botaoMenuDenuncia.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    botaoMenuDenuncia.innerHTML =
+        '<i data-lucide="ellipsis"></i>';
+
+    const menuDenuncia =
+        document.createElement("div");
+
+    menuDenuncia.className =
+        "post-options-menu";
+
+    menuDenuncia.hidden = true;
+
+    const opcaoDenunciar =
+        document.createElement("button");
+
+    opcaoDenunciar.type = "button";
+
+    opcaoDenunciar.className =
+        "report-option";
+
+    opcaoDenunciar.innerHTML = `
+        <i data-lucide="flag"></i>
+        Denunciar publicação
+    `;
+
+    menuDenuncia.appendChild(opcaoDenunciar);
+
+    cabecalho.appendChild(botaoMenuDenuncia);
+    cabecalho.appendChild(menuDenuncia);
+
+    botaoMenuDenuncia.addEventListener(
+        "click",
+        function () {
+
+            menuDenuncia.hidden =
+                !menuDenuncia.hidden;
+
+            botaoMenuDenuncia.setAttribute(
+                "aria-expanded",
+                String(!menuDenuncia.hidden)
+            );
+        }
+    );
+
+    opcaoDenunciar.addEventListener(
+        "click",
+        function () {
+
+            menuDenuncia.hidden = true;
+
+            botaoMenuDenuncia.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+            abrirDenuncia("post", post.id);
+        }
+    );
+}
         /* MENU DO AUTOR */
 
         if (
