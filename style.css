@@ -9404,3 +9404,28 @@ h3 {
     color: #e7c76c;
 }
 
+.aceite-diretrizes-luma {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 20px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #214c63;
+}
+
+.aceite-diretrizes-luma input {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    accent-color: #21779b;
+    cursor: pointer;
+    margin-top: 2px;
+}
+
+.aceite-diretrizes-luma a {
+    color: #21779b;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
