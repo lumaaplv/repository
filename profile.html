@@ -584,7 +584,48 @@ const botaoConfiguracoes =
     document.getElementById("profile-settings-button");
 
 botaoConfiguracoes.hidden = !meuPerfil;
+/* MENU DE OPÇÕES DO PERFIL */
 
+const opcoesPerfil =
+    document.getElementById("profile-options");
+
+const botaoOpcoesPerfil =
+    document.getElementById("profile-options-button");
+
+const menuOpcoesPerfil =
+    document.getElementById("profile-options-menu");
+
+opcoesPerfil.hidden = meuPerfil;
+
+if (!meuPerfil) {
+
+    botaoOpcoesPerfil.addEventListener("click", function () {
+
+        menuOpcoesPerfil.hidden =
+            !menuOpcoesPerfil.hidden;
+
+        botaoOpcoesPerfil.setAttribute(
+            "aria-expanded",
+            String(!menuOpcoesPerfil.hidden)
+        );
+
+    });
+
+    document.addEventListener("click", function (event) {
+
+        if (!opcoesPerfil.contains(event.target)) {
+
+            menuOpcoesPerfil.hidden = true;
+
+            botaoOpcoesPerfil.setAttribute(
+                "aria-expanded", "false"
+            );
+
+        }
+
+    });
+
+}
 
 /* STATUS DA SOLICITAÇÃO DE VERIFICAÇÃO */
 
