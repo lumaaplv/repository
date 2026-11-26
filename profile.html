@@ -424,7 +424,33 @@
                 const imagem =
                     document.createElement("img");
 
-                imagem.src = perfil.foto_url;
+                
+try {
+
+    const caminho = decodeURIComponent(
+        new URL(perfil.foto_url).pathname.split(
+            "/object/public/profile-photos/"
+        )[1]
+    );
+
+    const { data: fotoAssinada, error: erroFoto } =
+        await supabaseClient.storage
+            .from("profile-photos")
+            .createSignedUrl(caminho, 3600);
+
+    if (erroFoto) throw erroFoto;
+
+    imagem.src = fotoAssinada.signedUrl;
+
+} catch (error) {
+
+    console.error("Erro ao carregar foto:", error);
+
+    imagem.hidden = true;
+    avatar.textContent = nome.charAt(0).toUpperCase();
+
+}
+
                 imagem.alt = `Foto de perfil de ${nome}`;
 
                 avatar.appendChild(imagem);
