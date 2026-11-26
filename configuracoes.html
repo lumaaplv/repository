@@ -202,7 +202,36 @@
         <div id="email-options"></div>
 
     </section>
+    <section class="settings-card">
 
+    <h2>Notificações push</h2>
+
+    <p class="description">
+        Escolha quais avisos deseja receber
+        nos dispositivos com notificações ativadas.
+    </p>
+
+    <div class="setting-row">
+        <div>
+            <div class="setting-name">
+                Comunicados oficiais da LUMA
+            </div>
+
+            <div class="setting-description">
+                Receba novidades e avisos importantes
+                da equipe LUMA.
+            </div>
+        </div>
+
+        <label class="switch">
+            <input type="checkbox"
+                   id="push_announcements"
+                   aria-label="Receber comunicados oficiais por push">
+            <span class="slider"></span>
+        </label>
+    </div>
+
+</section>
     <button class="save-button" id="save-settings" disabled>
         Salvar preferências
     </button>
@@ -280,7 +309,8 @@ async function carregarPreferencias() {
     }
 
     if (data) {
-
+document.getElementById("push_announcements").checked =
+    data.push_announcements === true;
         document.getElementById("email_enabled").checked =
             data.email_enabled;
 
@@ -302,9 +332,12 @@ botaoSalvar.addEventListener("click", async () => {
     botaoSalvar.textContent = "Salvando...";
 
     const preferencias = {
-        email_enabled:
-            document.getElementById("email_enabled").checked
-    };
+    email_enabled:
+        document.getElementById("email_enabled").checked,
+
+    push_announcements:
+        document.getElementById("push_announcements").checked
+};
 
     opcoes.forEach(([id]) => {
         preferencias[id] =
