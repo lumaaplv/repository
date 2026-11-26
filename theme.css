@@ -1,0 +1,63 @@
+/* LUMA — SISTEMA DE APARÊNCIA */
+
+:root,
+html[data-theme="dark"] {
+
+    color-scheme: dark;
+
+    --luma-bg: #071E29;
+    --luma-card: #103340;
+    --luma-input: #092633;
+    --luma-hover: #254958;
+
+    --luma-text: #F5F5EF;
+    --luma-text-secondary: #BFD0D9;
+    --luma-border: #375662;
+
+    --luma-accent: #F8B8C8;
+    --luma-accent-hover: #F4A0B7;
+    --luma-accent-text: #092633;
+
+    --luma-tag-bg: #573347;
+    --luma-tag-text: #F8B8C8;
+
+    --luma-shadow: 0 4px 15px rgba(0,0,0,0.12);
+}
+
+html[data-theme="light"] {
+
+    color-scheme: light;
+
+    --luma-bg: #F8F7F2;
+    --luma-card: #FFFFFF;
+    --luma-input: #F3F1ED;
+    --luma-hover: #FDE4EC;
+
+    --luma-text: #092633;
+    --luma-text-secondary: #526773;
+    --luma-border: #E1DEDA;
+
+    --luma-accent: #D83E7C;
+    --luma-accent-hover: #BD3068;
+    --luma-accent-text: #FFFFFF;
+
+    --luma-tag-bg: #FDE4EC;
+    --luma-tag-text: #9D2856;
+
+    --luma-shadow: 0 4px 15px rgba(9,38,51,0.06);
+}
+
+/* CORES FIXAS — IDENTIDADE LUMA */
+
+:root {
+
+    --luma-pink: #F8B8C8;
+    --luma-pink-soft: #FDE4EC;
+    --luma-pink-strong: #D83E7C;
+
+    --luma-announcement-bg: #FFF3C4;
+    --luma-announcement-border: #E6D49C;
+    --luma-announcement-text: #59451C;
+    --luma-announcement-icon: #F3D675;
+
+}
