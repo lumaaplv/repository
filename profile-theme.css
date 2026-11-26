@@ -242,3 +242,43 @@ html[data-theme="dark"] .profile-page .floating-circle {
     width: 17px;
     height: 17px;
 }
+/* =========================================
+   LUMA — DENÚNCIAS DE COMENTÁRIOS
+   ========================================= */
+
+.profile-page .comment-report-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: var(--luma-text-secondary);
+    padding: 7px 9px;
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, color .2s;
+}
+
+.profile-page .comment-report-button svg {
+    width: 13px;
+    height: 13px;
+}
+
+.profile-page .comment-report-button:hover {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+.profile-page .comment-report-button:focus-visible {
+    outline: 2px solid var(--luma-accent);
+    outline-offset: 2px;
+}
+
+html[data-theme="light"]
+.profile-page .comment-report-button:hover {
+    color: #B82D63;
+}
