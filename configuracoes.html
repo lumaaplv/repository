@@ -8,7 +8,8 @@
     <title>Configurações | LUMA</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-
+<script src="theme.js"></script>
+<link rel="stylesheet" href="theme.css">
     <style>
         * {
             box-sizing: border-box;
@@ -156,6 +157,200 @@
             font-size: 14px;
             margin-top: 15px;
         }
+        /* APARÊNCIA DAS CONFIGURAÇÕES */
+
+body {
+    background: var(--luma-bg);
+    color: var(--luma-text);
+}
+
+.back-link,
+h2 {
+    color: var(--luma-accent);
+}
+
+.description,
+.setting-description {
+    color: var(--luma-text-secondary);
+}
+
+.settings-card {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    box-shadow: var(--luma-shadow);
+}
+
+.setting-row {
+    border-color: var(--luma-border);
+}
+
+.slider {
+    background: var(--luma-border);
+}
+
+input:checked + .slider {
+    background: var(--luma-accent);
+}
+
+input:checked + .slider::before {
+    background: var(--luma-accent-text);
+}
+
+input:focus-visible + .slider {
+    outline-color: var(--luma-accent);
+}
+
+.save-button {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+}
+
+.save-button:hover:not(:disabled) {
+    background: var(--luma-accent-hover);
+}
+
+html[data-theme="light"] h2,
+html[data-theme="light"] .back-link {
+    color: #B82D63;
+}
+
+html[data-theme="light"] .save-button {
+    background: #B82D63;
+    color: white;
+}
+
+/* SELEÇÃO DE APARÊNCIA */
+
+.appearance-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.appearance-option {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    border: 2px solid var(--luma-border);
+    background: var(--luma-card);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.appearance-option:has(input:checked) {
+    border-color: var(--luma-accent);
+    background: var(--luma-hover);
+}
+
+.appearance-option:has(input:focus-visible) {
+    outline: 2px solid var(--luma-accent);
+    outline-offset: 3px;
+}
+
+.appearance-option:has(input:disabled) {
+    cursor: wait;
+    opacity: .7;
+}
+
+.appearance-preview {
+    height: 115px;
+    border-radius: 10px;
+    padding: 12px;
+    overflow: hidden;
+}
+
+.light-appearance {
+    background: #F8F7F2;
+    color: #092633;
+}
+
+.dark-appearance {
+    background: #071E29;
+    color: #F5F5EF;
+}
+
+.preview-logo {
+    font-size: 18px;
+    font-weight: 900;
+    margin-bottom: 8px;
+}
+
+.preview-logo span {
+    color: #D83E7C;
+}
+
+.preview-card {
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.light-appearance .preview-card {
+    background: white;
+}
+
+.dark-appearance .preview-card {
+    background: #103340;
+}
+
+.preview-avatar {
+    width: 19px;
+    height: 19px;
+    background: #F8B8C8;
+    border-radius: 50%;
+    margin-bottom: 7px;
+}
+
+.preview-line {
+    height: 5px;
+    width: 90%;
+    background: currentColor;
+    opacity: .2;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.preview-line.short {
+    width: 60%;
+}
+
+.appearance-option-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.appearance-option input {
+    accent-color: #D83E7C;
+    flex-shrink: 0;
+}
+
+#appearance-message {
+    color: var(--luma-text-secondary);
+    font-size: 13px;
+    text-align: center;
+    min-height: 18px;
+    margin-bottom: 0;
+}
+
+@media (max-width: 380px) {
+    .appearance-options {
+        gap: 8px;
+    }
+
+    .appearance-option {
+        padding: 8px;
+    }
+
+    .appearance-option-title {
+        font-size: 12px;
+    }
+}
     </style>
 </head>
 
@@ -172,7 +367,82 @@
     <p class="description">
         Personalize sua experiência na Comunidade LUMA.
     </p>
+<!-- CONFIGURAÇÕES DE APARÊNCIA -->
 
+<section class="settings-card">
+
+    <h2>Aparência</h2>
+
+    <p class="description">
+        Escolha o tema que mais combina com você.
+        Sua preferência será salva automaticamente.
+    </p>
+
+    <div class="appearance-options"
+         role="group"
+         aria-label="Tema da comunidade">
+
+        <label class="appearance-option">
+
+            <div class="appearance-preview light-appearance"
+                 aria-hidden="true">
+
+                <div class="preview-logo">
+                    luma<span>.</span>
+                </div>
+
+                <div class="preview-card">
+                    <div class="preview-avatar"></div>
+                    <div class="preview-line"></div>
+                    <div class="preview-line short"></div>
+                </div>
+
+            </div>
+
+            <div class="appearance-option-title">
+                <input type="radio"
+                       name="appearance"
+                       value="light"
+                       disabled>
+
+                Modo claro
+            </div>
+
+        </label>
+
+        <label class="appearance-option">
+
+            <div class="appearance-preview dark-appearance"
+                 aria-hidden="true">
+
+                <div class="preview-logo">
+                    luma<span>.</span>
+                </div>
+
+                <div class="preview-card">
+                    <div class="preview-avatar"></div>
+                    <div class="preview-line"></div>
+                    <div class="preview-line short"></div>
+                </div>
+
+            </div>
+
+            <div class="appearance-option-title">
+                <input type="radio"
+                       name="appearance"
+                       value="dark"
+                       disabled>
+
+                Modo escuro
+            </div>
+
+        </label>
+
+    </div>
+
+    <p id="appearance-message" role="status"></p>
+
+</section>
     <section class="settings-card">
 
         <h2>Notificações por e-mail</h2>
@@ -283,6 +553,103 @@ const botaoSalvar = document.getElementById("save-settings");
 const mensagem = document.getElementById("settings-message");
 
 let usuarioAtual = null;
+/* PREFERÊNCIAS DE APARÊNCIA */
+
+const opcoesAparencia = document.querySelectorAll(
+    'input[name="appearance"]'
+);
+
+const mensagemAparencia =
+    document.getElementById("appearance-message");
+
+let temaAtual = "dark";
+
+async function carregarAparencia() {
+
+    try {
+
+        const tema = await LumaTheme.carregarPreferencia(
+            supabaseClient,
+            usuarioAtual.id
+        );
+
+        temaAtual = tema || "dark";
+
+        LumaTheme.aplicarTema(temaAtual);
+
+        opcoesAparencia.forEach(opcao => {
+
+            opcao.checked = opcao.value === temaAtual;
+            opcao.disabled = false;
+
+        });
+
+    } catch (error) {
+
+        console.error("Erro ao carregar aparência:", error);
+
+        mensagemAparencia.textContent =
+            "Não foi possível carregar sua aparência.";
+
+    }
+
+}
+
+opcoesAparencia.forEach(opcao => {
+
+    opcao.addEventListener("change", async function () {
+
+        if (!usuarioAtual || !this.checked) return;
+
+        const novoTema = this.value;
+        const temaAnterior = temaAtual;
+
+        opcoesAparencia.forEach(item => {
+            item.disabled = true;
+        });
+
+        mensagemAparencia.textContent =
+            "Salvando aparência...";
+
+        try {
+
+            LumaTheme.aplicarTema(novoTema);
+
+            await LumaTheme.salvarPreferencia(
+                supabaseClient,
+                usuarioAtual.id,
+                novoTema
+            );
+
+            temaAtual = novoTema;
+
+            mensagemAparencia.textContent =
+                "Aparência atualizada com sucesso!";
+
+        } catch (error) {
+
+            console.error("Erro ao salvar aparência:", error);
+
+            LumaTheme.aplicarTema(temaAnterior);
+
+            opcoesAparencia.forEach(item => {
+                item.checked = item.value === temaAnterior;
+            });
+
+            mensagemAparencia.textContent =
+                "Não foi possível salvar. Tente novamente.";
+
+        } finally {
+
+            opcoesAparencia.forEach(item => {
+                item.disabled = false;
+            });
+
+        }
+
+    });
+
+});
 
 async function carregarPreferencias() {
 
@@ -295,6 +662,7 @@ async function carregarPreferencias() {
     }
 
     usuarioAtual = user;
+    await carregarAparencia();
 
     const { data, error } = await supabaseClient
         .from("notification_preferences")
@@ -380,7 +748,7 @@ botaoSalvar.addEventListener("click", async () => {
         mensagem.textContent =
             "Preferências salvas com sucesso!";
 
-        mensagem.style.color = "#a1ddf1";
+        mensagem.style.color = "var(--luma-tag-text)";
 
     } catch (error) {
 
