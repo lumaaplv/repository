@@ -11,7 +11,11 @@
 
     <title>Editar perfil | LUMA</title>
 
-    <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
+
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="edit-profile-theme.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -521,6 +525,26 @@ async function carregarDadosPerfil() {
 
 
     usuarioLogado = user;
+    /* CARREGAR APARÊNCIA */
+
+try {
+
+    const tema = await LumaTheme.carregarPreferencia(
+        supabaseClient,
+        user.id
+    );
+
+    if (!tema) {
+        LumaTheme.aplicarTema("dark");
+    }
+
+} catch (error) {
+
+    console.error("Erro ao carregar aparência:", error);
+
+    LumaTheme.aplicarTema("dark");
+
+}
 
 
     const {
