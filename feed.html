@@ -3246,6 +3246,81 @@ iniciarFeed();
 
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const checkbox = document.getElementById(
+        "guidelines-accept-checkbox"
+    );
+
+    const botao = document.getElementById(
+        "guidelines-accept-button"
+    );
+
+    const mensagem = document.getElementById(
+        "guidelines-message"
+    );
+
+    checkbox.addEventListener("change", () => {
+        botao.disabled = !checkbox.checked;
+    });
+
+    botao.addEventListener("click", async () => {
+
+        if (!checkbox.checked) return;
+
+        botao.disabled = true;
+        checkbox.disabled = true;
+        botao.textContent = "Registrando...";
+        mensagem.textContent = "";
+
+        try {
+
+            const { error } = await supabaseClient.rpc(
+                "accept_community_guidelines",
+                {
+                    p_version: "1.0"
+                }
+            );
+
+            if (error) throw error;
+
+            window.location.reload();
+
+        } catch (error) {
+
+            console.error(error);
+
+            mensagem.textContent =
+                "Não foi possível registrar sua aceitação. Tente novamente.";
+
+            checkbox.disabled = false;
+            botao.disabled = !checkbox.checked;
+            botao.textContent = "Aceitar e continuar";
+
+        }
+
+    });
+
+    document.getElementById("guidelines-logout-button")
+        .addEventListener("click", async () => {
+
+            const { error } =
+                await supabaseClient.auth.signOut();
+
+            if (error) {
+                mensagem.textContent =
+                    "Não foi possível sair da conta.";
+                return;
+            }
+
+            window.location.href = "login.html";
+
+        });
+
+});
+</script>
+
 </body>
 </html>
 
