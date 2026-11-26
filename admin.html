@@ -296,6 +296,157 @@
         flex: 1;
     }
 }
+        /* ESTATÍSTICAS DE DISTRIBUIÇÃO */
+
+.delivery-stats {
+    background: #071e29;
+    border: 1px solid #375662;
+    border-radius: 15px;
+    padding: 18px;
+    margin-top: 20px;
+}
+
+.delivery-stats h4 {
+    margin: 0 0 15px;
+    color: #a1ddf1;
+    font-size: 15px;
+}
+
+.delivery-channels {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.delivery-channel {
+    background: #103340;
+    border: 1px solid #375662;
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.delivery-channel-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.delivery-channel-title svg {
+    width: 18px;
+    height: 18px;
+    color: #a1ddf1;
+}
+
+.delivery-channel strong {
+    display: block;
+    font-size: 26px;
+    color: #a1ddf1;
+    margin-top: 8px;
+}
+
+.delivery-channel small {
+    color: #9fb9c5;
+}
+
+.delivery-totals {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin: 18px 0;
+}
+
+.delivery-total {
+    text-align: center;
+    font-size: 11px;
+    color: #bfd0d9;
+}
+
+.delivery-total strong {
+    display: block;
+    font-size: 23px;
+    margin-bottom: 4px;
+}
+
+.delivery-sent {
+    color: #8ed6b2;
+}
+
+.delivery-pending {
+    color: #f3d675;
+}
+
+.delivery-processing {
+    color: #a1ddf1;
+}
+
+.delivery-failed {
+    color: #f1a0ad;
+}
+
+.delivery-skipped {
+    color: #9fb9c5;
+}
+
+.delivery-progress {
+    height: 8px;
+    background: #375662;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.delivery-progress-fill {
+    height: 100%;
+    background: #a1ddf1;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+.delivery-progress-label {
+    font-size: 12px;
+    color: #bfd0d9;
+}
+
+.delivery-refresh {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: #a1ddf1;
+    border: 1px solid #375662;
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.delivery-refresh svg {
+    width: 16px;
+    height: 16px;
+}
+
+.delivery-refresh:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+@media (max-width: 600px) {
+    .delivery-totals {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 15px;
+    }
+
+    .delivery-channel {
+        padding: 12px;
+    }
+
+    .delivery-channel strong {
+        font-size: 22px;
+    }
+}
     </style>
 </head>
 
@@ -434,6 +585,14 @@
     </section>
 
     <h2>Histórico de comunicados</h2>
+    <button type="button"
+        id="refresh-announcements"
+        class="delivery-refresh">
+
+    <i data-lucide="refresh-cw"></i>
+    Atualizar estatísticas
+
+</button>
 
     <div id="announcements-container"></div>
 
@@ -771,6 +930,26 @@ formularioComunicado.addEventListener("submit", async function(event) {
     }
 
 });
+    const botaoAtualizarComunicados =
+    document.getElementById("refresh-announcements");
+
+botaoAtualizarComunicados.addEventListener(
+    "click",
+    async function() {
+
+        botaoAtualizarComunicados.disabled = true;
+
+        try {
+
+            await carregarComunicados();
+
+        } finally {
+
+            botaoAtualizarComunicados.disabled = false;
+
+        }
+    }
+);
 /* CARREGAR COMUNICADOS */
 
 async function carregarComunicados() {
@@ -788,7 +967,32 @@ async function carregarComunicados() {
         console.error(error);
         return;
     }
+const {
+    data: estatisticas,
+    error: erroEstatisticas
+} = await supabaseClient.rpc(
+    "get_announcement_delivery_stats"
+);
 
+const estatisticasPorComunicado = new Map();
+
+if (erroEstatisticas) {
+    console.error(erroEstatisticas);
+} else {
+    (estatisticas || []).forEach(item => {
+
+        if (!estatisticasPorComunicado.has(item.announcement_id)) {
+            estatisticasPorComunicado.set(
+                item.announcement_id,
+                {}
+            );
+        }
+
+        estatisticasPorComunicado
+            .get(item.announcement_id)[item.channel] = item;
+
+    });
+}
     listaComunicados.replaceChildren();
 
     if (!data || data.length === 0) {
@@ -836,7 +1040,31 @@ async function carregarComunicados() {
             dataCriacao,
             canais
         );
+if (item.send_email || item.send_push) {
 
+    if (erroEstatisticas) {
+
+        const aviso = document.createElement("p");
+
+        aviso.textContent =
+            "Estatísticas temporariamente indisponíveis.";
+
+        card.appendChild(aviso);
+
+    } else {
+
+        const dadosDistribuicao =
+            estatisticasPorComunicado.get(item.id) || {};
+
+        card.appendChild(
+            criarEstatisticasDistribuicao(
+                item,
+                dadosDistribuicao
+            )
+        );
+
+    }
+}
         const acoes = document.createElement("div");
         acoes.className = "request-actions";
 
@@ -885,12 +1113,141 @@ async function carregarComunicados() {
         }
 
         card.appendChild(acoes);
-        listaComunicados.appendChild(card);
+       listaComunicados.appendChild(card);
 
     });
 
-}
+    lucide.createIcons();
 
+}
+function criarEstatisticasDistribuicao(item, dados) {
+
+    const painel = document.createElement("section");
+    painel.className = "delivery-stats";
+
+    const email = dados.email || {};
+    const push = dados.push || {};
+
+    const campos = [
+        "total",
+        "sent",
+        "pending",
+        "processing",
+        "failed",
+        "skipped"
+    ];
+
+    const totais = {};
+
+    campos.forEach(campo => {
+        totais[campo] =
+            Number(email[campo] || 0) +
+            Number(push[campo] || 0);
+    });
+
+    const porcentagem = totais.total > 0
+        ? (totais.sent / totais.total) * 100
+        : 0;
+
+    function criarCanal(nome, icone, dadosCanal) {
+
+        return `
+            <div class="delivery-channel">
+
+                <div class="delivery-channel-title">
+                    <i data-lucide="${icone}"></i>
+                    ${nome}
+                </div>
+
+                <strong>
+                    ${Number(dadosCanal.sent || 0)}/${Number(dadosCanal.total || 0)}
+                </strong>
+
+                <small>Envios aceitos</small>
+
+            </div>
+        `;
+    }
+
+    painel.innerHTML = `
+
+        <h4>Histórico de distribuição</h4>
+
+        <div class="delivery-channels">
+
+            ${item.send_email
+                ? criarCanal("E-mail", "mail", email)
+                : ""}
+
+            ${item.send_push
+                ? criarCanal("Push", "bell", push)
+                : ""}
+
+        </div>
+
+        <div class="delivery-totals">
+
+            <div class="delivery-total">
+                <strong class="delivery-sent">
+                    ${totais.sent}
+                </strong>
+                Aceitos
+            </div>
+
+            <div class="delivery-total">
+                <strong class="delivery-pending">
+                    ${totais.pending}
+                </strong>
+                Pendentes
+            </div>
+
+            <div class="delivery-total">
+                <strong class="delivery-processing">
+                    ${totais.processing}
+                </strong>
+                Processando
+            </div>
+
+            <div class="delivery-total">
+                <strong class="delivery-failed">
+                    ${totais.failed}
+                </strong>
+                Falhas
+            </div>
+
+            <div class="delivery-total">
+                <strong class="delivery-skipped">
+                    ${totais.skipped}
+                </strong>
+                Ignorados
+            </div>
+
+        </div>
+
+        <div class="delivery-progress-label">
+            ${totais.total > 0
+                ? "Envios aceitos: " +
+                  porcentagem.toFixed(1).replace(".", ",") + "%"
+                : "Nenhum envio registrado"}
+        </div>
+
+        <div class="delivery-progress"
+             role="progressbar"
+             aria-label="Envios aceitos"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             aria-valuenow="${porcentagem}">
+
+            <div class="delivery-progress-fill"
+                 style="width: ${porcentagem}%">
+            </div>
+
+        </div>
+
+    `;
+
+    return painel;
+}
 /* EDITAR COMUNICADO */
 
 function editarComunicado(item) {
