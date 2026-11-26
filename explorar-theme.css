@@ -1,0 +1,259 @@
+/* =========================================
+   LUMA — APARÊNCIA DA PÁGINA EXPLORAR
+   ========================================= */
+
+html[data-theme] .explore-page {
+    background: var(--luma-bg);
+    color: var(--luma-text);
+}
+
+/* CABEÇALHO */
+
+.explore-page .explore-back {
+    color: var(--luma-text-secondary);
+}
+
+.explore-page .explore-back:hover {
+    color: var(--luma-accent);
+}
+
+.explore-page .explore-eyebrow {
+    color: var(--luma-accent);
+}
+
+.explore-page .explore-header h1,
+.explore-page .explore-section h2 {
+    color: var(--luma-text);
+}
+
+.explore-page .explore-header p,
+.explore-page .explore-section > p,
+.explore-page .explore-section > small {
+    color: var(--luma-text-secondary);
+}
+
+/* PESQUISA */
+
+.explore-page .explore-search,
+.explore-page .professionals-search input {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    color: var(--luma-text);
+    box-shadow: var(--luma-shadow);
+}
+
+.explore-page .explore-search input {
+    background: transparent;
+    color: var(--luma-text);
+}
+
+.explore-page .explore-search svg {
+    color: var(--luma-accent);
+}
+
+.explore-page .explore-search input::placeholder,
+.explore-page .professionals-search input::placeholder {
+    color: var(--luma-text-secondary);
+}
+
+.explore-page .explore-search:focus-within,
+.explore-page .professionals-search input:focus {
+    border-color: var(--luma-accent);
+    box-shadow: 0 0 0 3px rgba(216,62,124,.15);
+}
+
+/* CATEGORIAS */
+
+.explore-page .explore-categories button {
+    background: var(--luma-card);
+    color: var(--luma-text);
+    border-color: var(--luma-border);
+}
+
+.explore-page .explore-categories button:hover {
+    background: var(--luma-hover);
+    border-color: var(--luma-accent);
+}
+
+.explore-page .explore-categories button.active {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+    border-color: var(--luma-accent);
+}
+
+/* PUBLICAÇÕES POPULARES */
+
+.explore-page .explore-ranking-label {
+    color: var(--luma-accent);
+}
+
+html[data-theme] .explore-page .explore-post-card,
+html[data-theme] .explore-page .explore-popular-grid .explore-post-card,
+html[data-theme] .explore-page .explore-more-list .explore-post-card {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    box-shadow: var(--luma-shadow);
+}
+
+html[data-theme] .explore-page .explore-post-card:hover {
+    border-color: var(--luma-accent);
+}
+
+.explore-page .explore-post-card:focus-visible {
+    outline: 2px solid var(--luma-accent);
+    outline-offset: 3px;
+}
+
+.explore-page .explore-post-avatar {
+    background: var(--luma-pink);
+    color: #092633;
+}
+
+.explore-page .explore-post-author-info strong {
+    color: var(--luma-text);
+}
+
+.explore-page .explore-post-author-info small {
+    color: var(--luma-tag-text);
+}
+
+html[data-theme] .explore-page .explore-post-card p {
+    color: var(--luma-text);
+}
+
+html[data-theme] .explore-page .explore-post-card > small {
+    color: var(--luma-text-secondary);
+}
+
+/* IMAGENS */
+
+.explore-page .explore-post-image {
+    background: var(--luma-input);
+}
+
+/* CURTIDAS */
+
+.explore-page .explore-post-likes {
+    color: var(--luma-text-secondary);
+}
+
+.explore-page .explore-post-likes svg {
+    color: var(--luma-accent);
+}
+
+.explore-page .explore-popular-grid .explore-post-likes {
+    border-color: var(--luma-border);
+}
+
+/* ROLAGEM HORIZONTAL */
+
+.explore-page .explore-popular-grid {
+    scrollbar-color: var(--luma-accent) transparent;
+}
+
+/* CARREGAR MAIS */
+
+.explore-page #explore-load-more {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+.explore-page #explore-load-more:hover {
+    background: var(--luma-hover);
+}
+
+.explore-page #explore-load-more[hidden],
+.explore-page .explore-post-card[hidden] {
+    display: none !important;
+}
+
+/* PROFISSIONAIS VERIFICADOS */
+
+html[data-theme] .explore-page .verified-professional-card {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    box-shadow: var(--luma-shadow);
+}
+
+.explore-page .professional-avatar {
+    background: var(--luma-pink);
+    color: #092633;
+}
+
+.explore-page .professional-name {
+    color: var(--luma-text);
+}
+
+.explore-page .verified-professional-card p {
+    color: var(--luma-text-secondary);
+}
+
+.explore-page .verified-professional-card a {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+    border-color: var(--luma-border);
+}
+
+.explore-page .verified-professional-card a:hover {
+    background: var(--luma-hover);
+}
+
+/* PUBLICAÇÕES DE PROFISSIONAIS */
+
+html[data-theme] .explore-page .professional-post-card {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    box-shadow: var(--luma-shadow);
+}
+
+.explore-page .professional-post-avatar {
+    background: var(--luma-pink);
+    color: #092633;
+}
+
+.explore-page .professional-post-name {
+    color: var(--luma-text);
+}
+
+.explore-page .professional-post-header small {
+    color: var(--luma-text-secondary);
+}
+
+.explore-page .professional-post-category {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+.explore-page .professional-post-content {
+    color: var(--luma-text);
+}
+
+.explore-page .professional-post-link {
+    color: var(--luma-accent);
+}
+
+.explore-page .professional-post-link:hover {
+    text-decoration: underline;
+}
+
+/* CONTRASTE NO MODO CLARO */
+
+html[data-theme="light"] .explore-page .explore-eyebrow,
+html[data-theme="light"] .explore-page .explore-ranking-label,
+html[data-theme="light"] .explore-page .professional-post-link {
+    color: #B82D63;
+}
+
+/* BOLINHAS FLUTUANTES */
+
+html[data-theme] .explore-page .floating-circle {
+    background: var(--luma-pink);
+}
+
+html[data-theme="light"] .explore-page .floating-circle {
+    opacity: .25;
+}
+
+html[data-theme="dark"] .explore-page .floating-circle {
+    opacity: .12;
+}
