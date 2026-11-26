@@ -10,7 +10,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-
+<script src="theme.js"></script>
+<link rel="stylesheet" href="theme.css">  ,
     <style>
         * {
             box-sizing: border-box;
@@ -447,6 +448,225 @@
         font-size: 22px;
     }
 }
+        /* =========================================
+   LUMA — APARÊNCIA ADMINISTRATIVA
+   ========================================= */
+
+body {
+    background: var(--luma-bg);
+    color: var(--luma-text);
+}
+
+.admin-back {
+    color: var(--luma-accent);
+}
+
+.admin-header h1 {
+    color: var(--luma-text);
+}
+
+.admin-header p {
+    color: var(--luma-text-secondary);
+}
+
+.admin-icon {
+    background: var(--luma-pink);
+    color: #092633;
+}
+
+/* CARDS */
+
+.stat-card,
+.request-card {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    box-shadow: var(--luma-shadow);
+}
+
+.stat-card strong {
+    color: var(--luma-accent);
+}
+
+.request-card h2,
+.request-card h3 {
+    color: var(--luma-text);
+}
+
+.request-card p {
+    color: var(--luma-text-secondary);
+}
+
+/* ABAS */
+
+.admin-tab {
+    background: transparent;
+    color: var(--luma-accent);
+    border-color: var(--luma-border);
+}
+
+.admin-tab:hover {
+    background: var(--luma-hover);
+}
+
+.admin-tab.active {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+    border-color: var(--luma-accent);
+}
+
+/* STATUS E MENSAGENS */
+
+.status-label {
+    color: var(--luma-tag-text);
+    background: var(--luma-tag-bg);
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+#admin-message {
+    color: var(--luma-text-secondary);
+}
+
+/* COMUNICADOS */
+
+#announcement-form > label {
+    color: var(--luma-text);
+}
+
+#announcement-title,
+#announcement-content {
+    background: var(--luma-input);
+    color: var(--luma-text);
+    border-color: var(--luma-border);
+}
+
+#announcement-title:focus,
+#announcement-content:focus {
+    border-color: var(--luma-accent);
+    box-shadow: 0 0 0 3px rgba(216,62,124,.12);
+}
+
+#announcement-title::placeholder,
+#announcement-content::placeholder {
+    color: var(--luma-text-secondary);
+}
+
+.announcement-channels label {
+    color: var(--luma-text);
+}
+
+.announcement-channels input {
+    accent-color: var(--luma-accent);
+}
+
+#announcement-message {
+    color: var(--luma-tag-text);
+}
+
+.announcement-date {
+    color: var(--luma-text-secondary);
+}
+
+.announcement-edit {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+/* ESTATÍSTICAS DE DISTRIBUIÇÃO */
+
+.delivery-stats {
+    background: var(--luma-input);
+    border-color: var(--luma-border);
+}
+
+.delivery-stats h4 {
+    color: var(--luma-accent);
+}
+
+.delivery-channel {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+}
+
+.delivery-channel-title {
+    color: var(--luma-text);
+}
+
+.delivery-channel-title svg,
+.delivery-channel strong {
+    color: var(--luma-accent);
+}
+
+.delivery-channel small,
+.delivery-total,
+.delivery-progress-label {
+    color: var(--luma-text-secondary);
+}
+
+.delivery-progress {
+    background: var(--luma-border);
+}
+
+.delivery-progress-fill {
+    background: var(--luma-accent);
+}
+
+.delivery-refresh {
+    color: var(--luma-accent);
+    border-color: var(--luma-border);
+}
+
+.delivery-refresh:hover:not(:disabled) {
+    background: var(--luma-hover);
+}
+
+/* ACESSIBILIDADE */
+
+button:focus-visible {
+    outline: 2px solid var(--luma-accent);
+    outline-offset: 3px;
+}
+
+/* CONTRASTE NO MODO CLARO */
+
+html[data-theme="light"] .admin-back,
+html[data-theme="light"] .stat-card strong,
+html[data-theme="light"] .admin-tab:not(.active),
+html[data-theme="light"] .delivery-stats h4,
+html[data-theme="light"] .delivery-channel-title svg,
+html[data-theme="light"] .delivery-channel strong,
+html[data-theme="light"] .delivery-refresh {
+    color: #B82D63;
+}
+
+html[data-theme="light"] .admin-tab.active {
+    background: #B82D63;
+    border-color: #B82D63;
+    color: white;
+}
+
+/* CORES SEMÂNTICAS DAS ESTATÍSTICAS */
+
+html[data-theme="light"] .delivery-sent {
+    color: #246D51;
+}
+
+html[data-theme="light"] .delivery-pending {
+    color: #87620C;
+}
+
+html[data-theme="light"] .delivery-processing {
+    color: #256B91;
+}
+
+html[data-theme="light"] .delivery-failed {
+    color: #A52D45;
+}
+
+html[data-theme="light"] .delivery-skipped {
+    color: #526773;
+}
     </style>
 </head>
 
@@ -638,7 +858,24 @@ async function verificarAdmin() {
         mensagem.textContent = "Acesso restrito à administração da LUMA.";
         return;
     }
+/* CARREGAR APARÊNCIA ADMINISTRATIVA */
 
+try {
+
+    const tema = await LumaTheme.carregarPreferencia(
+        supabaseClient,
+        user.id
+    );
+
+    LumaTheme.aplicarTema(tema || "dark");
+
+} catch (error) {
+
+    console.error("Erro ao carregar aparência:", error);
+
+    LumaTheme.aplicarTema("dark");
+
+}
     mensagem.textContent = "";
     painel.hidden = false;
 
