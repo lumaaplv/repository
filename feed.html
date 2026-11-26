@@ -3081,7 +3081,35 @@ cabecalhoComentario.appendChild(linkPerfilComentario);
                         botaoExcluirComentario
                     );
                 }
+/* DENUNCIAR COMENTÁRIO */
 
+if (
+    usuarioAtual &&
+    comentario.user_id !== usuarioAtual.id
+) {
+
+    const botaoDenunciarComentario =
+        document.createElement("button");
+
+    botaoDenunciarComentario.type = "button";
+
+    botaoDenunciarComentario.className =
+        "comment-report-button";
+
+    botaoDenunciarComentario.innerHTML = `
+        <i data-lucide="flag"></i>
+        Denunciar
+    `;
+
+    botaoDenunciarComentario.addEventListener(
+        "click",
+        function () {
+            abrirDenuncia("comment", comentario.id);
+        }
+    );
+
+    elemento.appendChild(botaoDenunciarComentario);
+}
 /* RESPOSTAS AOS COMENTÁRIOS */
 
 const botaoResponder = document.createElement("button");
@@ -3245,7 +3273,35 @@ cabecalhoResposta.appendChild(linkPerfilResposta);
 
         itemResposta.appendChild(excluirResposta);
     }
+/* DENUNCIAR RESPOSTA */
 
+if (
+    usuarioAtual &&
+    resposta.user_id !== usuarioAtual.id
+) {
+
+    const botaoDenunciarResposta =
+        document.createElement("button");
+
+    botaoDenunciarResposta.type = "button";
+
+    botaoDenunciarResposta.className =
+        "comment-report-button";
+
+    botaoDenunciarResposta.innerHTML = `
+        <i data-lucide="flag"></i>
+        Denunciar
+    `;
+
+    botaoDenunciarResposta.addEventListener(
+        "click",
+        function () {
+            abrirDenuncia("comment", resposta.id);
+        }
+    );
+
+    itemResposta.appendChild(botaoDenunciarResposta);
+}
     listaRespostas.appendChild(itemResposta);
 });
 
