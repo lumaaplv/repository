@@ -8,7 +8,8 @@
     <title>Diretrizes da Comunidade | LUMA</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-
+<script src="theme.js"></script>
+<link rel="stylesheet" href="theme.css">
     <style>
 
         * {
@@ -111,6 +112,61 @@
                 padding: 22px 16px 40px;
             }
         }
+        /* =========================================
+   LUMA — APARÊNCIA DAS DIRETRIZES
+   ========================================= */
+
+body {
+    background: var(--luma-bg);
+    color: var(--luma-text);
+}
+
+.back-link,
+.eyebrow,
+h2,
+.number {
+    color: var(--luma-accent);
+}
+
+h1 {
+    color: var(--luma-text);
+}
+
+p,
+li {
+    color: var(--luma-text-secondary);
+}
+
+.guideline {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    box-shadow: var(--luma-shadow);
+}
+
+.notice {
+    background: var(--luma-announcement-bg);
+    border-left-color: var(--luma-announcement-border);
+}
+
+.notice strong,
+.notice p {
+    color: var(--luma-announcement-text);
+}
+
+footer {
+    border-color: var(--luma-border);
+}
+
+html[data-theme="light"] .back-link,
+html[data-theme="light"] .eyebrow,
+html[data-theme="light"] h2,
+html[data-theme="light"] .number {
+    color: #B82D63;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
 
     </style>
 </head>
@@ -365,6 +421,44 @@
     </footer>
 
 </main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+<script>
+
+const supabaseClient = supabase.createClient(
+    "https://hyavqrkzcgubtbvkqiev.supabase.co",
+    "sb_publishable_p1sVG4mt3SPX7k9JaF7nfA_5g7XBRq1"
+);
+
+async function carregarAparenciaDiretrizes() {
+
+    try {
+
+        const { data: { user }, error } =
+            await supabaseClient.auth.getUser();
+
+        if (error || !user) return;
+
+        const tema = await LumaTheme.carregarPreferencia(
+            supabaseClient,
+            user.id
+        );
+
+        LumaTheme.aplicarTema(tema || "dark");
+
+    } catch (error) {
+
+        console.error(
+            "Erro ao carregar aparência:",
+            error
+        );
+
+    }
+
+}
+
+carregarAparenciaDiretrizes();
+
+</script>
 </body>
 </html>
