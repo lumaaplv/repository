@@ -1,0 +1,206 @@
+/* =========================================
+   LUMA — EDIÇÃO DE PERFIL
+   ========================================= */
+
+html[data-theme] .edit-profile-page {
+    background: var(--luma-bg);
+    color: var(--luma-text);
+}
+
+/* CABEÇALHO */
+
+html[data-theme] .edit-profile-page .edit-profile-header {
+    background: var(--luma-bg);
+    border-color: var(--luma-border);
+}
+
+.edit-profile-page .edit-profile-logo {
+    color: var(--luma-accent);
+}
+
+.edit-profile-page .edit-profile-back {
+    color: var(--luma-text-secondary);
+}
+
+.edit-profile-page .edit-profile-back:hover {
+    color: var(--luma-accent);
+}
+
+/* TÍTULOS */
+
+.edit-profile-page .edit-profile-heading h1 {
+    color: var(--luma-text);
+}
+
+.edit-profile-page .edit-profile-heading > span {
+    color: var(--luma-accent);
+}
+
+.edit-profile-page .edit-profile-heading p {
+    color: var(--luma-text-secondary);
+}
+
+/* CARTÕES */
+
+html[data-theme] .edit-profile-page .edit-profile-card {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    box-shadow: var(--luma-shadow);
+}
+
+.edit-profile-page .edit-profile-card-title h2 {
+    color: var(--luma-text);
+}
+
+.edit-profile-page .edit-profile-card-title span {
+    color: var(--luma-text-secondary);
+}
+
+.edit-profile-page .edit-profile-card-icon,
+.edit-profile-page .edit-profile-card-icon.story,
+.edit-profile-page .edit-profile-card-icon.links {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+/* FOTO DE PERFIL */
+
+.edit-profile-page .edit-photo-preview {
+    background: var(--luma-pink);
+    color: #092633;
+    border-color: var(--luma-border);
+}
+
+.edit-profile-page .edit-photo-button {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+    border-color: var(--luma-border);
+}
+
+.edit-profile-page .edit-photo-button:hover {
+    background: var(--luma-hover);
+}
+
+.edit-profile-page .edit-photo-options p {
+    color: var(--luma-text-secondary);
+}
+
+/* CAMPOS DE PREENCHIMENTO */
+
+.edit-profile-page .edit-profile-field label {
+    color: var(--luma-text);
+}
+
+.edit-profile-page .edit-profile-field label span {
+    color: var(--luma-text-secondary);
+}
+
+.edit-profile-page .edit-profile-field input,
+.edit-profile-page .edit-profile-field textarea {
+    background: var(--luma-input);
+    color: var(--luma-text);
+    border-color: var(--luma-border);
+}
+
+.edit-profile-page .edit-profile-field input:focus,
+.edit-profile-page .edit-profile-field textarea:focus {
+    background: var(--luma-card);
+    border-color: var(--luma-accent);
+    box-shadow: 0 0 0 3px rgba(216,62,124,.15);
+}
+
+.edit-profile-page .edit-profile-field input::placeholder,
+.edit-profile-page .edit-profile-field textarea::placeholder {
+    color: var(--luma-text-secondary);
+    opacity: .8;
+}
+
+/* NOME DE USUÁRIO */
+
+.edit-profile-page .username-input {
+    background: var(--luma-input);
+    border-color: var(--luma-border);
+}
+
+.edit-profile-page .username-input > span {
+    color: var(--luma-accent);
+}
+
+.edit-profile-page .username-input:focus-within {
+    border-color: var(--luma-accent);
+    box-shadow: 0 0 0 3px rgba(216,62,124,.15);
+}
+
+.edit-profile-page .username-input input,
+.edit-profile-page .username-input input:focus {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+/* TEXTOS AUXILIARES */
+
+.edit-profile-page .edit-profile-field small,
+.edit-profile-page .edit-profile-counter {
+    color: var(--luma-text-secondary);
+}
+
+.edit-profile-page .edit-profile-privacy {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text) !important;
+}
+
+/* BOTÕES */
+
+.edit-profile-page .edit-profile-cancel {
+    background: transparent;
+    color: var(--luma-text);
+    border-color: var(--luma-border);
+}
+
+.edit-profile-page .edit-profile-cancel:hover {
+    background: var(--luma-hover);
+}
+
+.edit-profile-page .edit-profile-save {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+}
+
+html[data-theme="light"] .edit-profile-page .edit-profile-save {
+    background: #B82D63;
+    color: #FFFFFF;
+}
+
+.edit-profile-page .edit-profile-save:hover:not(:disabled) {
+    background: var(--luma-accent-hover);
+}
+
+html[data-theme="light"] .edit-profile-page .edit-profile-save:hover:not(:disabled) {
+    background: #9D2856;
+}
+
+.edit-profile-page .edit-profile-save:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+/* MENSAGENS */
+
+.edit-profile-page .edit-profile-message {
+    color: var(--luma-text);
+}
+
+/* BOLINHAS FLUTUANTES */
+
+html[data-theme] .edit-profile-page .floating-circle {
+    background: var(--luma-pink);
+}
+
+html[data-theme="light"] .edit-profile-page .floating-circle {
+    opacity: .25;
+}
+
+html[data-theme="dark"] .edit-profile-page .floating-circle {
+    opacity: .12;
+}
