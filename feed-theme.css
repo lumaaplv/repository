@@ -440,3 +440,348 @@ html[data-theme="dark"] .feed-page .post-options-menu .delete-option {
         color: var(--luma-accent);
     }
 }
+/* =========================================
+   ESCOLHA DE APARÊNCIA LUMA
+   ========================================= */
+
+.theme-modal {
+    width: min(720px, calc(100% - 28px));
+    max-height: 90dvh;
+    padding: 0;
+    border: 1px solid #F4D5DF;
+    border-radius: 28px;
+    background: #FFF8FA;
+    color: #092633;
+    box-shadow: 0 25px 90px rgba(0,0,0,.25);
+    overflow-y: auto;
+}
+
+.theme-modal::backdrop {
+    background: rgba(7,30,41,.65);
+    backdrop-filter: blur(5px);
+}
+
+.theme-dialog {
+    padding: 36px;
+    text-align: center;
+    background:
+        radial-gradient(
+            circle at 0% 0%,
+            #F8B8C8 0%,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 100% 100%,
+            #FDE4EC 0%,
+            transparent 30%
+        ),
+        #FFF8FA;
+}
+
+.theme-brand {
+    font-size: 44px;
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 24px;
+}
+
+.theme-brand span,
+.mini-logo span {
+    color: #D83E7C;
+}
+
+.theme-dialog h2 {
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: -1px;
+    margin: 0 0 12px;
+    color: #092633;
+}
+
+.theme-description {
+    max-width: 440px;
+    margin: 0 auto 28px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: #526773;
+}
+
+/* CARTÕES DE SELEÇÃO */
+
+.theme-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    min-width: 0;
+}
+
+.theme-options legend {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+}
+
+.theme-option {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 28px 18px 22px;
+    border: 2px solid transparent;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: transform .2s, border-color .2s;
+}
+
+.theme-option:hover {
+    transform: translateY(-3px);
+}
+
+.theme-option:has(input:checked) {
+    border-color: #D83E7C;
+    box-shadow: 0 0 0 3px rgba(216,62,124,.15);
+}
+
+.theme-option:has(input:focus-visible) {
+    outline: 3px solid #D83E7C;
+    outline-offset: 4px;
+}
+
+.theme-option input {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 19px;
+    height: 19px;
+    accent-color: #D83E7C;
+    cursor: pointer;
+}
+
+.light-preview {
+    background: #F8F7F2;
+    color: #092633;
+    color-scheme: light;
+
+    --preview-bg: #F0ECE8;
+    --preview-card: #FFFFFF;
+    --preview-line: #D5D0CE;
+    --preview-image: #F8B8C8;
+}
+
+.dark-preview {
+    background: #071E29;
+    color: #F5F5EF;
+    color-scheme: dark;
+
+    --preview-bg: #092633;
+    --preview-card: #103340;
+    --preview-line: #64818D;
+    --preview-image: #80566B;
+}
+
+/* MINIATURAS DO FEED */
+
+.theme-mini-preview {
+    width: 100%;
+    max-width: 220px;
+    padding: 14px;
+    margin: 12px 0 20px;
+    border-radius: 16px;
+    background: var(--preview-bg);
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.mini-logo {
+    text-align: left;
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+}
+
+.mini-post {
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--preview-card);
+}
+
+.mini-avatar {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: #F8B8C8;
+    margin-bottom: 12px;
+}
+
+.mini-line {
+    width: 90%;
+    height: 6px;
+    border-radius: 10px;
+    background: var(--preview-line);
+    margin-bottom: 7px;
+}
+
+.mini-line.short {
+    width: 60%;
+}
+
+.mini-image {
+    height: 65px;
+    border-radius: 9px;
+    background: var(--preview-image);
+    margin: 13px 0;
+}
+
+.mini-actions {
+    display: flex;
+    gap: 12px;
+    color: inherit;
+}
+
+.mini-actions svg {
+    width: 14px;
+    height: 14px;
+}
+
+.mini-actions svg:first-child {
+    color: #D83E7C;
+}
+
+/* TÍTULOS DOS TEMAS */
+
+.theme-option-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 19px;
+}
+
+.theme-option-title svg {
+    width: 23px;
+    height: 23px;
+    color: #D83E7C;
+}
+
+.dark-preview .theme-option-title svg {
+    color: #F8B8C8;
+}
+
+.theme-option small {
+    font-size: 12px;
+    margin-top: 8px;
+    opacity: .9;
+}
+
+/* BOTÕES */
+
+#confirm-theme {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 380px;
+    margin: 28px auto 12px;
+    padding: 15px;
+    border: none;
+    border-radius: 30px;
+    background: #B82D63;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+#confirm-theme:hover:not(:disabled) {
+    background: #9D2856;
+}
+
+#confirm-theme:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+#skip-theme {
+    border: none;
+    background: transparent;
+    color: #526773;
+    font-size: 13px;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 8px;
+}
+
+#theme-message {
+    color: #B42318;
+    font-size: 13px;
+    margin: 8px 0 0;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 600px) {
+
+    .theme-dialog {
+        padding: 26px 16px;
+    }
+
+    .theme-brand {
+        font-size: 36px;
+    }
+
+    .theme-dialog h2 {
+        font-size: 24px;
+    }
+
+    .theme-options {
+        gap: 10px;
+    }
+
+    .theme-option {
+        padding: 25px 10px 16px;
+        border-radius: 17px;
+    }
+
+    .theme-mini-preview {
+        padding: 9px;
+    }
+
+    .mini-post {
+        padding: 9px;
+    }
+
+    .mini-image {
+        height: 48px;
+    }
+
+    .theme-option-title {
+        font-size: 14px;
+        gap: 5px;
+    }
+
+    .theme-option-title svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .theme-option small {
+        font-size: 11px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-option {
+        transition: none;
+    }
+
+    .theme-option:hover {
+        transform: none;
+    }
+}
