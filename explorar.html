@@ -361,7 +361,14 @@ const nomeAutor = perfil.nome || "Usuário LUMA";
 
 if (perfil.foto_url) {
     const foto = document.createElement("img");
-    foto.src = perfil.foto_url;
+    
+carregarFotoPrivada(
+    perfil.foto_url,
+    foto,
+    avatar,
+    nomeAutor.charAt(0).toUpperCase()
+);
+
     foto.alt = "Foto de " + nomeAutor;
     avatar.appendChild(foto);
 } else {
@@ -631,6 +638,36 @@ async function carregarProfissionaisVerificados() {
     renderizarProfissionais();
 }
 
+async function carregarFotoPrivada(url, imagem, avatar, inicial) {
+
+    try {
+
+        const caminho = decodeURIComponent(
+            new URL(url).pathname.split(
+                "/object/public/profile-photos/"
+            )[1]
+        );
+
+        const { data, error } =
+            await supabaseClient.storage
+                .from("profile-photos")
+                .createSignedUrl(caminho, 3600);
+
+        if (error) throw error;
+
+        imagem.src = data.signedUrl;
+
+    } catch (error) {
+
+        console.error("Erro ao carregar foto:", error);
+
+        avatar.replaceChildren();
+        avatar.textContent = inicial;
+
+    }
+
+}
+
 function renderizarProfissionais(busca = "") {
 
     const lista = document.getElementById(
@@ -669,7 +706,14 @@ function renderizarProfissionais(busca = "") {
         if (item.foto) {
 
             const imagem = document.createElement("img");
-            imagem.src = item.foto;
+            
+carregarFotoPrivada(
+    item.foto,
+    imagem,
+    avatar,
+    item.nome.charAt(0).toUpperCase()
+);
+
             imagem.alt = item.nome;
 
             avatar.appendChild(imagem);
@@ -793,7 +837,14 @@ async function carregarPostsProfissionais() {
 
         if (perfil?.foto_url) {
             const img = document.createElement("img");
-            img.src = perfil.foto_url;
+            
+carregarFotoPrivada(
+    perfil.foto_url,
+    img,
+    avatar,
+    (perfil?.nome || "P").charAt(0).toUpperCase()
+);
+
             img.alt = "Foto do profissional";
             avatar.appendChild(img);
         } else {
