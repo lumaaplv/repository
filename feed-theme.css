@@ -785,3 +785,34 @@ html[data-theme="dark"] .feed-page .post-options-menu .delete-option {
         transform: none;
     }
 }
+/* CORREÇÃO DO TEXTO DAS NOTIFICAÇÕES */
+
+html[data-theme] .feed-page #central-notificacoes {
+    background: var(--luma-card);
+    color: var(--luma-text);
+}
+
+html[data-theme] .feed-page .notification-content p,
+html[data-theme] .feed-page .notification-content strong,
+html[data-theme] .feed-page .notifications-header h2 {
+    color: var(--luma-text) !important;
+}
+
+html[data-theme] .feed-page .notification-content small,
+html[data-theme] .feed-page .notifications-header p,
+html[data-theme] .feed-page .notifications-empty {
+    color: var(--luma-text-secondary) !important;
+}
+
+html[data-theme] .feed-page .notification-item {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+}
+
+html[data-theme] .feed-page .notification-item.unread {
+    background: var(--luma-tag-bg);
+}
+
+html[data-theme] .feed-page .notification-unread-dot {
+    background: var(--luma-accent);
+}
