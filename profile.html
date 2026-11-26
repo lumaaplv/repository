@@ -425,7 +425,149 @@
                 SUPABASE_PUBLISHABLE_KEY
             );
 
+/* =========================================
+   DENÚNCIAS DE PERFIS LUMA
+   ========================================= */
 
+const modalDenuncia =
+    document.getElementById("report-modal");
+
+const formularioDenuncia =
+    document.getElementById("report-form");
+
+const mensagemDenuncia =
+    document.getElementById("report-message");
+
+const botaoEnviarDenuncia =
+    document.getElementById("submit-report");
+
+const botaoCancelarDenuncia =
+    document.getElementById("cancel-report");
+
+let perfilDenunciado = null;
+let enviandoDenuncia = false;
+
+function abrirDenunciaPerfil(profileId) {
+
+    if (!profileId || enviandoDenuncia) return;
+
+    perfilDenunciado = profileId;
+
+    formularioDenuncia.reset();
+    mensagemDenuncia.textContent = "";
+
+    modalDenuncia.showModal();
+
+    lucide.createIcons();
+}
+
+botaoCancelarDenuncia.addEventListener("click", function () {
+
+    if (!enviandoDenuncia) {
+        modalDenuncia.close();
+    }
+
+});
+
+modalDenuncia.addEventListener("cancel", function (event) {
+
+    if (enviandoDenuncia) {
+        event.preventDefault();
+    }
+
+});
+
+modalDenuncia.addEventListener("close", function () {
+
+    perfilDenunciado = null;
+    formularioDenuncia.reset();
+    mensagemDenuncia.textContent = "";
+
+});
+
+formularioDenuncia.addEventListener("submit", async function (event) {
+
+    event.preventDefault();
+
+    if (!perfilDenunciado || enviandoDenuncia) return;
+
+    const motivo = formularioDenuncia.querySelector(
+        'input[name="report-reason"]:checked'
+    );
+
+    if (!motivo) {
+
+        mensagemDenuncia.textContent =
+            "Selecione um motivo.";
+
+        return;
+    }
+
+    const descricao = document.getElementById(
+        "report-description"
+    ).value.trim();
+
+    enviandoDenuncia = true;
+
+    botaoEnviarDenuncia.disabled = true;
+    botaoCancelarDenuncia.disabled = true;
+
+    botaoEnviarDenuncia.textContent = "Enviando...";
+    mensagemDenuncia.textContent = "";
+
+    try {
+
+        const { data, error } = await supabaseClient.rpc(
+            "submit_report",
+            {
+                p_target_type: "profile",
+                p_target_id: String(perfilDenunciado),
+                p_reason: motivo.value,
+                p_description: descricao || null
+            }
+        );
+
+        if (error) throw error;
+
+        if (!data) {
+            throw new Error("Denúncia não confirmada.");
+        }
+
+        modalDenuncia.close();
+
+        alert(
+            "Denúncia enviada com sucesso. " +
+            "Ela será encaminhada para análise."
+        );
+
+    } catch (error) {
+
+        const mensagensPermitidas = [
+            "Você já possui uma denúncia em análise para este conteúdo.",
+            "Limite temporário de denúncias atingido.",
+            "Conteúdo indisponível.",
+            "Você não pode denunciar seu próprio conteúdo.",
+            "Aceite as diretrizes da comunidade.",
+            "Autenticação necessária."
+        ];
+
+        mensagemDenuncia.textContent =
+            mensagensPermitidas.includes(error.message)
+                ? error.message
+                : "Não foi possível enviar a denúncia. Tente novamente.";
+
+    } finally {
+
+        enviandoDenuncia = false;
+
+        botaoEnviarDenuncia.disabled = false;
+        botaoCancelarDenuncia.disabled = false;
+
+        botaoEnviarDenuncia.textContent = "Enviar denúncia";
+
+    }
+
+});
         /* =========================================
            CARREGAR PERFIL
            ========================================= */
@@ -692,6 +834,22 @@ const menuOpcoesPerfil =
     document.getElementById("profile-options-menu");
 
 opcoesPerfil.hidden = meuPerfil;
+if (!meuPerfil) {
+
+    document.getElementById("report-profile-button")
+        .addEventListener("click", function () {
+
+            menuOpcoesPerfil.hidden = true;
+
+            botaoOpcoesPerfil.setAttribute(
+                "aria-expanded", "false"
+            );
+
+            abrirDenunciaPerfil(perfil.id);
+
+        });
+
+}
 
 if (!meuPerfil) {
 
