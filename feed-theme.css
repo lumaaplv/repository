@@ -1,0 +1,156 @@
+/* LUMA — APARÊNCIA DA COMUNIDADE */
+
+html[data-theme] .feed-page {
+
+    --community-bg: var(--luma-bg);
+    --community-surface: var(--luma-card);
+    --community-surface-light: var(--luma-input);
+
+    --community-text: var(--luma-text);
+    --community-muted: var(--luma-text-secondary);
+    --community-border: var(--luma-border);
+
+    --luma-blue: var(--luma-accent);
+
+    background: var(--luma-bg);
+    color: var(--luma-text);
+}
+
+/* ESTRUTURA PRINCIPAL */
+
+.feed-page .community-main {
+    background: var(--luma-bg);
+}
+
+.feed-page .community-sidebar,
+.feed-page .community-right {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+}
+
+.feed-page .community-header {
+    border-color: var(--luma-border);
+}
+
+.feed-page .community-logo {
+    color: var(--luma-accent);
+}
+
+.feed-page .community-slogan {
+    color: var(--luma-text-secondary);
+}
+
+/* MENU */
+
+.feed-page .community-menu-item {
+    color: var(--luma-text-secondary);
+}
+
+.feed-page .community-menu-item:hover,
+.feed-page .community-menu-item.active {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+.feed-page .header-icon-button {
+    color: var(--luma-accent);
+}
+
+.feed-page .header-icon-button:hover {
+    background: var(--luma-hover);
+}
+
+/* CAMPOS DE TEXTO */
+
+.feed-page .community-search,
+.feed-page .create-post-input {
+    background: var(--luma-input);
+    border-color: var(--luma-border);
+    color: var(--luma-text-secondary);
+}
+
+.feed-page .create-post-input:hover {
+    border-color: var(--luma-accent);
+}
+
+/* CARDS */
+
+.feed-page .create-post-card,
+html[data-theme] .feed-page .community-post {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    box-shadow: var(--luma-shadow);
+}
+
+.feed-page .profile-placeholder {
+    background: var(--luma-pink);
+    color: #092633;
+}
+
+.feed-page .feed-welcome h1 {
+    color: var(--luma-text);
+}
+
+.feed-page .feed-welcome h1 span {
+    color: var(--luma-accent);
+}
+
+/* FILTROS */
+
+.feed-page .feed-filters {
+    border-color: var(--luma-border);
+}
+
+.feed-page .feed-filter {
+    color: var(--luma-text-secondary);
+}
+
+.feed-page .feed-filter.active,
+.feed-page .feed-filter:hover {
+    color: var(--luma-accent);
+}
+
+.feed-page .feed-filter.active::after {
+    background: var(--luma-accent);
+}
+
+/* PUBLICAÇÕES */
+
+html[data-theme] .feed-page .community-post-author strong,
+html[data-theme] .feed-page .community-post-text {
+    color: var(--luma-text);
+}
+
+html[data-theme] .feed-page .community-post-author span {
+    color: var(--luma-text-secondary);
+}
+
+html[data-theme] .feed-page .post-category-tag {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+html[data-theme] .feed-page .community-post-actions {
+    border-color: var(--luma-border);
+}
+
+html[data-theme] .feed-page .community-post-actions button,
+html[data-theme] .feed-page .post-menu-button {
+    color: var(--luma-text-secondary);
+}
+
+html[data-theme] .feed-page .community-post-actions button:hover,
+html[data-theme] .feed-page .post-menu-button:hover {
+    color: var(--luma-accent);
+}
+
+html[data-theme] .feed-page .post-like-button.liked,
+html[data-theme] .feed-page .post-save-button.saved {
+    color: var(--luma-accent);
+}
+
+html[data-theme] .feed-page .post-like-button.liked svg,
+html[data-theme] .feed-page .post-save-button.saved svg {
+    fill: var(--luma-accent);
+    stroke: var(--luma-accent);
+}
