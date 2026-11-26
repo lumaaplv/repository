@@ -154,3 +154,153 @@ html[data-theme] .feed-page .post-save-button.saved svg {
     fill: var(--luma-accent);
     stroke: var(--luma-accent);
 }
+/* MODAIS DE PUBLICAÇÃO */
+
+html[data-theme] .feed-page .post-modal {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    color: var(--luma-text);
+}
+
+.feed-page .post-modal-label {
+    color: var(--luma-accent);
+}
+
+.feed-page .post-modal-header h2,
+.feed-page .post-modal-user strong {
+    color: var(--luma-text);
+}
+
+.feed-page .post-modal-user span,
+.feed-page .post-modal-category > p,
+.feed-page #contador-publicacao {
+    color: var(--luma-text-secondary);
+}
+
+.feed-page .post-modal-close {
+    background: var(--luma-input);
+    color: var(--luma-text);
+}
+
+.feed-page .post-modal-close:hover {
+    background: var(--luma-hover);
+    color: var(--luma-accent);
+}
+
+/* CAMPOS DE TEXTO */
+
+.feed-page .post-modal-textarea,
+.feed-page .post-edit-area textarea,
+.feed-page .post-edit-area select,
+.feed-page .comment-input,
+.feed-page .comment-reply-form textarea {
+    background: var(--luma-input);
+    border-color: var(--luma-border);
+    color: var(--luma-text);
+}
+
+.feed-page textarea::placeholder,
+.feed-page .comment-input::placeholder {
+    color: var(--luma-text-secondary);
+}
+
+.feed-page .post-modal-textarea:focus,
+.feed-page .comment-input:focus,
+.feed-page .comment-reply-form textarea:focus {
+    border-color: var(--luma-accent);
+}
+
+/* BOTÕES PRINCIPAIS */
+
+.feed-page .publish-button,
+.feed-page .post-edit-save,
+.feed-page .comment-submit-button,
+.feed-page .comment-reply-form button {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+}
+
+.feed-page .publish-button:not(:disabled):hover,
+.feed-page .comment-submit-button:not(:disabled):hover {
+    background: var(--luma-accent-hover);
+}
+
+.feed-page .post-edit-cancel,
+.feed-page .comment-reply-form button:last-child {
+    background: var(--luma-input);
+    color: var(--luma-text);
+}
+
+/* CATEGORIAS */
+
+.feed-page .modal-category.food,
+.feed-page .modal-category.families,
+.feed-page .modal-category.science,
+.feed-page .modal-category.stories,
+.feed-page .category-button.food,
+.feed-page .category-button.families,
+.feed-page .category-button.science,
+.feed-page .category-button.stories {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+.feed-page .modal-category.selected {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+    border-color: var(--luma-accent);
+}
+
+/* COMENTÁRIOS E RESPOSTAS */
+
+.feed-page .comment-item,
+.feed-page .comment-reply-item {
+    background: var(--luma-input);
+    border-color: var(--luma-border);
+}
+
+.feed-page .comment-author-name,
+.feed-page .comment-text {
+    color: var(--luma-text);
+}
+
+.feed-page .comment-author-avatar,
+.feed-page .comment-current-avatar {
+    background: var(--luma-pink);
+    color: #092633;
+}
+
+.feed-page .comment-reply-button {
+    color: var(--luma-accent);
+}
+
+.feed-page .comment-reply-button:hover {
+    color: var(--luma-accent-hover);
+}
+
+.feed-page .comment-delete-button {
+    color: var(--luma-text-secondary);
+}
+
+/* MENU DE EDIÇÃO */
+
+.feed-page .post-options-menu {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+}
+
+.feed-page .post-options-menu button {
+    color: var(--luma-text);
+}
+
+.feed-page .post-options-menu button:hover {
+    background: var(--luma-hover);
+}
+
+html[data-theme="light"] .feed-page .post-options-menu .delete-option {
+    color: #B42318;
+}
+
+html[data-theme="dark"] .feed-page .post-options-menu .delete-option {
+    color: #F5A9A9;
+}
