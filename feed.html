@@ -110,6 +110,104 @@
             object-fit: cover;
             border-radius: 50%;
         }
+        /* COMUNICADOS OFICIAIS LUMA */
+
+#feed-announcements[hidden] {
+    display: none !important;
+}
+
+#feed-announcements {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.luma-announcement {
+    background: #fff3c4;
+    border: 1px solid #e6d49c;
+    border-radius: 20px;
+    padding: 22px;
+    color: #59451c;
+    overflow-wrap: anywhere;
+}
+
+.luma-announcement-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e6d49c;
+}
+
+.luma-announcement-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    border-radius: 13px;
+    background: #f3d675;
+    color: #72551b;
+    display: grid;
+    place-items: center;
+}
+
+.luma-announcement-author {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.luma-announcement-author strong {
+    font-size: 15px;
+    font-weight: 800;
+    color: #59451c;
+}
+
+.luma-announcement-author span {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #806021;
+}
+
+.luma-announcement-pin {
+    color: #92702c;
+    width: 18px;
+    height: 18px;
+}
+
+.luma-announcement-title {
+    font-size: 21px;
+    font-weight: 900;
+    color: #59451c;
+    margin: 18px 0 10px;
+}
+
+.luma-announcement-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #725c30;
+    white-space: pre-wrap;
+    margin: 0;
+}
+
+.luma-announcement-date {
+    display: block;
+    font-size: 12px;
+    color: #806021;
+    margin-top: 18px;
+}
+
+@media (max-width: 600px) {
+    .luma-announcement {
+        padding: 17px;
+        border-radius: 16px;
+    }
+
+    .luma-announcement-title {
+        font-size: 18px;
+    }
+}
     </style>
 </head>
 
@@ -424,7 +522,13 @@
         Entendi
     </button>
 </div>
+<!-- COMUNICADOS OFICIAIS LUMA -->
 
+<section
+    id="feed-announcements"
+    aria-label="Comunicados oficiais da LUMA"
+    hidden
+></section>
             <div id="feed-posts">
 
                 <div class="feed-empty">
@@ -1272,7 +1376,83 @@ function localizarPublicacao() {
         }, 3500);
     }
 }
+/* CARREGAR COMUNICADOS OFICIAIS */
 
+async function carregarComunicadosFeed() {
+
+    const container = document.getElementById(
+        "feed-announcements"
+    );
+
+    container.hidden = true;
+    container.replaceChildren();
+
+    if (!usuarioAtual) return;
+
+    const { data, error } = await supabaseClient
+        .from("announcements")
+        .select("id, title, content, published_at")
+        .eq("status", "published")
+        .lte("published_at", new Date().toISOString())
+        .order("published_at", { ascending: false });
+
+    if (error) {
+        console.error("Erro ao carregar comunicados:", error);
+        return;
+    }
+
+    if (!data?.length) return;
+
+    data.forEach(function (item) {
+
+        const card = document.createElement("article");
+        card.className = "luma-announcement";
+
+        const cabecalho = document.createElement("div");
+        cabecalho.className = "luma-announcement-header";
+
+        cabecalho.innerHTML = `
+            <div class="luma-announcement-icon">
+                <i data-lucide="megaphone"></i>
+            </div>
+
+            <div class="luma-announcement-author">
+                <strong>Equipe LUMA</strong>
+                <span>COMUNICADO OFICIAL</span>
+            </div>
+
+            <i data-lucide="pin"
+               class="luma-announcement-pin"></i>
+        `;
+
+        const titulo = document.createElement("h2");
+        titulo.className = "luma-announcement-title";
+        titulo.textContent = item.title;
+
+        const texto = document.createElement("p");
+        texto.className = "luma-announcement-text";
+        texto.textContent = item.content;
+
+        const dataPublicacao = document.createElement("time");
+        dataPublicacao.className = "luma-announcement-date";
+        dataPublicacao.dateTime = item.published_at;
+        dataPublicacao.textContent =
+            formatarData(item.published_at);
+
+        card.append(
+            cabecalho,
+            titulo,
+            texto,
+            dataPublicacao
+        );
+
+        container.appendChild(card);
+    });
+
+    container.hidden = mostrandoSalvos || mostrandoNotificacoes;
+
+    atualizarIcones();
+}
 async function carregarPosts() {
 
     if (mostrandoSalvos && usuarioAtual) {
@@ -2562,6 +2742,7 @@ async function iniciarFeed() {
     if (!usuarioAtual) {
         return;
     }
+    await carregarComunicadosFeed();
 
     await carregarPosts();
 
@@ -2581,6 +2762,7 @@ const botaoAbrirSalvos =
 botaoAbrirSalvos.addEventListener("click", async function () {
 
     mostrandoSalvos = !mostrandoSalvos;
+    await carregarComunicadosFeed();
 
     botaoAbrirSalvos.classList.toggle(
         "active",
@@ -2878,6 +3060,9 @@ async function abrirCentralNotificacoes() {
 
     mostrandoNotificacoes = true;
     mostrandoSalvos = false;
+    document.getElementById(
+    "feed-announcements"
+).hidden = true;
 
     const caixaPublicacao =
         document.querySelector(".create-post-card");
