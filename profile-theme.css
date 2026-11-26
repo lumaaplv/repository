@@ -1,0 +1,175 @@
+/* LUMA — PERSONALIZAÇÃO DO PERFIL */
+
+html[data-theme] .profile-page {
+    background: var(--luma-bg);
+    color: var(--luma-text);
+}
+
+/* CABEÇALHO */
+
+html[data-theme] .profile-page .profile-header {
+    background: var(--luma-bg);
+    border-color: var(--luma-border);
+}
+
+.profile-page .profile-logo {
+    color: var(--luma-accent);
+}
+
+.profile-page .profile-back {
+    color: var(--luma-text-secondary);
+}
+
+.profile-page .profile-back:hover {
+    color: var(--luma-accent);
+}
+
+.profile-page .profile-header-button {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    color: var(--luma-accent);
+}
+
+.profile-page .profile-header-button:hover {
+    background: var(--luma-hover);
+}
+
+/* CARDS PRINCIPAIS */
+
+html[data-theme] .profile-page .profile-card,
+html[data-theme] .profile-page .profile-section {
+    background: var(--luma-card);
+    border-color: var(--luma-border);
+    box-shadow: var(--luma-shadow);
+}
+
+/* AVATAR */
+
+.profile-page .profile-avatar {
+    background: var(--luma-pink);
+    color: #092633;
+    border-color: var(--luma-card);
+    box-shadow: 0 0 0 3px var(--luma-pink);
+}
+
+/* INFORMAÇÕES DO PERFIL */
+
+.profile-page .profile-main-info h1 {
+    color: var(--luma-text);
+}
+
+.profile-page .profile-username {
+    color: var(--luma-accent);
+}
+
+.profile-page .profile-bio,
+.profile-page .profile-story {
+    color: var(--luma-text-secondary);
+}
+
+/* REDES SOCIAIS */
+
+.profile-page .profile-links a {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+    border-color: var(--luma-border);
+}
+
+.profile-page .profile-links a:hover {
+    background: var(--luma-hover);
+}
+
+/* BOTÕES */
+
+.profile-page .profile-edit-button,
+.profile-page .profile-follow-button {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+    border-color: var(--luma-accent);
+}
+
+.profile-page .profile-edit-button:hover,
+.profile-page .profile-follow-button:hover {
+    background: var(--luma-accent-hover);
+}
+
+.profile-page .profile-follow-button.is-following {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+    border-color: var(--luma-border);
+}
+
+.profile-page .profile-follow-button.is-following:hover {
+    background: var(--luma-hover);
+}
+
+.profile-page .profile-verification-button:not(.verification-status) {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+    border-color: var(--luma-border);
+}
+
+/* SEGUIDORES */
+
+.profile-page .profile-follow-stats span {
+    color: var(--luma-text-secondary);
+}
+
+.profile-page .profile-follow-stats strong {
+    color: var(--luma-text);
+}
+
+/* SEÇÕES */
+
+.profile-page .profile-section-title h2 {
+    color: var(--luma-text);
+}
+
+.profile-page .profile-section-label {
+    color: var(--luma-accent);
+}
+
+.profile-page .profile-section-icon.story,
+.profile-page .profile-section-icon.posts {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+/* PUBLICAÇÕES */
+
+.profile-page .profile-post-card {
+    background: var(--luma-input);
+    border-color: var(--luma-border);
+}
+
+.profile-page .profile-post-header strong,
+.profile-page .profile-post-text {
+    color: var(--luma-text);
+}
+
+.profile-page .profile-post-card small,
+.profile-page .profile-empty {
+    color: var(--luma-text-secondary);
+}
+
+.profile-page .profile-post-category.alimentacao,
+.profile-page .profile-post-category.familias,
+.profile-page .profile-post-category.ciencia,
+.profile-page .profile-post-category.historias {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+/* ELEMENTOS DECORATIVOS FLUTUANTES */
+
+html[data-theme] .profile-page .floating-circle {
+    background: var(--luma-pink);
+}
+
+html[data-theme="light"] .profile-page .floating-circle {
+    opacity: .25;
+}
+
+html[data-theme="dark"] .profile-page .floating-circle {
+    opacity: .12;
+}
