@@ -750,6 +750,106 @@
     </div>
 
 </dialog>
+    <!-- MODAL DE DENÚNCIA LUMA -->
+
+<dialog id="report-modal"
+        class="report-modal"
+        aria-labelledby="report-title">
+
+    <form id="report-form">
+
+        <div class="report-header">
+
+            <i data-lucide="flag"></i>
+
+            <h2 id="report-title">
+                Denunciar publicação
+            </h2>
+
+        </div>
+
+        <fieldset class="report-reasons">
+
+            <legend>Qual é o motivo da denúncia?</legend>
+
+            <label>
+                <input type="radio" name="report-reason"
+                       value="medical_misinformation" required>
+                Desinformação médica
+            </label>
+
+            <label>
+                <input type="radio" name="report-reason"
+                       value="dangerous_medical_advice">
+                Orientações médicas perigosas
+            </label>
+
+            <label>
+                <input type="radio" name="report-reason"
+                       value="harassment_discrimination">
+                Assédio ou discriminação
+            </label>
+
+            <label>
+                <input type="radio" name="report-reason"
+                       value="spam">
+                Spam ou publicidade abusiva
+            </label>
+
+            <label>
+                <input type="radio" name="report-reason"
+                       value="privacy_violation">
+                Violação de privacidade
+            </label>
+
+            <label>
+                <input type="radio" name="report-reason"
+                       value="inappropriate_content">
+                Conteúdo inadequado
+            </label>
+
+            <label>
+                <input type="radio" name="report-reason"
+                       value="other">
+                Outros motivos
+            </label>
+
+        </fieldset>
+
+        <label for="report-description">
+            Informações adicionais (opcional)
+        </label>
+
+        <textarea id="report-description"
+                  maxlength="1000"
+                  rows="4"
+                  placeholder="Descreva o ocorrido sem incluir dados pessoais ou médicos identificáveis."></textarea>
+
+        <div class="report-privacy">
+
+            <i data-lucide="shield-check"></i>
+
+            <p>
+                Sua identidade não será exibida ao usuário
+                denunciado. A equipe de moderação poderá
+                acessar sua denúncia para analisá-la.
+            </p>
+
+        </div>
+
+        <p id="report-message" role="status"></p>
+
+        <button type="submit" id="submit-report">
+            Enviar denúncia
+        </button>
+
+        <button type="button" id="cancel-report">
+            Cancelar
+        </button>
+
+    </form>
+
+</dialog>
 <!-- MODAL DE PUBLICAÇÃO -->
 
 <div class="post-modal-overlay" id="post-modal">
