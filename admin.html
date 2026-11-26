@@ -216,9 +216,21 @@
 
             <h1>Administração LUMA</h1>
 
-            <p>Gerencie as verificações dos profissionais de saúde.</p>
+            <p>Gerencie as verificações profissionais e os comunicados oficiais da LUMA.</p>
         </header>
+<div class="admin-tabs">
+    <button type="button" id="tab-verificacoes"
+        class="admin-tab active">
+        Verificações
+    </button>
 
+    <button type="button" id="tab-comunicados"
+        class="admin-tab">
+        Comunicados
+    </button>
+</div>
+
+<div id="painel-verificacoes">
         <div class="admin-stats">
             <div class="stat-card">
                 <strong id="pending-count">0</strong>
@@ -251,6 +263,77 @@
         </div>
 
         <div id="requests-container"></div>
+
+</div>
+
+<div id="painel-comunicados" hidden>
+
+    <section class="request-card">
+
+        <h2>Novo comunicado</h2>
+
+        <form id="announcement-form">
+
+            <label for="announcement-title">
+                Título
+            </label>
+
+            <input
+                type="text"
+                id="announcement-title"
+                maxlength="150"
+                placeholder="Título do comunicado"
+                required
+            >
+
+            <label for="announcement-content">
+                Conteúdo
+            </label>
+
+            <textarea
+                id="announcement-content"
+                maxlength="5000"
+                rows="6"
+                placeholder="Escreva o comunicado oficial da LUMA..."
+                required
+            ></textarea>
+
+            <h3>Canais de distribuição</h3>
+
+            <div class="announcement-channels">
+
+                <label>
+                    <input type="checkbox" checked disabled>
+                    Comunidade LUMA
+                </label>
+
+                <label>
+                    <input type="checkbox" id="announcement-push">
+                    Notificação push
+                </label>
+
+                <label>
+                    <input type="checkbox" id="announcement-email">
+                    E-mail
+                </label>
+
+            </div>
+
+            <button type="submit" class="action approve">
+                Salvar rascunho
+            </button>
+
+        </form>
+
+        <p id="announcement-message" role="status"></p>
+
+    </section>
+
+    <h2>Histórico de comunicados</h2>
+
+    <div id="announcements-container"></div>
+
+</div>
 
     </section>
 
@@ -458,13 +541,13 @@ async function alterarStatus(id, novoStatus, acoes) {
 
 /* ABAS */
 
-document.querySelectorAll(".admin-tab").forEach(function(botao) {
+document.querySelectorAll(".admin-tab[data-status]").forEach(function(botao) {
 
     botao.addEventListener("click", function() {
 
         statusSelecionado = botao.dataset.status;
 
-        document.querySelectorAll(".admin-tab").forEach(function(item) {
+        document.querySelectorAll(".admin-tab[data-status]").forEach(function(item) {
             item.classList.toggle("active", item === botao);
         });
 
