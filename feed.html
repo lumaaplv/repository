@@ -616,7 +616,140 @@
     </aside>
 
 </div>
+<!-- ESCOLHA DE APARÊNCIA LUMA -->
 
+<dialog id="theme-modal" class="theme-modal"
+        aria-labelledby="theme-title">
+
+    <div class="theme-dialog">
+
+        <div class="theme-brand">
+            luma<span>.</span>
+        </div>
+
+        <h2 id="theme-title">
+            Escolha a sua aparência
+        </h2>
+
+        <p class="theme-description">
+            Personalize sua experiência na comunidade.
+            Você poderá alterar sua escolha nas configurações.
+        </p>
+
+        <fieldset class="theme-options">
+
+            <legend>Selecione um tema</legend>
+
+            <!-- MODO CLARO -->
+
+            <label class="theme-option light-preview">
+
+                <input type="radio"
+                       name="luma-theme"
+                       value="light">
+
+                <div class="theme-mini-preview"
+                     aria-hidden="true">
+
+                    <div class="mini-logo">
+                        luma<span>.</span>
+                    </div>
+
+                    <div class="mini-post">
+
+                        <div class="mini-avatar"></div>
+
+                        <div class="mini-line"></div>
+                        <div class="mini-line short"></div>
+
+                        <div class="mini-image"></div>
+
+                        <div class="mini-actions">
+                            <i data-lucide="heart"></i>
+                            <i data-lucide="message-circle"></i>
+                            <i data-lucide="bookmark"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="theme-option-title">
+                    <i data-lucide="sun"></i>
+                    <strong>Modo claro</strong>
+                </div>
+
+                <small>
+                    Leve, acolhedor e luminoso.
+                </small>
+
+            </label>
+
+            <!-- MODO ESCURO -->
+
+            <label class="theme-option dark-preview">
+
+                <input type="radio"
+                       name="luma-theme"
+                       value="dark">
+
+                <div class="theme-mini-preview"
+                     aria-hidden="true">
+
+                    <div class="mini-logo">
+                        luma<span>.</span>
+                    </div>
+
+                    <div class="mini-post">
+
+                        <div class="mini-avatar"></div>
+
+                        <div class="mini-line"></div>
+                        <div class="mini-line short"></div>
+
+                        <div class="mini-image"></div>
+
+                        <div class="mini-actions">
+                            <i data-lucide="heart"></i>
+                            <i data-lucide="message-circle"></i>
+                            <i data-lucide="bookmark"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="theme-option-title">
+                    <i data-lucide="moon"></i>
+                    <strong>Modo escuro</strong>
+                </div>
+
+                <small>
+                    Moderno, confortável e suave.
+                </small>
+
+            </label>
+
+        </fieldset>
+
+        <button type="button"
+                id="confirm-theme"
+                disabled>
+
+            Continuar
+            <i data-lucide="arrow-right"></i>
+
+        </button>
+
+        <button type="button" id="skip-theme">
+            Escolher depois
+        </button>
+
+        <p id="theme-message" role="status"></p>
+
+    </div>
+
+</dialog>
 <!-- MODAL DE PUBLICAÇÃO -->
 
 <div class="post-modal-overlay" id="post-modal">
