@@ -192,6 +192,110 @@
                 padding: 18px;
             }
         }
+        /* COMUNICADOS OFICIAIS */
+
+#announcement-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#announcement-form > label {
+    font-size: 14px;
+    font-weight: 800;
+    color: #bfd0d9;
+}
+
+#announcement-title,
+#announcement-content {
+    width: 100%;
+    background: #071e29;
+    color: #f5f5ef;
+    border: 1px solid #375662;
+    border-radius: 12px;
+    padding: 14px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#announcement-title:focus,
+#announcement-content:focus {
+    border-color: #a1ddf1;
+}
+
+#announcement-title::placeholder,
+#announcement-content::placeholder {
+    color: #9fb9c5;
+}
+
+#announcement-content {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.announcement-channels {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 15px;
+}
+
+.announcement-channels label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #bfd0d9;
+    cursor: pointer;
+}
+
+.announcement-channels input {
+    width: 18px;
+    height: 18px;
+    accent-color: #a1ddf1;
+}
+
+#announcement-form button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#announcement-message {
+    font-size: 14px;
+    color: #a1ddf1;
+}
+
+.announcement-content-preview {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    line-height: 1.6;
+}
+
+.announcement-edit {
+    background: #375662;
+}
+
+.announcement-archive {
+    background: #943f50;
+}
+
+.announcement-date {
+    font-size: 12px;
+    color: #9fb9c5;
+}
+
+@media (max-width: 600px) {
+    #announcement-title,
+    #announcement-content {
+        font-size: 16px;
+    }
+
+    #painel-comunicados .request-actions button {
+        flex: 1;
+    }
+}
     </style>
 </head>
 
@@ -556,7 +660,325 @@ document.querySelectorAll(".admin-tab[data-status]").forEach(function(botao) {
     });
 
 });
+/* COMUNICADOS OFICIAIS */
 
+const tabVerificacoes = document.getElementById("tab-verificacoes");
+const tabComunicados = document.getElementById("tab-comunicados");
+
+const painelVerificacoes = document.getElementById("painel-verificacoes");
+const painelComunicados = document.getElementById("painel-comunicados");
+
+const formularioComunicado = document.getElementById("announcement-form");
+const mensagemComunicado = document.getElementById("announcement-message");
+
+const listaComunicados = document.getElementById("announcements-container");
+
+let comunicadoEmEdicao = null;
+
+/* ALTERNAR ABAS */
+
+tabVerificacoes.addEventListener("click", function() {
+
+    painelVerificacoes.hidden = false;
+    painelComunicados.hidden = true;
+
+    tabVerificacoes.classList.add("active");
+    tabComunicados.classList.remove("active");
+
+});
+
+tabComunicados.addEventListener("click", async function() {
+
+    painelVerificacoes.hidden = true;
+    painelComunicados.hidden = false;
+
+    tabVerificacoes.classList.remove("active");
+    tabComunicados.classList.add("active");
+
+    await carregarComunicados();
+
+});
+
+/* SALVAR COMUNICADO */
+
+formularioComunicado.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const botao = formularioComunicado.querySelector(
+        'button[type="submit"]'
+    );
+
+    botao.disabled = true;
+    mensagemComunicado.textContent = "Salvando...";
+
+    const parametros = {
+        p_title: document.getElementById("announcement-title").value.trim(),
+        p_content: document.getElementById("announcement-content").value.trim(),
+        p_send_push: document.getElementById("announcement-push").checked,
+        p_send_email: document.getElementById("announcement-email").checked
+    };
+
+    try {
+
+        let resultado;
+
+        if (comunicadoEmEdicao) {
+
+            resultado = await supabaseClient.rpc(
+                "edit_announcement",
+                {
+                    p_announcement_id: comunicadoEmEdicao,
+                    ...parametros
+                }
+            );
+
+        } else {
+
+            resultado = await supabaseClient.rpc(
+                "create_announcement",
+                parametros
+            );
+
+        }
+
+        if (resultado.error) {
+            throw resultado.error;
+        }
+
+        mensagemComunicado.textContent =
+            "Rascunho salvo com sucesso!";
+
+        formularioComunicado.reset();
+
+        comunicadoEmEdicao = null;
+
+        botao.textContent = "Salvar rascunho";
+
+        await carregarComunicados();
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensagemComunicado.textContent =
+            "Não foi possível salvar o comunicado.";
+
+    } finally {
+
+        botao.disabled = false;
+
+    }
+
+});
+/* CARREGAR COMUNICADOS */
+
+async function carregarComunicados() {
+
+    listaComunicados.textContent = "Carregando comunicados...";
+
+    const { data, error } = await supabaseClient
+        .from("announcements")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        listaComunicados.textContent =
+            "Erro ao carregar comunicados.";
+        console.error(error);
+        return;
+    }
+
+    listaComunicados.replaceChildren();
+
+    if (!data || data.length === 0) {
+        listaComunicados.textContent =
+            "Nenhum comunicado criado.";
+        return;
+    }
+
+    data.forEach(function(item) {
+
+        const card = document.createElement("article");
+        card.className = "request-card";
+
+        const titulo = document.createElement("h3");
+        titulo.textContent = item.title;
+
+        const status = document.createElement("span");
+        status.className = "status-label";
+        status.textContent = {
+            draft: "Rascunho",
+            published: "Publicado",
+            archived: "Arquivado"
+        }[item.status];
+
+        const conteudo = document.createElement("p");
+        conteudo.className = "announcement-content-preview";
+        conteudo.textContent = item.content;
+
+        const dataCriacao = document.createElement("div");
+        dataCriacao.className = "announcement-date";
+        dataCriacao.textContent =
+            "Criado em " +
+            new Date(item.created_at).toLocaleString("pt-BR");
+
+        const canais = document.createElement("p");
+
+        canais.textContent = "Canais selecionados: Comunidade"
+            + (item.send_push ? " • Push" : "")
+            + (item.send_email ? " • E-mail" : "");
+
+        card.append(
+            titulo,
+            status,
+            conteudo,
+            dataCriacao,
+            canais
+        );
+
+        const acoes = document.createElement("div");
+        acoes.className = "request-actions";
+
+        if (item.status === "draft") {
+
+            const editar = document.createElement("button");
+            editar.className = "action announcement-edit";
+            editar.textContent = "Editar";
+
+            editar.onclick = function() {
+                editarComunicado(item);
+            };
+
+            const publicar = document.createElement("button");
+            publicar.className = "action approve";
+            publicar.textContent = "Publicar";
+
+            publicar.onclick = function() {
+                alterarComunicado(
+                    item.id,
+                    "publish_announcement",
+                    acoes
+                );
+            };
+
+            acoes.append(editar, publicar);
+
+        }
+
+        if (item.status !== "archived") {
+
+            const arquivar = document.createElement("button");
+            arquivar.className = "action announcement-archive";
+            arquivar.textContent = "Arquivar";
+
+            arquivar.onclick = function() {
+                alterarComunicado(
+                    item.id,
+                    "archive_announcement",
+                    acoes
+                );
+            };
+
+            acoes.appendChild(arquivar);
+
+        }
+
+        card.appendChild(acoes);
+        listaComunicados.appendChild(card);
+
+    });
+
+}
+
+/* EDITAR COMUNICADO */
+
+function editarComunicado(item) {
+
+    comunicadoEmEdicao = item.id;
+
+    document.getElementById("announcement-title").value =
+        item.title;
+
+    document.getElementById("announcement-content").value =
+        item.content;
+
+    document.getElementById("announcement-push").checked =
+        item.send_push;
+
+    document.getElementById("announcement-email").checked =
+        item.send_email;
+
+    formularioComunicado.querySelector(
+        'button[type="submit"]'
+    ).textContent = "Salvar alterações";
+
+    mensagemComunicado.textContent =
+        "Editando rascunho.";
+
+    formularioComunicado.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+/* PUBLICAR OU ARQUIVAR */
+
+async function alterarComunicado(id, funcao, acoes) {
+
+    const publicando = funcao === "publish_announcement";
+
+    const texto = publicando
+        ? "Deseja publicar este comunicado oficial?"
+        : "Deseja arquivar este comunicado?";
+
+    if (!confirm(texto)) return;
+
+    const botoes = acoes.querySelectorAll("button");
+
+    botoes.forEach(botao => botao.disabled = true);
+
+    try {
+
+        const { error } = await supabaseClient.rpc(
+            funcao,
+            { p_announcement_id: id }
+        );
+
+        if (error) throw error;
+
+        if (comunicadoEmEdicao === id) {
+
+            comunicadoEmEdicao = null;
+            formularioComunicado.reset();
+
+            formularioComunicado.querySelector(
+                'button[type="submit"]'
+            ).textContent = "Salvar rascunho";
+
+        }
+
+        mensagemComunicado.textContent = publicando
+            ? "Comunicado publicado com sucesso!"
+            : "Comunicado arquivado com sucesso!";
+
+        await carregarComunicados();
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensagemComunicado.textContent =
+            "Não foi possível concluir a operação.";
+
+    } finally {
+
+        botoes.forEach(botao => botao.disabled = false);
+
+    }
+
+}
 verificarAdmin();
 lucide.createIcons();
 
