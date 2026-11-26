@@ -9,7 +9,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
+
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="explore-theme.css">
 
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -105,15 +109,7 @@
 </div>
 
 
-    <button
-        type="button"
-        id="explore-load-more"
-        class="explore-load-more"
-        hidden
-    >
-        Carregar mais publicações
-        <i data-lucide="arrow-down"></i>
-    </button>
+   
 
 </section>
 
@@ -184,7 +180,45 @@
         SUPABASE_URL,
         SUPABASE_KEY
     );
+/* CARREGAR APARÊNCIA E INICIAR EXPLORAR */
 
+async function iniciarExplorar() {
+
+    const { data: { user }, error } =
+        await supabaseClient.auth.getUser();
+
+    if (error || !user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+
+        const tema = await LumaTheme.carregarPreferencia(
+            supabaseClient,
+            user.id
+        );
+
+        if (!tema) {
+            LumaTheme.aplicarTema("dark");
+        }
+
+    } catch (error) {
+
+        console.error("Erro ao carregar aparência:", error);
+        LumaTheme.aplicarTema("dark");
+
+    }
+
+    lucide.createIcons();
+
+    await Promise.all([
+        carregarExplorar(),
+        carregarProfissionaisVerificados(),
+        carregarPostsProfissionais()
+    ]);
+
+}
     /* CARREGAR PUBLICAÇÕES */
 
     async function carregarExplorar() {
@@ -578,7 +612,7 @@ botoesCategoria.forEach(function (botao) {
     });
 });
 
-    carregarExplorar();
+    
     lucide.createIcons();
     
 /* PROFISSIONAIS VERIFICADOS */
@@ -761,7 +795,7 @@ document.getElementById("search-professionals")
         renderizarProfissionais(this.value);
     });
 
-carregarProfissionaisVerificados();
+
     
 /* PUBLICAÇÕES DE PROFISSIONAIS VERIFICADOS */
 
@@ -897,8 +931,7 @@ carregarFotoPrivada(
     });
 }
 
-carregarPostsProfissionais();
-
+iniciarExplorar();
 
 </script>
 
