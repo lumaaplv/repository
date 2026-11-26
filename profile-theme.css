@@ -172,4 +172,73 @@ html[data-theme="light"] .profile-page .floating-circle {
 
 html[data-theme="dark"] .profile-page .floating-circle {
     opacity: .12;
+}/* =========================================
+   LUMA — MENU DE OPÇÕES DO PERFIL
+   ========================================= */
+
+.profile-page .profile-options[hidden],
+.profile-page .profile-options-menu[hidden] {
+    display: none !important;
+}
+
+.profile-page .profile-options {
+    position: relative;
+    display: inline-flex;
+    align-self: flex-start;
+    margin: 12px 0;
+}
+
+#profile-options-button {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    background: var(--luma-input);
+    color: var(--luma-text);
+    border: 1px solid var(--luma-border);
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+#profile-options-button:hover {
+    background: var(--luma-hover);
+}
+
+.profile-page .profile-options-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 20;
+    min-width: 190px;
+    padding: 7px;
+    background: var(--luma-card);
+    border: 1px solid var(--luma-border);
+    border-radius: 14px;
+    box-shadow: var(--luma-shadow);
+}
+
+.profile-page .profile-options-menu button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--luma-text);
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.profile-page .profile-options-menu button:hover {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+}
+
+.profile-page .profile-options-menu svg {
+    width: 17px;
+    height: 17px;
 }
