@@ -9429,3 +9429,105 @@ h3 {
     text-decoration: underline;
 }
 
+
+#guidelines-modal[hidden] {
+    display: none !important;
+}
+
+#guidelines-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(5, 20, 28, .96);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.guidelines-modal-card {
+    width: 100%;
+    max-width: 440px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+    background: #103340;
+    border: 1px solid #375462;
+    border-radius: 25px;
+    padding: 30px;
+    text-align: center;
+    color: #f5f5ef;
+    font-family: "Nunito", sans-serif;
+}
+
+.guidelines-icon {
+    width: 48px;
+    height: 48px;
+    color: #a1ddf1;
+}
+
+.guidelines-modal-card h2 {
+    color: #a1ddf1;
+    font-size: 24px;
+}
+
+.guidelines-modal-card p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #d1dfe4;
+}
+
+.guidelines-read-link {
+    display: block;
+    border: 1px solid #375462;
+    border-radius: 12px;
+    padding: 13px;
+    color: #a1ddf1;
+    text-decoration: none;
+    margin: 20px 0;
+    font-weight: 700;
+}
+
+.guidelines-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    font-size: 14px;
+    margin: 22px 0;
+}
+
+.guidelines-checkbox input {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    accent-color: #a1ddf1;
+}
+
+#guidelines-accept-button {
+    width: 100%;
+    padding: 14px;
+    background: #a1ddf1;
+    color: #092633;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+#guidelines-accept-button:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+#guidelines-logout-button {
+    background: transparent;
+    border: none;
+    color: #a1ddf1;
+    font-family: inherit;
+    cursor: pointer;
+    margin-top: 10px;
+}
