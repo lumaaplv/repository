@@ -765,7 +765,37 @@ function criarAvatar(perfil, classe = "") {
 
         const imagem = document.createElement("img");
 
-        imagem.src = perfil.foto_url;
+        
+(async () => {
+
+    try {
+
+        const caminho = decodeURIComponent(
+            new URL(perfil.foto_url).pathname.split(
+                "/object/public/profile-photos/"
+            )[1]
+        );
+
+        const { data, error } =
+            await supabaseClient.storage
+                .from("profile-photos")
+                .createSignedUrl(caminho, 3600);
+
+        if (error) throw error;
+
+        imagem.src = data.signedUrl;
+
+    } catch (error) {
+
+        console.error("Erro ao carregar avatar:", error);
+
+        avatar.replaceChildren();
+        avatar.textContent = inicial;
+
+    }
+
+})();
+
         imagem.alt = "Foto de " + nome;
 
         imagem.style.width = "100%";
