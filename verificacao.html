@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verificação profissional | LUMA</title>
 
-    <link rel="stylesheet" href="style.css">
+    <script src="theme.js"></script>
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
@@ -122,6 +124,97 @@
                 font-size: 28px;
             }
         }
+        /* =========================================
+   LUMA — APARÊNCIA DA VERIFICAÇÃO
+   ========================================= */
+
+html[data-theme] body {
+    background: var(--luma-bg);
+    color: var(--luma-text);
+}
+
+.verification-container h1 {
+    color: var(--luma-text);
+}
+
+.verification-back {
+    color: var(--luma-accent);
+}
+
+.verification-badge {
+    background: var(--luma-pink);
+    color: #092633;
+    box-shadow: var(--luma-shadow);
+}
+
+.verification-description {
+    color: var(--luma-text-secondary);
+}
+
+.verification-form label {
+    color: var(--luma-text);
+}
+
+.verification-form input,
+.verification-form select {
+    background: var(--luma-card);
+    color: var(--luma-text);
+    border-color: var(--luma-border);
+    color-scheme: inherit;
+}
+
+.verification-form input::placeholder {
+    color: var(--luma-text-secondary);
+}
+
+.verification-form select option {
+    background: var(--luma-card);
+    color: var(--luma-text);
+}
+
+.verification-form input:focus,
+.verification-form select:focus {
+    border-color: var(--luma-accent);
+    box-shadow: 0 0 0 3px rgba(216,62,124,.12);
+}
+
+.verification-notice {
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+    border: 1px solid var(--luma-border);
+}
+
+.verification-submit {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+    transition: .2s;
+}
+
+.verification-submit:hover:not(:disabled) {
+    background: var(--luma-accent-hover);
+}
+
+.verification-submit:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+#verification-message {
+    color: var(--luma-text);
+}
+
+html[data-theme="light"] .verification-back {
+    color: #B82D63;
+}
+
+html[data-theme="light"] .verification-submit {
+    background: #B82D63;
+    color: white;
+}
+
+html[data-theme="light"] .verification-submit:hover:not(:disabled) {
+    background: #9D2856;
+}
     </style>
 </head>
 
@@ -280,7 +373,40 @@ async function carregarSolicitacaoAnterior() {
     }
 }
 
-carregarSolicitacaoAnterior();
+async function iniciarVerificacao() {
+
+    botao.disabled = true;
+
+    const { data: { user }, error } =
+        await supabaseClient.auth.getUser();
+
+    if (error || !user) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+
+        const tema = await LumaTheme.carregarPreferencia(
+            supabaseClient,
+            user.id
+        );
+
+        LumaTheme.aplicarTema(tema || "dark");
+
+    } catch (error) {
+
+        console.error("Erro ao carregar aparência:", error);
+
+        LumaTheme.aplicarTema("dark");
+
+    }
+
+    await carregarSolicitacaoAnterior();
+
+    botao.disabled = false;
+
+}
 
 
 const formulario = document.getElementById("verification-form");
@@ -353,7 +479,7 @@ const { error } = resultado;
             return;
         }
 
-        mensagem.style.color = "#a1ddf1";
+        mensagem.style.color = "var(--luma-tag-text)";
         mensagem.textContent =
             "Solicitação enviada! Aguarde a análise da equipe LUMA.";
 
@@ -365,6 +491,7 @@ const { error } = resultado;
         botao.disabled = false;
     }
 });
+    iniciarVerificacao();
 </script>
 
 </body>
