@@ -1097,7 +1097,144 @@ function nomeCategoria(categoria) {
 /* =========================================
    CARREGAR USUÁRIO
    ========================================= */
+/* =========================================
+   PERSONALIZAÇÃO DE APARÊNCIA
+   ========================================= */
 
+async function configurarAparencia() {
+
+    const modal = document.getElementById("theme-modal");
+
+    const confirmar =
+        document.getElementById("confirm-theme");
+
+    const pular =
+        document.getElementById("skip-theme");
+
+    const mensagem =
+        document.getElementById("theme-message");
+
+    const opcoes =
+        modal.querySelectorAll('input[name="luma-theme"]');
+
+    let temaSelecionado = null;
+
+    try {
+
+        const temaExistente =
+            await LumaTheme.carregarPreferencia(
+                supabaseClient,
+                usuarioAtual.id
+            );
+
+        if (temaExistente) return;
+
+        LumaTheme.aplicarTema("dark");
+
+        const chaveIgnorar =
+            "luma-theme-skipped-" + usuarioAtual.id;
+
+        try {
+            if (sessionStorage.getItem(chaveIgnorar)) return;
+        } catch {}
+
+        function escolherDepois() {
+
+            LumaTheme.aplicarTema("dark");
+
+            try {
+                sessionStorage.setItem(chaveIgnorar, "true");
+            } catch {}
+
+            modal.close();
+        }
+
+        opcoes.forEach(function (opcao) {
+
+            opcao.addEventListener("change", function () {
+
+                temaSelecionado = opcao.value;
+
+                confirmar.disabled = false;
+
+                mensagem.textContent = "";
+
+                LumaTheme.aplicarTema(temaSelecionado);
+
+            });
+
+        });
+
+        confirmar.addEventListener("click", async function () {
+
+            if (!temaSelecionado) return;
+
+            confirmar.disabled = true;
+            pular.disabled = true;
+
+            opcoes.forEach(opcao => {
+                opcao.disabled = true;
+            });
+
+            mensagem.textContent = "Salvando aparência...";
+
+            try {
+
+                await LumaTheme.salvarPreferencia(
+                    supabaseClient,
+                    usuarioAtual.id,
+                    temaSelecionado
+                );
+
+                mensagem.textContent = "";
+
+                modal.close();
+
+            } catch (error) {
+
+                console.error("Erro ao salvar aparência:", error);
+
+                mensagem.textContent =
+                    "Não foi possível salvar. Tente novamente.";
+
+            } finally {
+
+                confirmar.disabled = false;
+                pular.disabled = false;
+
+                opcoes.forEach(opcao => {
+                    opcao.disabled = false;
+                });
+
+            }
+
+        });
+
+        pular.addEventListener("click", escolherDepois);
+
+        modal.addEventListener("cancel", function (event) {
+
+            event.preventDefault();
+
+            if (!pular.disabled) {
+                escolherDepois();
+            }
+
+        });
+
+        atualizarIcones();
+
+        modal.showModal();
+
+    } catch (error) {
+
+        console.error("Erro ao carregar aparência:", error);
+
+        LumaTheme.aplicarTema("dark");
+
+    }
+
+}
 async function carregarUsuario() {
 
     const {
@@ -1137,6 +1274,7 @@ if (!aceiteRegistrado) {
 
 
     usuarioAtual = session.user;
+    await configurarAparencia();
 
     let {
         data: perfil,
