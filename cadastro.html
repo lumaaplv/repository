@@ -477,7 +477,13 @@ const email =
 const relacaoAplv =
     document.getElementById("relacao-aplv").value;
 
+const aceiteDiretrizes =
+    document.getElementById("aceite-diretrizes").checked;
 
+if (!aceiteDiretrizes) {
+    alert("Você precisa aceitar as Diretrizes da Comunidade LUMA.");
+    return;
+}
 const { data, error } =
     await supabaseClient.auth.signUp({
 
@@ -490,12 +496,13 @@ const { data, error } =
             emailRedirectTo:
                 "https://lumaaplv.github.io/repository/login.html",
 
-            data: {
-                nome: nome,
-                usuario: usuario,
-                relacao_aplv: relacaoAplv
-            }
-
+           data: {
+    nome: nome,
+    usuario: usuario,
+    relacao_aplv: relacaoAplv,
+    diretrizes_aceitas: true,
+    diretrizes_versao: "1.0"
+}
         }
 
     });
