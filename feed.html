@@ -843,6 +843,27 @@ async function carregarUsuario() {
         window.location.href = "login.html";
         return;
     }
+    
+const { data: aceiteRegistrado, error: erroAceite } =
+    await supabaseClient
+        .from("community_guidelines_acceptances")
+        .select("version")
+        .eq("user_id", session.user.id)
+        .eq("version", "1.0")
+        .maybeSingle();
+
+if (erroAceite) {
+    console.error("Erro ao verificar diretrizes:", erroAceite);
+    alert("Não foi possível verificar a aceitação das diretrizes.");
+    return;
+}
+
+if (!aceiteRegistrado) {
+    document.getElementById("guidelines-modal").hidden = false;
+    document.body.style.overflow = "hidden";
+    return;
+}
+
 
     usuarioAtual = session.user;
 
