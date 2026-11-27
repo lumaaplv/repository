@@ -947,7 +947,14 @@ async function carregarUsuariosBloqueados() {
                 `Desbloquear ${nome}`
             );
 
-            botao.disabled = true;
+            botao.addEventListener("click", function () {
+
+    abrirDesbloqueio(
+        usuario.user_id,
+        nome
+    );
+
+});
 
             informacoes.appendChild(nomeElemento);
             informacoes.appendChild(username);
@@ -974,6 +981,117 @@ async function carregarUsuariosBloqueados() {
     }
 
 }
+    /* =========================================
+   DESBLOQUEIO DE USUÁRIOS LUMA
+   ========================================= */
+
+const modalDesbloqueio =
+    document.getElementById("unblock-modal");
+
+const nomeUsuarioDesbloqueio =
+    document.getElementById("unblock-user-name");
+
+const mensagemDesbloqueio =
+    document.getElementById("unblock-message");
+
+const botaoConfirmarDesbloqueio =
+    document.getElementById("confirm-unblock");
+
+const botaoCancelarDesbloqueio =
+    document.getElementById("cancel-unblock");
+
+let usuarioDesbloqueio = null;
+let processandoDesbloqueio = false;
+
+function abrirDesbloqueio(userId, nome) {
+
+    if (!userId || processandoDesbloqueio) return;
+
+    usuarioDesbloqueio = userId;
+
+    nomeUsuarioDesbloqueio.textContent =
+        nome || "Usuário LUMA";
+
+    mensagemDesbloqueio.textContent = "";
+
+    modalDesbloqueio.showModal();
+
+}
+
+botaoCancelarDesbloqueio.addEventListener("click", function () {
+
+    if (!processandoDesbloqueio) {
+        modalDesbloqueio.close();
+    }
+
+});
+
+modalDesbloqueio.addEventListener("cancel", function (event) {
+
+    if (processandoDesbloqueio) {
+        event.preventDefault();
+    }
+
+});
+
+modalDesbloqueio.addEventListener("close", function () {
+
+    usuarioDesbloqueio = null;
+    mensagemDesbloqueio.textContent = "";
+
+});
+
+botaoConfirmarDesbloqueio.addEventListener("click", async function () {
+
+    if (!usuarioAtual ||
+        !usuarioDesbloqueio ||
+        processandoDesbloqueio) return;
+
+    processandoDesbloqueio = true;
+
+    botaoConfirmarDesbloqueio.disabled = true;
+    botaoCancelarDesbloqueio.disabled = true;
+
+    botaoConfirmarDesbloqueio.textContent =
+        "Desbloqueando...";
+
+    mensagemDesbloqueio.textContent = "";
+
+    try {
+
+        const { error } = await supabaseClient.rpc(
+            "unblock_user",
+            {
+                p_blocked_id: usuarioDesbloqueio
+            }
+        );
+
+        if (error) throw error;
+
+        modalDesbloqueio.close();
+
+        await carregarUsuariosBloqueados();
+
+        alert("Usuário desbloqueado com sucesso.");
+
+    } catch (error) {
+
+        mensagemDesbloqueio.textContent =
+            "Não foi possível desbloquear o usuário. Tente novamente.";
+
+    } finally {
+
+        processandoDesbloqueio = false;
+
+        botaoConfirmarDesbloqueio.disabled = false;
+        botaoCancelarDesbloqueio.disabled = false;
+
+        botaoConfirmarDesbloqueio.textContent =
+            "Desbloquear usuário";
+
+    }
+
+});
 /* PREFERÊNCIAS DE APARÊNCIA */
 
 const opcoesAparencia = document.querySelectorAll(
