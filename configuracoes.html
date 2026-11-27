@@ -469,6 +469,119 @@ html[data-theme="light"] .unblock-button {
     }
 
 }
+        /* MODAL DE DESBLOQUEIO LUMA */
+
+#unblock-modal {
+    width: min(440px, calc(100% - 28px));
+    max-height: 90dvh;
+    margin: auto;
+    padding: 26px;
+    background: var(--luma-card);
+    color: var(--luma-text);
+    border: 1px solid var(--luma-border);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .25);
+    overflow-y: auto;
+}
+
+#unblock-modal::backdrop {
+    background: rgba(0, 0, 0, .55);
+    backdrop-filter: blur(5px);
+}
+
+#unblock-modal h2 {
+    margin-top: 0;
+    font-size: 22px;
+}
+
+#unblock-modal p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#unblock-user-name {
+    color: var(--luma-accent);
+    overflow-wrap: anywhere;
+}
+
+.unblock-description {
+    color: var(--luma-text-secondary);
+}
+
+.unblock-information {
+    padding: 14px;
+    background: var(--luma-input);
+    border: 1px solid var(--luma-border);
+    border-radius: 12px;
+    color: var(--luma-text-secondary);
+}
+
+#unblock-modal button {
+    width: 100%;
+    padding: 13px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+#confirm-unblock {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+    border: none;
+    margin-top: 10px;
+}
+
+#confirm-unblock:hover {
+    background: var(--luma-accent-hover);
+}
+
+#cancel-unblock {
+    background: transparent;
+    color: var(--luma-text);
+    border: 1px solid var(--luma-border);
+    margin-top: 10px;
+}
+
+#cancel-unblock:hover {
+    background: var(--luma-hover);
+}
+
+#unblock-modal button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+#unblock-modal button:focus-visible {
+    outline: 2px solid var(--luma-accent);
+    outline-offset: 3px;
+}
+
+#unblock-message {
+    color: var(--luma-text);
+    overflow-wrap: anywhere;
+}
+
+#unblock-message:empty {
+    display: none;
+}
+
+html[data-theme="light"] #confirm-unblock {
+    background: #B82D63;
+    color: white;
+}
+
+html[data-theme="light"] #unblock-user-name {
+    color: #B82D63;
+}
+
+@media (max-width: 600px) {
+    #unblock-modal {
+        padding: 20px;
+        border-radius: 20px;
+    }
+}
     </style>
 </head>
 
@@ -649,6 +762,43 @@ html[data-theme="light"] .unblock-button {
 
 </section>
 </main>
+    <!-- MODAL DE DESBLOQUEIO LUMA -->
+
+<dialog id="unblock-modal"
+        aria-labelledby="unblock-title">
+
+    <h2 id="unblock-title">
+        Desbloquear usuário?
+    </h2>
+
+    <p>
+        Você está prestes a desbloquear
+        <strong id="unblock-user-name"></strong>.
+    </p>
+
+    <p class="unblock-description">
+        Se não houver outro bloqueio ativo,
+        vocês poderão voltar a visualizar
+        os perfis e conteúdos um do outro
+        e interagir na comunidade.
+    </p>
+
+    <p class="unblock-information">
+        Os vínculos de seguidores anteriores
+        não serão restaurados automaticamente.
+    </p>
+
+    <p id="unblock-message" role="status"></p>
+
+    <button type="button" id="confirm-unblock">
+        Desbloquear usuário
+    </button>
+
+    <button type="button" id="cancel-unblock">
+        Cancelar
+    </button>
+
+</dialog>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const supabaseClient = supabase.createClient(
