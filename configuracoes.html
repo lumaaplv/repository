@@ -693,6 +693,137 @@ const botaoSalvar = document.getElementById("save-settings");
 const mensagem = document.getElementById("settings-message");
 
 let usuarioAtual = null;
+/* =========================================
+   USUÁRIOS BLOQUEADOS LUMA
+   ========================================= */
+
+const listaBloqueados =
+    document.getElementById("blocked-users-list");
+
+const mensagemBloqueados =
+    document.getElementById("blocked-users-message");
+
+async function carregarUsuariosBloqueados() {
+
+    if (!usuarioAtual) return;
+
+    listaBloqueados.setAttribute("aria-busy", "true");
+
+    mensagemBloqueados.textContent = "";
+
+    listaBloqueados.replaceChildren();
+
+    const carregando = document.createElement("p");
+
+    carregando.className = "blocked-empty";
+
+    carregando.textContent =
+        "Carregando usuários bloqueados...";
+
+    listaBloqueados.appendChild(carregando);
+
+    try {
+
+        const { data, error } = await supabaseClient.rpc(
+            "get_blocked_users"
+        );
+
+        if (error) throw error;
+
+        listaBloqueados.replaceChildren();
+
+        if (!data || data.length === 0) {
+
+            const vazio = document.createElement("p");
+
+            vazio.className = "blocked-empty";
+
+            vazio.textContent =
+                "Você não possui usuários bloqueados.";
+
+            listaBloqueados.appendChild(vazio);
+
+            return;
+
+        }
+
+        data.forEach(usuario => {
+
+            const nome = usuario.nome || "Usuário LUMA";
+
+            const linha = document.createElement("div");
+
+            linha.className = "blocked-user-row";
+
+            const avatar = document.createElement("div");
+
+            avatar.className = "blocked-user-avatar";
+
+            avatar.textContent =
+                nome.charAt(0).toUpperCase();
+
+            avatar.setAttribute("aria-hidden", "true");
+
+            const informacoes = document.createElement("div");
+
+            informacoes.className = "blocked-user-info";
+
+            const nomeElemento = document.createElement("div");
+
+            nomeElemento.className = "blocked-user-name";
+
+            nomeElemento.textContent = nome;
+
+            const username = document.createElement("div");
+
+            username.className = "blocked-user-username";
+
+            username.textContent = usuario.usuario
+                ? `@${usuario.usuario}`
+                : "";
+
+            const botao = document.createElement("button");
+
+            botao.type = "button";
+
+            botao.className = "unblock-button";
+
+            botao.textContent = "Desbloquear";
+
+            botao.dataset.userId = usuario.user_id;
+
+            botao.setAttribute(
+                "aria-label",
+                `Desbloquear ${nome}`
+            );
+
+            botao.disabled = true;
+
+            informacoes.appendChild(nomeElemento);
+            informacoes.appendChild(username);
+
+            linha.appendChild(avatar);
+            linha.appendChild(informacoes);
+            linha.appendChild(botao);
+
+            listaBloqueados.appendChild(linha);
+
+        });
+
+    } catch (error) {
+
+        listaBloqueados.replaceChildren();
+
+        mensagemBloqueados.textContent =
+            "Não foi possível carregar os usuários bloqueados.";
+
+    } finally {
+
+        listaBloqueados.setAttribute("aria-busy", "false");
+
+    }
+
+}
 /* PREFERÊNCIAS DE APARÊNCIA */
 
 const opcoesAparencia = document.querySelectorAll(
@@ -802,7 +933,10 @@ async function carregarPreferencias() {
     }
 
     usuarioAtual = user;
-    await carregarAparencia();
+
+await carregarAparencia();
+
+await carregarUsuariosBloqueados();
 
     const { data, error } = await supabaseClient
         .from("notification_preferences")
