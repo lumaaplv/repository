@@ -351,6 +351,124 @@ html[data-theme="light"] .save-button {
         font-size: 12px;
     }
 }
+        /* USUÁRIOS BLOQUEADOS */
+
+#blocked-users-list {
+    margin-top: 20px;
+}
+
+.blocked-user-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--luma-border);
+}
+
+.blocked-user-row:last-child {
+    border-bottom: none;
+}
+
+.blocked-user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--luma-tag-bg);
+    color: var(--luma-tag-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.blocked-user-info {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.blocked-user-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--luma-text);
+}
+
+.blocked-user-username {
+    font-size: 13px;
+    color: var(--luma-text-secondary);
+    margin-top: 3px;
+}
+
+.unblock-button {
+    background: transparent;
+    border: 1px solid var(--luma-accent);
+    color: var(--luma-accent);
+    border-radius: 10px;
+    padding: 9px 12px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.unblock-button:hover {
+    background: var(--luma-hover);
+}
+
+.unblock-button:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.unblock-button:focus-visible {
+    outline: 2px solid var(--luma-accent);
+    outline-offset: 3px;
+}
+
+html[data-theme="light"] .unblock-button {
+    color: #B82D63;
+    border-color: #B82D63;
+}
+
+.blocked-empty {
+    text-align: center;
+    padding: 22px 10px;
+    background: var(--luma-input);
+    border-radius: 12px;
+    color: var(--luma-text-secondary);
+    font-size: 14px;
+}
+
+#blocked-users-message {
+    font-size: 13px;
+    text-align: center;
+    color: var(--luma-text-secondary);
+}
+
+#blocked-users-message:empty {
+    display: none;
+}
+
+@media (max-width: 380px) {
+
+    .blocked-user-row {
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .blocked-user-avatar {
+        width: 36px;
+        height: 36px;
+    }
+
+    .unblock-button {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+}
     </style>
 </head>
 
@@ -507,7 +625,29 @@ html[data-theme="light"] .save-button {
     </button>
 
     <p id="settings-message" role="status"></p>
+<!-- USUÁRIOS BLOQUEADOS -->
 
+<section class="settings-card" id="blocked-users-section">
+
+    <h2>Usuários bloqueados</h2>
+
+    <p class="description">
+        Gerencie os usuários que você bloqueou
+        na Comunidade LUMA.
+    </p>
+
+    <div id="blocked-users-list"
+         aria-busy="true">
+
+        <p class="blocked-empty">
+            Carregando usuários bloqueados...
+        </p>
+
+    </div>
+
+    <p id="blocked-users-message" role="status"></p>
+
+</section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
