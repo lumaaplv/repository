@@ -205,6 +205,12 @@
             Denunciar perfil
 
         </button>
+        <button type="button" id="block-profile-button">
+
+    <i data-lucide="ban"></i>
+    Bloquear usuário
+
+</button>
 
     </div>
 
@@ -404,6 +410,65 @@
         </button>
 
     </form>
+</dialog>
+    <!-- MODAL DE BLOQUEIO LUMA -->
+
+<dialog id="block-modal"
+        class="block-modal"
+        aria-labelledby="block-title">
+
+    <div class="block-header">
+
+        <i data-lucide="ban"></i>
+
+        <h2 id="block-title">
+            Bloquear usuário?
+        </h2>
+
+    </div>
+
+    <p>
+        Você está prestes a bloquear
+        <strong id="block-user-name"></strong>.
+    </p>
+
+    <ul class="block-consequences">
+
+        <li>
+            Vocês não poderão acessar os perfis
+            e conteúdos um do outro.
+        </li>
+
+        <li>
+            Vocês não poderão seguir um ao outro.
+        </li>
+
+        <li>
+            Os vínculos de seguidores serão removidos.
+        </li>
+
+        <li>
+            O usuário não receberá uma notificação
+            informando sobre o bloqueio.
+        </li>
+
+    </ul>
+
+    <p class="block-information">
+        Você poderá desbloquear esse usuário
+        nas configurações da sua conta.
+    </p>
+
+    <p id="block-message" role="status"></p>
+
+    <button type="button" id="confirm-block">
+        Bloquear usuário
+    </button>
+
+    <button type="button" id="cancel-block">
+        Cancelar
+    </button>
+
 </dialog>
 
     <script>
