@@ -465,3 +465,149 @@ html[data-theme="light"] .profile-page #submit-report {
     }
 
 }
+/* =========================================
+   MODAL DE BLOQUEIO LUMA
+   ========================================= */
+
+.profile-page #block-modal {
+    width: min(460px, calc(100% - 28px));
+    max-height: 90dvh;
+    box-sizing: border-box;
+    margin: auto;
+    padding: 28px;
+    background: var(--luma-card);
+    color: var(--luma-text);
+    border: 1px solid var(--luma-border);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    overflow-y: auto;
+}
+
+.profile-page #block-modal::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(5px);
+}
+
+.profile-page .block-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.profile-page .block-header svg {
+    width: 25px;
+    height: 25px;
+    color: var(--luma-accent);
+    flex-shrink: 0;
+}
+
+.profile-page .block-header h2 {
+    font-size: 22px;
+    margin: 0;
+    color: var(--luma-text);
+}
+
+.profile-page #block-modal p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 12px 0;
+}
+
+.profile-page #block-user-name {
+    color: var(--luma-accent);
+    overflow-wrap: anywhere;
+}
+
+.profile-page .block-consequences {
+    padding-left: 20px;
+    margin: 20px 0;
+    color: var(--luma-text-secondary);
+}
+
+.profile-page .block-consequences li {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.profile-page .block-consequences li::marker {
+    color: var(--luma-accent);
+}
+
+.profile-page .block-information {
+    background: var(--luma-input);
+    border: 1px solid var(--luma-border);
+    border-radius: 12px;
+    padding: 14px;
+    color: var(--luma-text-secondary);
+}
+
+.profile-page #block-modal button {
+    width: 100%;
+    padding: 13px;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.profile-page #confirm-block {
+    background: var(--luma-accent);
+    color: var(--luma-accent-text);
+    border: none;
+    margin-top: 8px;
+}
+
+.profile-page #confirm-block:hover {
+    background: var(--luma-accent-hover);
+}
+
+.profile-page #cancel-block {
+    background: transparent;
+    color: var(--luma-text);
+    border: 1px solid var(--luma-border);
+    margin-top: 10px;
+}
+
+.profile-page #cancel-block:hover {
+    background: var(--luma-hover);
+}
+
+.profile-page #block-modal button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.profile-page #block-modal button:focus-visible {
+    outline: 2px solid var(--luma-accent);
+    outline-offset: 3px;
+}
+
+.profile-page #block-message {
+    color: var(--luma-accent);
+    overflow-wrap: anywhere;
+}
+
+.profile-page #block-message:empty {
+    display: none;
+}
+
+.profile-page #block-profile-button {
+    color: var(--luma-accent);
+}
+
+@media (max-width: 600px) {
+
+    .profile-page #block-modal {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .profile-page .block-header h2 {
+        font-size: 20px;
+    }
+
+}
