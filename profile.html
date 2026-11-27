@@ -634,6 +634,115 @@ formularioDenuncia.addEventListener("submit", async function (event) {
 
 });
         /* =========================================
+   BLOQUEIO DE USUÁRIOS LUMA
+   ========================================= */
+
+const modalBloqueio =
+    document.getElementById("block-modal");
+
+const nomeUsuarioBloqueio =
+    document.getElementById("block-user-name");
+
+const mensagemBloqueio =
+    document.getElementById("block-message");
+
+const botaoConfirmarBloqueio =
+    document.getElementById("confirm-block");
+
+const botaoCancelarBloqueio =
+    document.getElementById("cancel-block");
+
+let perfilBloqueado = null;
+let processandoBloqueio = false;
+
+function abrirBloqueioPerfil(profileId, nome) {
+
+    if (!profileId || processandoBloqueio) return;
+
+    perfilBloqueado = profileId;
+
+    nomeUsuarioBloqueio.textContent =
+        nome || "Usuário LUMA";
+
+    mensagemBloqueio.textContent = "";
+
+    modalBloqueio.showModal();
+
+    lucide.createIcons();
+
+}
+
+botaoCancelarBloqueio.addEventListener("click", function () {
+
+    if (!processandoBloqueio) {
+        modalBloqueio.close();
+    }
+
+});
+
+modalBloqueio.addEventListener("cancel", function (event) {
+
+    if (processandoBloqueio) {
+        event.preventDefault();
+    }
+
+});
+
+modalBloqueio.addEventListener("close", function () {
+
+    perfilBloqueado = null;
+    mensagemBloqueio.textContent = "";
+
+});
+
+botaoConfirmarBloqueio.addEventListener("click", async function () {
+
+    if (!perfilBloqueado || processandoBloqueio) return;
+
+    processandoBloqueio = true;
+
+    botaoConfirmarBloqueio.disabled = true;
+    botaoCancelarBloqueio.disabled = true;
+
+    botaoConfirmarBloqueio.textContent = "Bloqueando...";
+    mensagemBloqueio.textContent = "";
+
+    try {
+
+        const { error } = await supabaseClient.rpc(
+            "block_user",
+            {
+                p_blocked_id: perfilBloqueado
+            }
+        );
+
+        if (error) throw error;
+
+        modalBloqueio.close();
+
+        alert("Usuário bloqueado com sucesso.");
+
+        window.location.replace("feed.html");
+
+    } catch (error) {
+
+        mensagemBloqueio.textContent =
+            "Não foi possível bloquear o usuário. Tente novamente.";
+
+    } finally {
+
+        processandoBloqueio = false;
+
+        botaoConfirmarBloqueio.disabled = false;
+        botaoCancelarBloqueio.disabled = false;
+
+        botaoConfirmarBloqueio.textContent =
+            "Bloquear usuário";
+
+    }
+
+});
+        /* =========================================
            CARREGAR PERFIL
            ========================================= */
 
@@ -899,6 +1008,25 @@ const menuOpcoesPerfil =
     document.getElementById("profile-options-menu");
 
 opcoesPerfil.hidden = meuPerfil;
+if (!meuPerfil) {
+
+    document.getElementById("block-profile-button")
+        .addEventListener("click", function () {
+
+            menuOpcoesPerfil.hidden = true;
+
+            botaoOpcoesPerfil.setAttribute(
+                "aria-expanded", "false"
+            );
+
+            abrirBloqueioPerfil(
+                perfil.id,
+                perfil.nome
+            );
+
+        });
+
+}
 if (!meuPerfil) {
 
     document.getElementById("report-profile-button")
